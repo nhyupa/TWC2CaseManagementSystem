@@ -1,0 +1,111 @@
+.background{
+    background: #ffffff; /* Old browsers */
+}
+.center{
+    position: absolute;
+    width: 100%; 
+    height: 100%;
+    border-bottom: 2px solid red;
+}
+
+.leftDivision{
+    position: absolute;
+    width: 17.5%; 
+    height:100%;
+    border-right: 4px solid red;
+    border-bottom: 4px solid red;
+}
+
+.rightDivision {
+   
+    float:right;
+    width: 17.5%;
+    height:100%;
+    border-left: 4px solid red;
+    
+}
+
+
+
+.container2 {
+    width: 100%;
+    height: 33.33%;
+    position: absolute;
+    border: 4px solid red;
+    
+}
+
+.container3 {
+    width: 100%;
+    height: 45%;
+    padding-top:55.53%;
+    position: relative;
+    border: 4px solid red;  
+}
+
+.container4 {
+    padding-top:10%;
+    width: 100%;
+    height:31%;
+    position:absolute;
+    border: 4px solid red;
+}
+
+.container1 {
+    width: 100%;
+    height: 25%;
+    border: 2px solid red;
+
+}
+
+.pageContainer{
+    width:100%;
+    height:100%;
+    border:4px solid red;
+}
+.Left{
+    
+    width: 30%; 
+    height:100%;
+    border-right: 4px solid red;
+    border-bottom: 4px solid red;
+}
+
+.container9{
+    width:100%;
+    height:35%;
+    border: 4px solid red;
+}
+
+.container10{
+    width:100%;
+    height:35%;
+    border:4px solid red;
+}
+
+.container11{
+    width:100%;
+    height:28.5%;
+    border:4px solid red;
+}
+
+#footer {
+   margin-top:80%;
+   margin-left:17.5%;
+   position:absolute;
+   bottom:0;
+   width: 40%;
+   height:80px;   /* Height of the footer */
+   border: 4px solid red;
+}
+
+#middle-container{
+    margin-top:50%;
+    margin-bottom: 50%;
+    height:80%;
+    width:60%;
+    border: 4px solid red;
+}
+
+
+

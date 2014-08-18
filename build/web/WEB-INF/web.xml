@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <context-param>
+        <description>Location to store uploaded file</description>
+        <param-name>file-upload</param-name>
+        <param-value>
+         <!--  /var/lib/tomcat7/webapps/TWC2-CaseManagementSystem/image/ -->
+          C:\Users\nhyupa.2010\Documents\NetBeansProjects\TWC2-CaseManagementSystem\web\image\ 
+
+        </param-value>
+    </context-param>
+    <context-param>
+        <description>Location to store uploaded file</description>
+        <param-name>attachment-upload</param-name>
+        <param-value>
+          <!-- /var/lib/tomcat7/webapps/TWC2-CaseManagementSystem/attachment/ -->
+           C:\Users\nhyupa.2010\Documents\NetBeansProjects\TWC2-CaseManagementSystem\web\attachment\
+        </param-value>
+    </context-param>
+    
+    <context-param>
+        <description>Location to store uploaded file</description>
+        <param-name>WorkerImage-Upload</param-name>
+        <param-value>
+           <!--  /var/lib/tomcat7/webapps/TWC2-CaseManagementSystem/WorkerFacePicture/ -->
+               C:\Users\nhyupa.2010\Documents\NetBeansProjects\TWC2-CaseManagementSystem\web\WorkerFacePicture\
+        </param-value>
+    </context-param>
+   
+    <servlet>
+        <servlet-name>InsertImageServlet</servlet-name>
+        <servlet-class>controller.InsertImageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AttachmentDownloadServlet</servlet-name>
+        <servlet-class>controller.AttachmentDownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InsertImageServlet</servlet-name>
+        <url-pattern>/InsertImageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttachmentDownloadServlet</servlet-name>
+        <url-pattern>/AttachmentDownloadServlet</url-pattern>
+    </servlet-mapping>
+</web-app>

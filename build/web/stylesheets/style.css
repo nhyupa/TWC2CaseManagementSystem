@@ -1,0 +1,35 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : May 16, 2014, 3:57:52 PM
+    Author     : keemin.chew.2010
+*/
+
+
+             label.valid {
+              width: 24px;
+              height: 24px;
+             
+              display: inline-block;
+              text-indent: -9999px;
+            }
+            label.error {
+              font-weight: bold;
+              color: red;
+              padding: 2px 8px;
+              margin-top: 2px;
+              
+           }
+           .dot{
+               color:red;
+           }
+           
+           .note{
+               color:red;
+           }
+           #left { display: block; width: 660px; float: left; overflow: hidden; margin-right: 20px; }
+           #right { display: block; width: 240px; float: left; overflow: hidden; }
+    

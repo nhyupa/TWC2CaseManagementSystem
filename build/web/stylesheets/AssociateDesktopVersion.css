@@ -1,0 +1,87 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 13, 2014, 1:40:59 PM
+    Author     : keemin.chew.2010
+*/
+
+/* container A*/
+  .header{
+    margin-left: auto;
+    margin-right: auto;
+    width:550px;
+    
+  }
+    
+.username-background-associate{
+    background-color:rgb(208,64,32);
+    width:150px;
+    color:white;
+}
+
+.btn-logout{
+    background-color:rgb(208,64,32);
+    border:none;
+    color:white;
+}
+
+/* container B*/
+.worker-details{
+    margin-left:525px;
+    margin-right: auto;
+    width: 28em;
+}
+
+/*container D*/
+
+.headertitle{
+    margin-left: auto;
+    margin-right: 180px;
+    font-family:Arial;
+    font-size: 18px;
+    font-weight:bold;
+    text-align:center;
+   
+}
+
+/*container E*/
+.maincontent{
+    margin-left:500px;
+    margin-right: auto;
+    width: 30em;
+}
+/*container F*/
+.menucontentlinks{
+    margin-left:500px;
+    margin-right: auto;
+    width: 30em;
+    
+}
+.menubutton{
+    margin-left:400px;
+    margin-right: auto;
+    width: 30em;
+}
+
+.viewupdatebutton{
+    margin-left:auto;
+    margin-right: auto;
+    width: 20em;
+}
+.viewbutton{
+    margin-left:auto;
+    margin-right: auto;
+    width: 20em;
+}
+/*Button*/
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary {
+  color: #fff;
+  background-color: rgb(176,172,231);
+  border-color: rgb(176,172,231);
+}
