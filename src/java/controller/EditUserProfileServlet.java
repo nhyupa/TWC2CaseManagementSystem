@@ -37,9 +37,7 @@ public class EditUserProfileServlet extends HttpServlet {
             String itemName = null;
         
         try{
-           
-            
-            
+
             ServletFileUpload upload = new ServletFileUpload();
             FileItemIterator iter = upload.getItemIterator(request);
             boolean isMultiPart = ServletFileUpload.isMultipartContent(request);

@@ -3651,6 +3651,24 @@ public static void InsertWorkerPassDetails(String FIN_Num,String workpass,String
          }
          return homeCountryNumsSearchResults;
      }
+     
+     
+     public static ArrayList<String> retrieveUserFins(){
+         ArrayList<String> userFINS = new ArrayList<String>();
+          String sqlQuery ="Select NRIC_No from tbl_user;";
+         rs = executeQuery(sqlQuery);
+         
+         try{
+             while(rs.next()){
+                 String nricNo = rs.getString("NRIC_No");
+                 userFINS.add(nricNo);
+             }
+         }catch(Exception err){
+             System.out.println("Error : " +err);
+         }
+         return userFINS;
+     }
+     
 }
 
 
