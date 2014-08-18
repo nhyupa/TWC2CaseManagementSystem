@@ -18,8 +18,6 @@
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/bootstrap.css"/>
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/Andrew.css"/>
 
-        <!--javascript-->
-        <script src="/TWC2-CaseManagementSystem/javascript/holder.js"></script>
 
         <script language="javascript">
             function onEditPassword()  {
@@ -95,16 +93,19 @@
                 String formattedGender = gender.substring(0, 1);
             %>
             <tr>
-             
+
                 <td valign="top" rowspan="4" class="container6"> <%--container6 --%>
 
                     <form action="#" name="form1" role="form" id="userInfo-form"  method="post"> 
                         <div class="fileinput fileinput-new" style="float:right" >
-                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 200px;">
-                                <img src="image/<%=loginUser.getPhoto()%>">
-                                
+                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 220px;">
+                                <% if (loginUser.getPhoto() != null) {%>  
+                                <img style="width:150px;height:200px" src="image/<%=loginUser.getPhoto()%>">
+                                <% } else {%> 
+                                <img style="width:150px;height:200px" src="image/default.jpg"/>                                     
+                                <% }%> 
                             </div>
-                                
+
                             <!-- photosize 150x200-->
                         </div>
                         <section id="left">
@@ -172,20 +173,20 @@
             <%--6th row--%>
             <%
                 String jobPosition = loginUser.getJobTitle();%>
-           
+
             <tr>
                 <td colspan="3" class="container9">
                     <div class="form-actions" style="margin-left:10px;">
                         <button type="submit" form ="userInfo-form" class="btn btn-primary btn-large" onClick="onEditPassword()">CHANGE PASSWORD</button>
                         <button type="button" class="btn btn-primary btn-large" onclick="onEdit()">EDIT</button>
-                        
-                        <%if(jobPosition.equalsIgnoreCase("Administrator")){%>
+
+                        <%if (jobPosition.equalsIgnoreCase("Administrator")) {%>
                         <a type="button" href="AdminHomePage.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
-                        <%} else if(jobPosition.equalsIgnoreCase("Management")){%>
+                        <%} else if (jobPosition.equalsIgnoreCase("Management")) {%>
                         <a type="button" href="ManagerHomePage.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
-                        <%} else if(jobPosition.equalsIgnoreCase("General Specialist") || jobPosition.equalsIgnoreCase("Restricted Specialist")){%>
+                        <%} else if (jobPosition.equalsIgnoreCase("General Specialist") || jobPosition.equalsIgnoreCase("Restricted Specialist")) {%>
                         <a type="button" href="SpecialistHomePage.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
-                        <%} else if(jobPosition.equalsIgnoreCase("Associate")){%>
+                        <%} else if (jobPosition.equalsIgnoreCase("Associate")) {%>
                         <a type="button" href="AssociateWelcome.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
                         <%}%>
                     </div>     

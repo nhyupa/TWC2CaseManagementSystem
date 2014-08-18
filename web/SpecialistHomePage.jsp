@@ -201,7 +201,7 @@
     </head>
     
     <%ArrayList<Worker> nationalitySearchResults1 = DBConnect.retrieveNationalitySearchResults("Myanmar");
-        
+        out.println("ARrayList : " );
     %>
     <body>
         <%-- left side menus--%>
@@ -1064,7 +1064,7 @@
             <%--4th row--%>
             <tr>
                 <td class="container3" style="border:none;">
-
+                        
                 </td>
 
             </tr>
