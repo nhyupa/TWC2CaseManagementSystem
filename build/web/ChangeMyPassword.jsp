@@ -167,9 +167,12 @@
                                 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" style ="width:100%" for="inputNewPassword" >Enter new password
-                                    <span style="color:red;font-size: 9"  id="errorTxt"></span></label></label>
+                                    <span style="color:red" id="errorTxt"></span></label>
+                                    
                                     <input type="password" value="" class="form-control col-sm-6" style="width:80%;left:25px;" name="inputNewPassword" id="inputNewPassword" >
+                                    
                                     <br/>
+                                    
                                 </div>
                                 <div class="form-group">
                                     <br/>

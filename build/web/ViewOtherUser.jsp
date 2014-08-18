@@ -18,15 +18,10 @@
 
         <!-- Bootstrap v3.1.1 -->
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/bootstrap.css"/>
-        <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/bootstrap.min.css"/>
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/Andrew.css"/>
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="/TWC2-CaseManagementSystem/jquery/jquery-1.11.1.min.js"></script>
-
-        <!-- Bootstrap v3.1.1 -->
-        <script src="/TWC2-CaseManagementSystem/javascript/bootstrap.min.js"></script>
-
 
         <script src="/TWC2-CaseManagementSystem/javascript/holder.js"></script>
 
@@ -67,17 +62,17 @@
         %>
 
         <%-- left side menus--%>
-        <table border ="2" align="center" style="border:none;" class="leftDivision">
+        <table align="center" class="leftDivision">
             <%--1st row--%>
 
             <tr>
-                <td rowspan="3" class="container2" style="border:none;">
+                <td rowspan="3" class="container2">
 
                 </td>
-                <td rowspan="6" class="container10" style="border:none;">
+                <td rowspan="6" class="container10">
 
                 </td>
-                <td colspan="2" class="container5" style="border:none;">
+                <td colspan="2" class="container5">
                     <strong class="headertitle"> VIEW USER </strong>
 
                 </td>
@@ -89,7 +84,6 @@
                         if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                             String user = (String) request.getSession().getAttribute("username");
                     %>
-                    <div style="height:12%"> </div>
                     <div class="username-background">
                         <strong class="word" style="margin-left:8px;"> Hello <%= user%></strong>
                         </br>
@@ -143,9 +137,12 @@
                     <form action="#" name="form1" role="form" id="userInfo-form"  method="post"> 
 
                         <div class="fileinput fileinput-new" style="float:right" >
-                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 200px;">
-                                <img src="image/<%=currentUser.getPhoto()%>">
-
+                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 220px;">
+                                <% if (currentUser.getPhoto() != null) {%>  
+                                <img style="width:150px;height:160px" src="image/<%=currentUser.getPhoto()%>">
+                                <% } else {%> 
+                                <img style="width:150px;height:160px" src="image/default.jpg"/>                                     
+                                <% }%> 
                             </div>
 
                             <!-- photosize 150x200-->
@@ -222,7 +219,7 @@
             </tr>
             <%--3rd row--%>
             <tr>
-                <td rowspan="3" colspan="2" class="container7" style="border:none;"> <%--container7 --%>
+                <td rowspan="3" colspan="2" class="container7"> <%--container7 --%>
 
                 </td>
 
@@ -230,14 +227,14 @@
             </tr>
             <%--4th row--%>
             <tr>
-                <td class="container3" style="border:none;">
+                <td class="container3">
 
                 </td>
 
             </tr>
             <%--5th row--%>
             <tr>
-                <td rowspan="2" class="container4" style="border:none;">
+                <td rowspan="2" class="container4">
                 </td>
 
 
@@ -247,7 +244,7 @@
                 String jobPosition = loginUser.getJobTitle();%>
             <tr>
 
-                <td colspan="3" class="container9" style="border:none;">
+                <td colspan="3" class="container9">
                     <div class="form-actions" style="margin-left:10px;">
                         <%if(jobPosition.equalsIgnoreCase("Administrator") && !currentUser.getJobTitle().equalsIgnoreCase("Administrator")){%>
                         <button type="submit" form ="userInfo-form" class="btn btn-primary btn-large" onClick="onSubmit()">RESET PASSWORD</button>

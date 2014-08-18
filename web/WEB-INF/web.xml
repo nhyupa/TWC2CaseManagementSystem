@@ -4,8 +4,8 @@
         <description>Location to store uploaded file</description>
         <param-name>file-upload</param-name>
         <param-value>
-         <!--  /var/lib/tomcat7/webapps/TWC2-CaseManagementSystem/image/ -->
-          C:\Users\nhyupa.2010\Documents\NetBeansProjects\TWC2-CaseManagementSystem\web\image\ 
+         /var/lib/tomcat7/webapps/TWC2-CaseManagementSystem/image/ 
+        <!--    C:\Users\nhyupa.2010\Documents\NetBeansProjects\TWC2-CaseManagementSystem\web\image\ -->
 
         </param-value>
     </context-param>
@@ -13,8 +13,8 @@
         <description>Location to store uploaded file</description>
         <param-name>attachment-upload</param-name>
         <param-value>
-          <!-- /var/lib/tomcat7/webapps/TWC2-CaseManagementSystem/attachment/ -->
-           C:\Users\nhyupa.2010\Documents\NetBeansProjects\TWC2-CaseManagementSystem\web\attachment\
+           /var/lib/tomcat7/webapps/TWC2-CaseManagementSystem/attachment/
+         <!--  C:\Users\nhyupa.2010\Documents\NetBeansProjects\TWC2-CaseManagementSystem\web\attachment\-->
         </param-value>
     </context-param>
     
@@ -22,8 +22,8 @@
         <description>Location to store uploaded file</description>
         <param-name>WorkerImage-Upload</param-name>
         <param-value>
-           <!--  /var/lib/tomcat7/webapps/TWC2-CaseManagementSystem/WorkerFacePicture/ -->
-               C:\Users\nhyupa.2010\Documents\NetBeansProjects\TWC2-CaseManagementSystem\web\WorkerFacePicture\
+           /var/lib/tomcat7/webapps/TWC2-CaseManagementSystem/WorkerFacePicture/ 
+             <!--  C:\Users\nhyupa.2010\Documents\NetBeansProjects\TWC2-CaseManagementSystem\web\WorkerFacePicture\-->
         </param-value>
     </context-param>
    
