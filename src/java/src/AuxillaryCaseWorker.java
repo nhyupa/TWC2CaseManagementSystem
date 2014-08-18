@@ -1,0 +1,65 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package src;
+
+/**
+ *
+ * @author nhyupa.2010
+ */
+public class AuxillaryCaseWorker {
+    private String auxCaseWorkerName;
+    private String auxStartDate;
+    private String auxEndDate;
+    private String FIN_Number;
+    
+    public AuxillaryCaseWorker(String auxCaseWorkerName, String auxStartDate, String auxEndDate,String FIN_Number){
+        this.auxCaseWorkerName = auxCaseWorkerName;
+        this.auxStartDate = auxStartDate;
+        this.auxEndDate = auxEndDate;
+        this.FIN_Number = FIN_Number;
+    }
+
+    /**
+     * @return the auxCaseWorkerName
+     */
+    public String getAuxCaseWorkerName() {
+        return auxCaseWorkerName;
+    }
+
+    /**
+     * @param auxCaseWorkerName the auxCaseWorkerName to set
+     */
+    public void setAuxCaseWorkerName(String auxCaseWorkerName) {
+        this.auxCaseWorkerName = auxCaseWorkerName;
+    }
+
+    /**
+     * @return the auxStartDate
+     */
+    public String getAuxStartDate() {
+        return auxStartDate;
+    }
+
+    /**
+     * @param auxStartDate the auxStartDate to set
+     */
+    public void setAuxStartDate(String auxStartDate) {
+        this.auxStartDate = auxStartDate;
+    }
+
+    /**
+     * @return the auxEndDate
+     */
+    public String getAuxEndDate() {
+        return auxEndDate;
+    }
+
+    /**
+     * @param auxEndDate the auxEndDate to set
+     */
+    public void setAuxEndDate(String auxEndDate) {
+        this.auxEndDate = auxEndDate;
+    }
+}

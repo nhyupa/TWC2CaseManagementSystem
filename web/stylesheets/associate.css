@@ -1,0 +1,69 @@
+body{
+   border: 2px solid black;
+}
+
+.leftDivision{
+    position: relative;
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+}
+
+#red {
+width: 75px;
+height: 200px;
+position: static;
+top: 0;
+left: 0;
+background-color: red;
+}
+
+.containerA {
+	
+    position: relative;
+    width: 600px;
+    height: 500px;
+    border: 2px solid red;
+
+}
+
+.containerB {
+    width: 500px;
+    height: 700px;
+    position: relative;
+    border: 2px solid red;
+}
+
+.containerC {
+    width: 500px;
+    height: 10px;
+    position: relative;
+    border: 2px solid red;
+    background-color:red;
+}
+
+
+.containerD {
+    width: 500px;
+    height: 100px;
+    position: relative;
+    border: 2px solid red;
+}
+
+
+.containerE{	
+    position: relative;
+    width: 500px;
+    height: 1500px;
+    border: 2px solid red;
+   
+}
+
+.containerF {
+	
+    position: relative;
+    width: 500px;
+    height: 300px;
+    border: 2px solid red;
+
+}
