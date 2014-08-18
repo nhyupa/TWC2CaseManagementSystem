@@ -3,17 +3,16 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
-    Created on : Jun 2, 2014, 9:33:55 PM
-    Author     : keemin.chew.2010
-*/
-
 /*!
  * Bootstrap v3.1.1 (http://getbootstrap.com)
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /**border-line for case menu**/
+.dot{
+    color:red;
+}
+           
 div .hr{
 color:grey;
 background-color:grey;
@@ -49,11 +48,6 @@ width:100%;
     
 }
 
- .username-background{
-     background-color: red;
-     height:20%;
- }
- 
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -564,6 +558,7 @@ a.text-success:hover {
   color: #2b542c;
 }
 .text-info {
+    
   color: #31708f;
 }
 a.text-info:hover {
@@ -1470,11 +1465,16 @@ th {
   padding: 8px;
   line-height: 1.42857143;
   vertical-align: top;
-  border-top: 1px solid #ddd;
+  /*border-top: 1px solid #ddd;*/  /*comment out by kee min*/
+}
+/*done by keemin*/
+.table>thead>tr{
+     border-top: 2px solid #000;
 }
 .table > thead > tr > th {
   vertical-align: bottom;
-  border-bottom: 2px solid #ddd;
+ 
+  border-bottom: 2px solid #000; /*comment out by keemin*/
 }
 .table > caption + thead > tr:first-child > th,
 .table > colgroup + thead > tr:first-child > th,
@@ -1738,7 +1738,7 @@ output {
   line-height: 1.42857143;
   color: #555;
 }
-.form-control {
+.form-control,.form-control-associate {
   display: block;
   width: 100%;
   height: 34px;
@@ -1755,7 +1755,7 @@ output {
   -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-.form-control:focus {
+.form-control:focus,.form-control-associate:focus{
   border-color: #66afe9;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
@@ -1778,7 +1778,7 @@ fieldset[disabled] .form-control {
   background-color: #eee;
   opacity: 1;
 }
-textarea.form-control {
+textarea.form-control,textarea.form-control-associate {
   height: auto;
 }
 input[type="search"] {
@@ -1950,12 +1950,12 @@ select[multiple].input-lg {
 .has-error .checkbox-inline {
   color: #a94442;
 }
-.has-error .form-control {
+.has-error .form-control,.has-error .form-control-associate {
   border-color: #a94442;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 }
-.has-error .form-control:focus {
+.has-error .form-control:focus,.has-error .form-control-associate:focus {
   border-color: #843534;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
@@ -2132,8 +2132,8 @@ fieldset[disabled] .btn-default.active {
 }
 .btn-primary {
   color: #fff;
-  background-color: #428bca;
-  border-color: #357ebd;
+  background-color: rgb(176,172,231);
+  border-color: rgb(176,172,231);
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -2141,8 +2141,8 @@ fieldset[disabled] .btn-default.active {
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
   color: #fff;
-  background-color:#428bca;
-  border-color: #285e8e;
+  background-color:rgb(176,172,231);
+  border-color: rgb(176,172,231);
 }
 .btn-primary:active,
 .btn-primary.active,
@@ -5795,20 +5795,56 @@ button.close {
   .hidden-xs {
     display: none !important;
   }
+  
+     /*Container B*/
+  .worker-details-associate{
+      
+      margin-left:2%;
+  }
+  
+
+  /*Container F*/
+  .btn-associate{
+      margin-left:2%;
+  }
+  
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .hidden-sm {
     display: none !important;
+  }
+  /*Container F*/
+  .btn-associate-landscape{
+      margin-left:35%;
   }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   .hidden-md {
     display: none !important;
   }
+  /*Container F*/
+    .btn-associate-landscape{
+      margin-left:35%;
+  }
 }
 @media (min-width: 1200px) {
   .hidden-lg {
     display: none !important;
+  }
+    /*Container F*/
+  .btn-associate-landscape{
+      margin-left:35%;
+  }
+  
+    /*Container B*/
+  .worker-details-associate{
+      
+      margin-left:34%;
+  }
+    /*Container A*/
+   .redline-associate{
+      width:45%;
+      margin-left:0.05%;
   }
 }
 .visible-print {
@@ -5845,7 +5881,7 @@ button.close {
 .username-background{
     background-color:rgb(208,64,32);
     width:100%;
-    height:25%;
+    height:43px;
     color:white;
 }
 
@@ -5880,3 +5916,84 @@ ul.navigation-menu li{
 a .menu-link{
     text-decoration:none;
 }
+
+
+/**********Associate***************/
+
+    .form-group-associate {
+      margin-bottom: 15px;
+      width:100%;
+    }
+    
+    /*display valid msg*/
+
+   label.valid {
+      
+       display: inline-block;
+       text-indent: -9999px;
+       height:2%;
+   }
+   
+      /*display error msg*/
+   label.error{
+       font-weight: bold;
+       color: red;
+       padding: 2px 8px;
+       margin-top: 2px;
+
+   }
+
+ /*container A*/
+    .header-associate{
+       width:100%;
+    }
+   .username-background-associate{
+        background-color:rgb(208,64,32);
+        color:white;
+        width:150px;
+        
+   }
+   .btn-logout-associate{
+        background-color:rgb(208,64,32);
+        border:none;
+        margin-bottom:2%;
+        padding-right:28%;
+  }
+  
+
+  .redline-associate{
+      background-color:rgb(208,64,32);
+      height:0.2em;
+      margin-top:0.5%;
+  
+    
+  }
+  
+  /*container D*/
+  .headertitle-associate{
+    font-family:Arial;
+    font-size: 18px;
+    font-weight:bold;
+    margin-left:2%;
+}
+  /*container E*/
+  .maincontent-associate{
+      margin-left:2%;
+  }
+
+  .blackline-associate{
+      background-color:black; 
+      height:0.2em; 
+      width:100%;
+      margin-top:0.5%;
+  }
+  
+  
+  /*container F*/
+   /*found in AssociateWelcome.jsp*/
+   .menucontentlinks-associate{
+        margin-left:2%;
+
+   }
+   
+   
