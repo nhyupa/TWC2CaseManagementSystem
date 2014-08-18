@@ -41,11 +41,11 @@ public class LoginController {
         
         for(int i =0; i <usernames.size();i++) {
             String existingUsername = usernames.get(i);
-            if(existingUsername.equalsIgnoreCase(username)){
+            if(existingUsername.equals(username)){
                 passwords = dbConnect.getPasswords();
                 for(int j=0; j<passwords.size();j++){
                     String existingPassword = passwords.get(j);
-                    if(existingPassword.equalsIgnoreCase(password)){
+                    if(existingPassword.equals(password)){
                         return true;
                     }
                 }

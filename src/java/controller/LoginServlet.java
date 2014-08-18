@@ -74,17 +74,16 @@ public class LoginServlet extends HttpServlet {
                     response.sendRedirect(associatePage);
                 }
                 else if(jobPosition.equalsIgnoreCase("None")){
-                    request.setAttribute("msgAuth","You don't have access to TWC2 Case Management System.");
-                    String url="/index.jsp";
-                    RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher(url);
-                    requestDispatcher.forward(request,response); 
+                    request.getSession().setAttribute("msgAuth","You don't have access to TWC2 Case Management System.");
+                    String url="/TWC2-CaseManagementSystem/index.jsp";
+                    response.sendRedirect(url);
+                     
                 }
             }
             else {
-                request.setAttribute("msgAuth","Authentication failed.");
-                String url = "/index.jsp";
-                RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher(url);
-	        requestDispatcher.forward(request, response);
+                request.getSession().setAttribute("msgAuthFailed","Authentication failed.");
+                String url="/TWC2-CaseManagementSystem/index.jsp";
+                response.sendRedirect(url);
                
             }
         }catch(Exception err){

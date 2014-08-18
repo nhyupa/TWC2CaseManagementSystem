@@ -57,15 +57,21 @@
                 
             </div>
             
-            <% if (request.getAttribute("msgAuth") != null) {
-                String errorMsg = (String) request.getAttribute("msgAuth");%>
-            <label style="color:red"><%=errorMsg%></label> <%}%>
-            <%request.removeAttribute("msgAuth");%>
+            <% if (session.getAttribute("msgAuth") != null) {
+                String msg = (String) session.getAttribute("msgAuth");%>
+            <label style="color:red"><%=msg%></label> <%}%>
+            <%session.removeAttribute("msgAuth");%>
             
+             <% if (session.getAttribute("msgAuthFailed") != null) {
+                String msg = (String) session.getAttribute("msgAuthFailed");%>
+            <label style="color:red"><%=msg%></label> <%}%>
+            <%session.removeAttribute("msgAuthFailed");%>
+   
             <% if (session.getAttribute("errorMsg") != null) {
                 String msg = (String) session.getAttribute("errorMsg");%>
             <label style="color:red"><%=msg%></label> <%}%>
-            <%request.removeAttribute("msgAuth");%>
+            <%session.removeAttribute("errorMsg");%>
+            
             <% if (session.getAttribute("notificationMsg") != null) {
                 String msg = (String) session.getAttribute("notificationMsg");%>
             <label style="color:red"><%=msg%></label> <%}%>
