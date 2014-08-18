@@ -7,6 +7,7 @@ package controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,6 +48,9 @@ public class RegistrationServlet extends HttpServlet {
             String position = null;
             String itemName = null;
             
+            
+            DBConnect.connectDB();
+            ArrayList<String> userFINs = DBConnect.retrieveUserFins();
             ServletFileUpload upload = new ServletFileUpload();
             FileItemIterator iter = upload.getItemIterator(request);
             boolean isMultiPart = ServletFileUpload.isMultipartContent(request);
@@ -103,12 +107,7 @@ public class RegistrationServlet extends HttpServlet {
                         itemName = FileUpload.retrieveItemName(path,item);
                         
                         if(FileUpload.processFile(filePath,item)){
-                            //DBConnect dbConnect = new DBConnect();
-                            //DBConnect.connectDB();
-                           // response.getWriter().println(NRIC_No);
-                           // DBConnect.insertImage(itemName,NRIC_No);
-                           // response.getWriter().println("File Uploaded Successfully");
-                            
+  
                         }
                     }
                 }
@@ -116,38 +115,18 @@ public class RegistrationServlet extends HttpServlet {
                 SendMailSSL sendMailSSL = new SendMailSSL();
                 String password = sendMailSSL.generateEncryptedPassword();
                 
-                String formattedPosition = null;
-                String formattedGender = null;
+           
                 
-                if(gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female")) {
-                    char first = Character.toUpperCase(gender.charAt(0));
-                    formattedGender = first + gender.substring(1);
+                User newUser = new User(NRIC_No,realName,alias,username,password,email, contactNumber, gender,position,itemName);
+                String url = "/TWC2-CaseManagementSystem/CreateNewUser.jsp";
+                
+                for(int i = 0 ; i < userFINs.size(); i++){
+                    String fin = userFINs.get(i);
+                    if(NRIC_No.equals(fin)){
+                        request.getSession().setAttribute("finExists", "NRIC_No/FIN exists in database.");
+                        response.sendRedirect(url);
+                    }
                 }
-                
-                if(position.equalsIgnoreCase("management") || position.equalsIgnoreCase("associate")) {
-                    char first = Character.toUpperCase(position.charAt(0));
-                    formattedPosition = first + position.substring(1);
-                }
-                
-               else if(position.equalsIgnoreCase("generalSpecialist")) {
-                    char first = Character.toUpperCase(position.charAt(0));
-                    String firstPart = position.substring(1,7);
-                    String secondPart = position.substring(7);
-                    
-                    formattedPosition = first + firstPart + " " + secondPart;
-                    
-                }
-                
-                else if(position.equalsIgnoreCase("restrictedGeneralist")) {
-                    char first = Character.toUpperCase(position.charAt(0));
-                    String firstPart = position.substring(1,10);
-                    String secondPart = position.substring(10);
-                    
-                    formattedPosition = first + firstPart + " " + secondPart;
-                }
-                
-                User newUser = new User(NRIC_No,realName,alias,username,password,email, contactNumber, formattedGender,formattedPosition,itemName);
-                
                 
                 DBConnect.connectDB();
                 int existingNumOfUsers = DBConnect.countUsers();
@@ -158,7 +137,7 @@ public class RegistrationServlet extends HttpServlet {
                 sendMailSSL.sendMail(username,password);
                 int afterCreatingNewUser = DBConnect.countUsers();
                 
-                String url = "/TWC2-CaseManagementSystem/CreateNewUser.jsp";
+               
                 if(afterCreatingNewUser > existingNumOfUsers) {
                     request.getSession().setAttribute("regMsg", "The User has been created successfully.");
                     response.sendRedirect(url);
@@ -168,36 +147,6 @@ public class RegistrationServlet extends HttpServlet {
         }catch(Exception err) {
             err.printStackTrace();
         }
-        /*
-         * String NRIC_No = request.getParameter("FIN");
-         * String fullName = request.getParameter("realname");
-         * String userName = request.getParameter("username");
-         * /**System generated password */
-        //String password = request.getParameter("password"); */
-        /*   SendMailSSL sendMailSSL = new SendMailSSL();
-         * String password = sendMailSSL.generateEncryptedPassword();
-         * String emailAddress = request.getParameter("email");
-         * String mobileNumber = request.getParameter("contactnumber");
-         * String gender = request.getParameter("gender");
-         * String jobTitle = request.getParameter("position");
-         *
-         * String url = "/CreateNewUser.jsp";
-         *
-         * User newUser = new User(NRIC_No,fullName,userName,password,emailAddress, mobileNumber, gender,jobTitle);
-         *
-         * DBConnect.connectDB();
-         * int existingNumOfUsers = DBConnect.countUsers();
-         *
-         * DBConnect.createUser(newUser);
-         * sendMailSSL.sendMail(userName, password);
-         * int afterCreatingNewUser = DBConnect.countUsers();
-         *
-         * if(afterCreatingNewUser > existingNumOfUsers) {
-         * //response.sendRedirect(url);
-         * request.setAttribute("regMsg","The User has been created successfully.");
-         * RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher(url);
-         * requestDispatcher.forward(request, response);
-         * }*/
     }
     
     @Override
