@@ -131,7 +131,7 @@ public class SendMailSSL {
             message.setSubject("TWC2: CAMANS- New User Password notification");
             message.setText("Dear " + recipientName +
                     ",\n\n Your System generated password is " + generatedPassword
-                    + ". \n\n Please change your password upon first log in.\n\n This is a System generated email, please do not reply.");
+                    + ".\n\n Please change your password upon first log in.\n\n This is a System generated email, please do not reply.");
             
             Transport.send(message);
             
@@ -173,10 +173,10 @@ public class SendMailSSL {
             message.setFrom(new InternetAddress("from@no-spam.com"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(emailAddress));
-            message.setSubject("TWC2: CAMANS- New User Account notification");
+            message.setSubject("TWC2: CAMANS- New User Account Notification");
             message.setText("Dear " + recipientName +
                     ",\n\n Your account with CAMANS has been created. \n\n Your System generated password is " + newPassword  
-                    + "\n\n Please change your password upon first log in.\n\n This is a System generated email, please do not reply.");
+                    + ".\n\n Please change your password upon first log in.\n\n This is a System generated email, please do not reply.");
             
             Transport.send(message);
             
@@ -219,10 +219,10 @@ public class SendMailSSL {
             message.setFrom(new InternetAddress("from@no-spam.com"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(emailAddress));
-            message.setSubject("TWC2: CAMANS- New Password notification");
+            message.setSubject("TWC2: CAMANS- New Password Notification");
             message.setText("Dear " + recipientName +
                     ",\n\n Your password has been changed. \n\n Your System generated password is " + newPassword  
-                    + "\n\n Please change your password upon first log in.\n\n"
+                    + ".\n\n Please change your password upon first log in.\n\n"
                     + "In the event you did not submit a request to change your password, please contact the System"
                     + "Administrator immediately. \n\nThis is a System generated email, please do not reply.");
             
