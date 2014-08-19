@@ -157,7 +157,16 @@ public class DBConnect {
         }
     }
     
-    public static void updateUsername(String realname,String NRIC_Num) {
+    public static void updateUsername(String username,String NRIC_Num) {
+        try{
+            String sqlQuery = "Update tbl_user " + "SET Username ='" + username + "' where NRIC_No = '" + NRIC_Num +"'";
+            executeUpdate(sqlQuery);
+        }catch(Exception err) {
+            System.out.println("Error: " + err);
+        }
+    }
+    
+    public static void updateRealname(String realname,String NRIC_Num) {
         try{
             String sqlQuery = "Update tbl_user " + "SET Full_Name ='" + realname + "' where NRIC_No = '" + NRIC_Num +"'";
             executeUpdate(sqlQuery);
@@ -192,7 +201,24 @@ public class DBConnect {
             System.out.println("Error: " + err);
         }
     }
+      
+      public static void updateEmail(String email,String NRIC_Num){
+        try{
+            String sqlQuery = "Update tbl_user " + "SET Email_Address ='" + email + "' where NRIC_No = '" + NRIC_Num +"'";
+            executeUpdate(sqlQuery);
+        }catch(Exception err) {
+            System.out.println("Error: " + err);
+        }
+    }
     
+      public static void updateUserGender(String gender,String NRIC_Num){
+        try{
+            String sqlQuery = "Update tbl_user " + "SET Gender ='" + gender + "' where NRIC_No = '" + NRIC_Num +"'";
+            executeUpdate(sqlQuery);
+        }catch(Exception err) {
+            System.out.println("Error: " + err);
+        }
+    }
     
     public static void updatePhoto(String itemName, String NRIC_Num) {
         try{

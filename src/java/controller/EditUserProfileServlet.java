@@ -85,7 +85,7 @@ public class EditUserProfileServlet extends HttpServlet {
             DBConnect.connectDB();
             
             if(realname != null || !realname.equalsIgnoreCase("")){
-                DBConnect.updateUsername(realname, NRIC_Num);
+                DBConnect.updateRealname(realname, NRIC_Num);
             }
             //DBConnect.updateJobPosition(job_position, NRIC_Num);
             if(contactNumber != null || !contactNumber.equalsIgnoreCase("")){

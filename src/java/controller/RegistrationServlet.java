@@ -103,11 +103,11 @@ public class RegistrationServlet extends HttpServlet {
                         String finalPath = getServletContext().getContextPath();
                         
                         String filePath =getServletContext().getInitParameter("file-upload");
- 
+                        
                         itemName = FileUpload.retrieveItemName(path,item);
                         
                         if(FileUpload.processFile(filePath,item)){
-  
+                            
                         }
                     }
                 }
@@ -115,35 +115,38 @@ public class RegistrationServlet extends HttpServlet {
                 SendMailSSL sendMailSSL = new SendMailSSL();
                 String password = sendMailSSL.generateEncryptedPassword();
                 
-           
+                
                 
                 User newUser = new User(NRIC_No,realName,alias,username,password,email, contactNumber, gender,position,itemName);
                 String url = "/TWC2-CaseManagementSystem/CreateNewUser.jsp";
-                
+                String check = null;
                 for(int i = 0 ; i < userFINs.size(); i++){
                     String fin = userFINs.get(i);
                     if(NRIC_No.equals(fin)){
                         request.getSession().setAttribute("finExists", "NRIC_No/FIN exists in database.");
+                        check = "FIN Exists in database";
                         response.sendRedirect(url);
                     }
                 }
                 
-                DBConnect.connectDB();
-                int existingNumOfUsers = DBConnect.countUsers();
-                
-                DBConnect.createUser(newUser);
-                
-                
-                sendMailSSL.sendMail(username,password);
-                int afterCreatingNewUser = DBConnect.countUsers();
-                
-               
-                if(afterCreatingNewUser > existingNumOfUsers) {
-                    request.getSession().setAttribute("NewUserFIN",NRIC_No);
-                 
-                    request.getSession().setAttribute("regMsg", "The User has been created successfully.");
-                    response.sendRedirect(url);
+                if(check == null){
+                    DBConnect.connectDB();
+                    int existingNumOfUsers = DBConnect.countUsers();
                     
+                    DBConnect.createUser(newUser);
+                    
+                    
+                    sendMailSSL.sendMail(username,password);
+                    int afterCreatingNewUser = DBConnect.countUsers();
+                    
+                    
+                    if(afterCreatingNewUser > existingNumOfUsers) {
+                        request.getSession().setAttribute("NewUserFIN",NRIC_No);
+                        
+                        request.getSession().setAttribute("regMsg", "The User has been created successfully.");
+                        response.sendRedirect(url);
+                        
+                    }
                 }
             }
         }catch(Exception err) {

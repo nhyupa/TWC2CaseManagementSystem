@@ -194,6 +194,24 @@
 
         <title>Administrator Home Page</title>
     </head>
+    
+    <%
+        DBConnect database = new DBConnect();
+        DBConnect.connectDB();
+        String username;
+        if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
+            username = (String) request.getSession().getAttribute("username");
+        }
+        ArrayList<User> users = database.getUsers();
+        User loginUser = null;
+        for (int i = 0; i < users.size(); i++) {
+            User user1 = users.get(i);
+            if (user1.getUsername().equals(session.getAttribute("username").toString())) {  //Find loginUser by using session user information
+                  loginUser = user1;
+            }
+        }
+        
+    %>
     <body>
         <%-- left side menus--%>
         
@@ -586,6 +604,7 @@
 
                 </tr>
                 <%--3rd row--%>
+                <%String jobPosition = loginUser.getJobTitle();%>
                 <tr>
                     <td rowspan="3" colspan="2" class="container7"> <%--container7 --%>
                         <ul class="navigation-menu">
@@ -593,10 +612,20 @@
                             <li><a href="ViewMyProfile.jsp" class="menu-link">MY PROFILE</a></li>
                             <li><a href="CreateNewUser.jsp" class="menu-link">CREATE NEW USER</a></li>
                             <li><a href="" class="menu-link">REPORT MODULE</a></li>
+                             <%if(jobPosition.equalsIgnoreCase("Administrator")) {%>
+                            <li><a href="AdminHomePage.jsp" class="menu-link">ADMINISTRATORS' FORMS</a></li>
+                            <%}%>
+                            <%if(jobPosition.equalsIgnoreCase("Administrator") || jobPosition.equalsIgnoreCase("Management")){%>
                             <li><a href="ManagerHomePage.jsp" class="menu-link">MANAGERS' FORMS</a></li>
+                            <%}%>
+                            <%if(jobPosition.equalsIgnoreCase("Administrator") || jobPosition.equalsIgnoreCase("Restricted Specialist") || jobPosition.equalsIgnoreCase("General Specialist") || jobPosition.equalsIgnoreCase("Management")){%>
                             <li><a href="SpecialistHomePage.jsp" class="menu-link">SPECIALISTS' FORMS</a></li>
+                            <%}%>
+                           
                             <li><a href="AssociateHomePage.jsp" class="menu-link">ASSOCIATES' FORMS</a></li>
                         </ul>
+
+                    </td>
 
                     </td>
 

@@ -5,12 +5,16 @@
 package controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.fileupload.FileItemIterator;
+import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import src.DBConnect;
 
 /**
@@ -19,26 +23,137 @@ import src.DBConnect;
  */
 @WebServlet(name = "AdminEditUserProfileServlet", urlPatterns = {"/AdminEditUserProfileServlet"})
 public class AdminEditUserProfileServlet extends HttpServlet {
-
-   
-
+    
+    
+    
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         doPost(request,response);
     }
     
     public void doPost (HttpServletRequest request, HttpServletResponse response) {
         try{
-            String NRIC_Num = (String)request.getSession().getAttribute("FIN");
-            String alias = request.getParameter("alias");
-            String contactNumber = request.getParameter("contactnumber");
+            String username = null;
+            String realname = null;
+            String alias = null;
+            String gender = null;
+            String contactNumber = null;
+            String email = null;
+            String role = null;
+            String itemName = null;
+            String NRIC_Num = (String)request.getSession().getAttribute("editedUserFIN");
             
-            DBConnect.connectDB();
-            DBConnect.updateAlias(alias, NRIC_Num);
-            DBConnect.updateContactNumber(contactNumber,NRIC_Num);
-  
-           String url  = "/TWC2-CaseManagementSystem/EditUserProfile.jsp";
-           request.getSession().setAttribute("notificationMsg", "Your profile has been edited.");
-           response.sendRedirect(url);
+            
+            ServletFileUpload upload = new ServletFileUpload();
+            FileItemIterator iter = upload.getItemIterator(request);
+            boolean isMultiPart = ServletFileUpload.isMultipartContent(request);
+            if(isMultiPart) {
+                while(iter.hasNext()) {
+                    FileItemStream item = iter.next();
+                    if(item.isFormField()){
+                        // do field specific process
+                        String fieldName = item.getFieldName();
+                        InputStream is = item.openStream();
+                        byte[] b =  new byte[is.available()];
+                        is.read(b);
+                        String value = new String(b);
+                        if("username".equalsIgnoreCase(fieldName)){
+                            username = value;
+                        }
+                        else if("realname".equalsIgnoreCase(fieldName)){
+                            realname = value;
+                        }
+                        else if("alias".equalsIgnoreCase(fieldName)){
+                            alias = value;
+                        }
+                        
+                        else if("gender".equalsIgnoreCase(fieldName)){
+                            gender = value;
+                            
+                        }
+                        else if("contactnumber".equalsIgnoreCase(fieldName)){
+                            contactNumber = value;
+                            
+                        }
+                        else if("email".equalsIgnoreCase(fieldName)){
+                            email = value;
+                            
+                        }
+                        else if("position".equalsIgnoreCase(fieldName)){
+                            role = value;
+                            //response.getWriter().println(fieldName + ":" + position + "this is my username");
+                        }
+                        else{
+                            
+                        }
+                        //do File Upload process
+                        
+                    }
+                    else{
+                        String path = getServletContext().getRealPath("/");
+                        String finalPath = getServletContext().getContextPath();
+                        
+                        String filePath =getServletContext().getInitParameter("file-upload");
+                        
+                        itemName = FileUpload.retrieveItemName(path,item);
+                        
+                        if(FileUpload.processFile(filePath,item)){
+                            
+                        }
+                    }
+                }
+                
+                
+                response.getWriter().println(itemName);
+                response.getWriter().println(username);
+                response.getWriter().println(realname);
+                response.getWriter().println(alias);
+                response.getWriter().println("Gender : " + gender);
+                response.getWriter().println(contactNumber);
+                response.getWriter().println(email);
+                response.getWriter().println(role);
+                response.getWriter().println(NRIC_Num);
+                DBConnect.connectDB();
+                
+                if(username != null || username.equalsIgnoreCase("")){
+                    DBConnect.updateUsername(username, NRIC_Num);
+                }
+                
+                if(realname != null || !realname.equalsIgnoreCase("")){
+                    DBConnect.updateRealname(realname, NRIC_Num);
+                }
+                
+                if(alias != null || !alias.equalsIgnoreCase("")){
+                    DBConnect.updateAlias(alias,NRIC_Num);
+                }
+                
+                if(gender!= null || !gender.equalsIgnoreCase("")){
+                    DBConnect.updateUserGender(NRIC_Num, gender);
+                }
+                //DBConnect.updateJobPosition(job_position, NRIC_Num);
+                if(contactNumber != null || !contactNumber.equalsIgnoreCase("")){
+                    DBConnect.updateContactNumber(contactNumber,NRIC_Num);
+                }
+                
+                if(email != null || !email.equalsIgnoreCase("")){
+                    DBConnect.updateEmail(email, NRIC_Num);
+                }
+                
+                if(role != null || !role.equalsIgnoreCase("")){
+                    DBConnect.updateJobPosition(role, NRIC_Num);
+                }
+                
+                if(itemName.length() !=0){
+                    
+                    DBConnect.updatePhoto(itemName, NRIC_Num);
+                }
+                //DBConnect.updateAlias(alias, NRIC_Num);
+                //DBConnect.updateContactNumber(contactNumber,NRIC_Num);
+                
+                String url  = "/TWC2-CaseManagementSystem/EditUserProfile.jsp";
+                request.getSession().setAttribute("notificationMsg", "Your profile has been edited.");
+                request.getSession().setAttribute("editedUserFINNo",NRIC_Num);
+                response.sendRedirect(url);
+            }
         }catch(Exception err) {
             System.out.println("Error : " + err);
         }

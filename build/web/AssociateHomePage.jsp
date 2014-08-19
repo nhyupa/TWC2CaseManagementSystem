@@ -138,26 +138,29 @@
             <%--3rd row--%>
             <tr>
                 <td rowspan="3" colspan="2" class="container7"> <%--container7 --%>
-                    <ul class="navigation-menu">
-                        <li><a href="ViewAllUsers.jsp" class="menu-link">ALL USERS</a></li>
-                        <li><a href="ViewMyProfile.jsp" class="menu-link">MY PROFILE</a></li>
-                        <li><a href="" class="menu-link">REPORT MODULE</a></li>
-                        
-                        <%if(jobPosition.equalsIgnoreCase("General Specialist") || jobPosition.equalsIgnoreCase("Restricted Specialist") || jobPosition.equalsIgnoreCase("Management") || jobPosition.equalsIgnoreCase("Administrator")){%>
-                        <li><a href="SpecialistHomePage.jsp" class="menu-link">SPECIALISTS' FORMS</a></li>
-                        <%}%>
-                        
-                        <%if(jobPosition.equalsIgnoreCase("Management")) {%>
-                        <li><a href="ManagerHomePage.jsp" class="menu-link">MANAGER's FORMS</a></li>
-                        <%}%>
-                        <%if(jobPosition.equalsIgnoreCase("Administrator")) {%>
-                        <li><a href="AdminHomePage.jsp" class="menu-link">ADMINISTRATOR'S FORM</a></li>
-                        <%}%>
-                        
-                        
-                        
-                    </ul>
                     
+                        
+                      <ul class="navigation-menu">
+                            <li><a href="ViewAllUsers.jsp" class="menu-link">ALL USERS</a></li>
+                            <li><a href="ViewMyProfile.jsp" class="menu-link">MY PROFILE</a></li>
+                            <li><a href="CreateNewUser.jsp" class="menu-link">CREATE NEW USER</a></li>
+                          
+                            <%if(jobPosition.equalsIgnoreCase("Administrator")) {%>
+                            <li><a href="AdminHomePage.jsp" class="menu-link">ADMINISTRATORS' FORMS</a></li>
+                            <%}%>
+                            <%if(jobPosition.equalsIgnoreCase("Administrator") || jobPosition.equalsIgnoreCase("Management")){%>
+                            <li><a href="ManagerHomePage.jsp" class="menu-link">MANAGERS' FORMS</a></li>
+                            <%}%>
+                            <%if(jobPosition.equalsIgnoreCase("Administrator") || jobPosition.equalsIgnoreCase("Restricted Specialist") || jobPosition.equalsIgnoreCase("General Specialist") || jobPosition.equalsIgnoreCase("Management")){%>
+                            <li><a href="SpecialistHomePage.jsp" class="menu-link">SPECIALISTS' FORMS</a></li>
+                            <%}%>
+                           
+                            <li><a href="AssociateHomePage.jsp" class="menu-link">ASSOCIATES' FORMS</a></li>
+                        </ul>
+                        
+                        
+                        
+                   
                 </td>
                 
                 

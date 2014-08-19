@@ -102,6 +102,12 @@
         </script>
 
     </head>
+    
+    <%
+        DBConnect.connectDB();
+        ArrayList<String> userRoles = DBConnect.getRoles();
+        
+    %>
     <body>
         <%-- left side menus--%>
         <div class="leftDivision">
@@ -149,8 +155,21 @@
 
                             ArrayList<String> realNames = DBConnect.retrieveSortedRealNames(userList);
                             ArrayList<User> sortedUsers = DBConnect.retrieveSortedUsers(userList, realNames);
-                            User currentUser = sortedUsers.get(Integer.parseInt(session.getAttribute("userToView").toString()));
-
+                            User currentUser = null;
+                            if(session.getAttribute("userToView") != null){
+                                currentUser = sortedUsers.get(Integer.parseInt(session.getAttribute("userToView").toString()));    
+                                session.setAttribute("editedUserFIN", currentUser.getNRICNum());
+                                session.removeAttribute("userToView");
+                            }
+                            String newUserFin = null;
+                            User editedUser = null;
+                            if(session.getAttribute("editedUserFINNo") != null){
+                                newUserFin  = (String)session.getAttribute("editedUserFINNo");
+                                editedUser = DBConnect.getUser(newUserFin);
+                                
+                            }
+                           // out.println(editedUser.getUsername());
+                            //out.println(session.getAttribute("editedUserFIN"));
                             // to find current login user
                             User loginUser = null;
                             for (int i = 0; i < userList.size(); i++) {
@@ -169,13 +188,21 @@
                         <label style="color:green;"><%=msg%></label> <%}%>
                         <%session.removeAttribute("notificationMsg");%>
 
-                        <form name="form1"  role="form" id="createuser-form"  method="post"> 
+                        <form name="form1"  role="form" id="createuser-form"  method="post" enctype="multipart/form-data"> 
             
                         <div class="fileinput fileinput-new" data-provides="fileinput" style="float:right">
                             <div class="fileinput-new thumbnail" style="max-width: 150px; max-height: 200px;">
-                                <% if (currentUser.getPhoto() != null) {%>  
+                                <% if (currentUser!= null) {%>  
                                 <img style="width:150px;height:200px" src="image/<%=currentUser.getPhoto()%>">
-                                <% } else {%> 
+                               
+                                <%} else if(editedUser != null){
+                                    if(editedUser.getPhoto() != null){
+                                %>
+                                    
+                                <img style="width:150px;height:200px" src="image/<%=editedUser.getPhoto()%>"/>
+                                <%}else {%>
+                                <img style="width:150px;height:200px" src="image/default.jpg%>"/>
+                                <%}} else{%>
                                 <img style="width:150px;height:200px" src="image/default.jpg"/>                                     
                                 <% }%> 
                             </div>
@@ -192,47 +219,116 @@
                                 <span class="dot" style="margin-left:10px;">*Mandatory field</span><br/>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="username">Username<span class="dot">*</span></label>
+                                    <%if(currentUser != null){%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="username" placeholder="<%=currentUser.getUsername()%>">
+                                    <%}else if(editedUser != null){%>
+                                    <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="username" placeholder="<%=editedUser.getUsername()%>">
+                                    <%} else{%>
+                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="username">
+                                     <%}%>
                                 </div> 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="realname">Name<span class="dot">*</span></label>
+                                    <%if(currentUser != null){%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="realname" placeholder="<%=currentUser.getfullName()%>">
+                                    <%}else if(editedUser != null){%>
+                                    <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="realname" placeholder="<%=editedUser.getfullName()%>">
+                                    <%} else{%>
+                                    <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="realname" placeholder="<%=currentUser.getfullName()%>">
+                                    <%}%>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="alias">Alias<span class="dot">*</span></label>
+                                    <%if(currentUser !=null){%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="alias" placeholder="<%=currentUser.getAlias()%>">
+                                    <%} else if(editedUser != null){%>
+                                    <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="alias" placeholder="<%=editedUser.getAlias()%>">
+                                    <%} else{%>
+                                    <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="alias" placeholder="<%=currentUser.getAlias()%>">
+                                    <%}%>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="FIN" style="width:80%;">Identification Number(NRIC/FIN)<span class="dot">*</span></label>
+                                    <%if(currentUser != null){%>
                                     <p class="form-control col-sm-6" style="width:80%;left:25px;" > <%=currentUser.getNRICNum()%> </p>
+                                    <%} else if(editedUser != null) {%>
+                                    <p class="form-control col-sm-6" style="width:80%;left:25px;" > <%=editedUser.getNRICNum()%> </p>
+                                    <%} else{%>
+                                    <p class="form-control col-sm-6" style="width:80%;left:25px;" > <%=currentUser.getNRICNum()%> </p>
+                                    <%}%>
                                 </div> 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="gender">Gender<span class="dot">*</span></label>
-                                    <select class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;">
-                                        <option value="male" >M</option>
-                                        <option value="female" >F</option>
+                                    <%if(currentUser != null) {%>
+                                    <select class="form-control col-sm-6" name="gender" style="width:80%;left:25px; background-color:yellow;">
+                                        <option value=""><%=currentUser.getGender()%></option>
+                                        <option value="M" >M</option>
+                                        <option value="F" >F</option>
                                     </select>
+                                    <%} else if(editedUser != null) {%>
+                                      <select class="form-control col-sm-6" name="gender" style="width:80%;left:25px; background-color:yellow;">
+                                        <option value=""><%=editedUser.getGender()%></option>
+                                        <option value="M" >M</option>
+                                        <option value="F" >F</option>
+                                    </select>
+                                    <%} else {%>
+                                    <select class="form-control col-sm-6" name="gender" style="width:80%;left:25px; background-color:yellow;">
+                                        <option value=""><%=currentUser.getGender()%></option>
+                                        <option value="M" >M</option>
+                                        <option value="F" >F</option>
+                                    </select>
+                                    <%}%>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="contactnumber" style="width:100%">Contact Number<span class="dot">*</span></label>
+                                    <%if(currentUser != null){%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="contactnumber" placeholder="<%=currentUser.getMobileNumber()%>">
+                                    <%} else if(editedUser != null) {%>
+                                    <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="contactnumber" placeholder="<%=editedUser.getMobileNumber()%>">
+                                    <%} else {%>
+                                    <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="contactnumber" placeholder="<%=currentUser.getMobileNumber()%>">
+                                    <%}%>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="email">Email<span class="dot">*</span></label>
+                                    <%if(currentUser != null){%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="email" placeholder="<%=currentUser.getEmailAddress()%>" >
+                                    <%} else if(editedUser != null) {%>
+                                    <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="email" placeholder="<%=editedUser.getEmailAddress()%>" >
+                                    <%} else {%>
+                                    <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="email" placeholder="<%=currentUser.getEmailAddress()%>" >
+                                    <%}%>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="position">Role<span class="dot">*</span></label>
+                                    <%if(currentUser != null){%>
                                     <select class="form-control col-sm-6" style="background-color:yellow;width:80%;left:25px;" id="position" name="position">
                                         <option value="<%=currentUser.getJobTitle()%>"><%=currentUser.getJobTitle()%></option>
-                                        <option value="management">Management</option>
-                                        <option value="generalSpecialist">General Specialist</option>
-                                        <option value="restrictedGeneralist">Restricted Specialist</option>
-                                        <option value="associate">Associate</option>
+                                        <%for (int i = 0; i < userRoles.size(); i++){%>
+                                        <option value="<%=userRoles.get(i)%>"><%=userRoles.get(i)%></option>
+                                        <%}%>
+                                        
                                     </select>
+                                        <%} else if(editedUser != null){%>
+                                         <select class="form-control col-sm-6" style="background-color:yellow;width:80%;left:25px;" id="position" name="position">
+                                        <option value="<%=editedUser.getJobTitle()%>"><%=editedUser.getJobTitle()%></option>
+                                        <%for (int i = 0; i < userRoles.size(); i++){%>
+                                        <option value="<%=userRoles.get(i)%>"><%=userRoles.get(i)%></option>
+                                        <%}%>
+                                        
+                                        </select>
+                                        <%} else {%>
+                                         <select class="form-control col-sm-6" style="background-color:yellow;width:80%;left:25px;" id="position" name="position">
+                                        <option value="<%=currentUser.getJobTitle()%>"><%=currentUser.getJobTitle()%></option>
+                                        <%for (int i = 0; i < userRoles.size(); i++){%>
+                                        <option value="<%=userRoles.get(i)%>"><%=userRoles.get(i)%></option>
+                                        <%}%>
+                                        
+                                    </select>
+                                        <%}%>
                                 </div>
 
 
