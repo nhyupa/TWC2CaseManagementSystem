@@ -224,7 +224,7 @@ public class SendMailSSL {
                     ",\n\n Your password has been changed. \n\n Your System generated password is " + newPassword  
                     + ".\n\n Please change your password upon first log in.\n\n"
                     + "In the event you did not submit a request to change your password, please contact the System"
-                    + "Administrator immediately. \n\nThis is a System generated email, please do not reply.");
+                    + " Administrator immediately. \n\nThis is a System generated email, please do not reply.");
             
             Transport.send(message);
             

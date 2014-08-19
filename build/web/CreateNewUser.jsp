@@ -5,6 +5,7 @@
     Revised by : Sion
 --%>
 
+<%@page import="src.User"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="src.DBConnect"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -59,6 +60,9 @@
                             required: true
                         },
                         realname: {
+                            required: true
+                        },
+                        alias: {
                             required: true
                         },
                         NRIC_No: {
@@ -148,6 +152,18 @@
     <%
         DBConnect.connectDB();
         ArrayList<String> userRoles = DBConnect.getRoles();
+        String newUserFin = null;
+        User createdUser = null;
+        if(session.getAttribute("NewUserFIN") != null){
+            newUserFin  = (String)session.getAttribute("NewUserFIN");
+           
+            createdUser = DBConnect.getUser(newUserFin);
+            session.removeAttribute("NewUserFIN");
+        }
+        
+       
+       
+        
     %>
     <body>
         <%-- left side menus--%>
@@ -201,7 +217,12 @@
 
                         <div class="fileinput fileinput-new" data-provides="fileinput" style="float:right">
                             <div class="fileinput-new thumbnail" style="width: 150px; height: 200px;margin:0 auto;">
+                                <%if(createdUser != null){%>
+                                <img src="image/<%=createdUser.getPhoto()%>"/>
+                                <%} else{%>
                                 <img src="image/default.jpg"/>
+                                <%}%>
+                            
                             </div>
                             <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 200px;margin:0 auto;"></div>
                             <div>
@@ -213,59 +234,107 @@
                         <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
                             <label class="col-sm-3 control-label" for="username" style="width:80%;">Username<span class="dot">*</span></label>
                             <div style="text-indent:10px;margin:0 auto">
+                                <%if(createdUser!=null){%>
+                                
+                                <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;margin:0 auto;" placeholder="<%=createdUser.getUsername()%>" name="username">
+                                <%} else{%>
+                                
                                 <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;margin:0 auto;" name="username">
+                                <%}%>
                             </div>
                         </div> 
                         <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
                             <label class="col-sm-3 control-label" for="realname" style="width:80%;margin:0 auto;">Name<span class="dot">*</span></label>
                             <div style="text-indent:10px;margin:0 auto">
+                            <%if(createdUser!=null){%>
+                            <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;" placeholder="<%=createdUser.getfullName()%>"  name="realname">
+                            <%} else{%>
                             <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;"  name="realname">
+                            <%}%>
                             </div>
                        </div> 
                         
                         <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
                             <label class="col-sm-3 control-label" for="alias" style="width:80%;margin:0 auto;">Alias<span class="dot">*</span></label>
                             <div style="text-indent:10px;margin:0 auto">
+                            
+                            <%if(createdUser!=null){%>    
+                            <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;" placeholder="<%=createdUser.getAlias()%>"  name="alias">
+                            <%} else{%>
                             <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;"  name="alias">
+                            <%}%>
                             </div> 
                         </div>
                         <div class="form-group NRIC_No" style="margin-top:0px;margin-bottom:0px;">
                             <label class="col-sm-3 control-label" for="NRIC_No" style="width:80%;margin:0 auto;">Identification Number(NRIC/FIN)<span class="dot">*</span><br/><span style="color:red;font-size: 9"  id="errorTxt"></span></label>
                            <div style="text-indent:10px;margin:0 auto">
+                            <%if(createdUser!=null){%>
+                            <input id="NIRC_No" type="text" class="form-control col-sm-6" style="width:80%;left:25px;" placeholder="<%=createdUser.getNRICNum()%>" name="NRIC_No">
+                            <%} else{%>
                             <input id="NIRC_No" type="text" class="form-control col-sm-6" style="width:80%;left:25px;" name="NRIC_No">
-                        </div> 
+                            <%}%>
+                           </div> 
                         </div>
                         <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
                             <label class="col-sm-3 control-label" for="gender" style="width:80%;margin:0 auto;">Gender<span class="dot">*</span></label>
                             <div style="text-indent:10px;margin:0 auto">
+                            <%if(createdUser != null){%>
                             <select class="form-control col-sm-6" style="width:80%;left:25px;" name="gender">
+                                <option value=""><%=createdUser.getGender()%></option>
                                 <option value="M">M</option>
                                 <option value="F">F</option>
                             </select>
+                            <%} else {%>
+                            <select class="form-control col-sm-6" style="width:80%;left:25px;" name="gender">
+                                
+                                <option value="M">M</option>
+                                <option value="F">F</option>
+                            </select>
+                            <%}%>
                             </div>
                             </div>
                         <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
                             <label class="col-sm-3 control-label" for="contactnumber" style="width:80%;margin:0 auto;">Contact Number (max: 10 characters)<span class="dot">*</span></label>
                             <div style="text-indent:10px;margin:0 auto">
-                            <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;" name="contactnumber">
+                            <%if(createdUser != null){%>
+                            <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;" placeholder="<%=createdUser.getMobileNumber()%>" name="contactnumber">
+                            <%} else {%>
+                             <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;" name="contactnumber">
+                            <%}%>
                             </div>
                             </div>
 
                         <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
                             <label class="col-sm-3 control-label" for="email" style="width:80%;margin:0 auto;">Email<span class="dot">*</span></label>
                             <div style="text-indent:10px;margin:0 auto">
+                            <%if(createdUser!=null){%>
+                            <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;" placeholder="<%=createdUser.getEmailAddress()%>" name="email">
+                            <%} else{%>
                             <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;" name="email">
+                            <%}%>
                             </div>
                             </div>
                         <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
                             <label class="col-sm-3 control-label" for="position" style="width:80%;margin:0 auto;">Role<span class="dot">*</span></label>
                             <div style="text-indent:10px;margin:0 auto">
-                            <select class="form-control col-sm-6" style="width:80%;left:25px;" id="position" name="position">
+                            <%if(createdUser !=null){%>
+                            <select class="form-control col-sm-6" style="width:80%;left:25px;" id="position"  name="position">
+                                <option value=""><%=createdUser.getJobTitle()%></option>
                                 <option value="">Select an option</option>
                                 <%for(int i =0 ; i < userRoles.size() ; i++){%>
                                 <option value="<%=userRoles.get(i)%>"><%=userRoles.get(i)%></option>
                                <%}%>
                             </select>
+                            <%} else {%>
+                             <select class="form-control col-sm-6" style="width:80%;left:25px;" id="position"  name="position">
+                                
+                                <option value="">Select an option</option>
+                                <%for(int i =0 ; i < userRoles.size() ; i++){%>
+                                <option value="<%=userRoles.get(i)%>"><%=userRoles.get(i)%></option>
+                               <%}%>
+                            </select>
+                            
+                            <%}%>
                             </div>
                         </div> 
                         
@@ -322,7 +391,7 @@
                 </td>
             </tr>
         </table>
-
+        
     </form>
 </body>
 </html>

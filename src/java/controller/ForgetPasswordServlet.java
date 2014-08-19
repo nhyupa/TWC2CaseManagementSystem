@@ -52,7 +52,7 @@ public class ForgetPasswordServlet extends HttpServlet {
                    SendMailSSL sendMailSSL = new SendMailSSL();
                    String newPassword = sendMailSSL.generateEncryptedPassword();
                    sendMailSSL.forgetPasswordSendMail(userName,newPassword);
-                   request.getSession().setAttribute("notificationMsg","New Password has been sent.");
+                   request.getSession().setAttribute("passwordNotificationMsg","New Password has been sent.");
                    DBConnect.updatePassword(userName, newPassword);
                    url = "/TWC2-CaseManagementSystem/index.jsp";
                    response.sendRedirect(url);

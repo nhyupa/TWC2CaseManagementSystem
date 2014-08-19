@@ -20,16 +20,16 @@
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/bootstrap.min.css"/>
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/bootstrap.css"/>
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/Andrew.css"/>
-        
+
         <!--custom stylesheet-->
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/style.css"/>
-        
+
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="/TWC2-CaseManagementSystem/jquery/jquery-1.11.1.min.js"></script>
-        
+
         <!-- Bootstrap v3.1.1 -->
         <script src="/TWC2-CaseManagementSystem/javascript/bootstrap.min.js"></script>
-        
+
         <!--jQuery validate()-->
         <script src="/TWC2-CaseManagementSystem/jquery/jquery-validate-1.12.0.js"></script>
         <!-- password validation-->
@@ -79,7 +79,7 @@
                 });
             }); // end document.ready
         </script>
-        
+
         <script language="javascript">
             function onSubmit(){
                 document.form1.action="ChangePasswordServlet";
@@ -96,7 +96,7 @@
         </script>
     </head>
     <body>
-        
+
         <%
             // retrieve users from database    
             ArrayList<User> users = new ArrayList<User>();
@@ -114,132 +114,136 @@
             }
 
         %>
-        
+
         <%-- left side menus--%>
-   
-            <table border ="2" align="center" class="leftDivision">
-                <%--1st row--%>
-                
-                <tr>
-                    <td rowspan="3" class="container2">
-                        
-                    </td>
-                    <td rowspan="6" class="container10">
-                        
-                    </td>
-                    <td colspan="2" class="container5">
-                        <strong class="headertitle">CHANGE MY PASSWORD</strong>
-                        
-                    </td>
-                    
-                    <td rowspan="2" class="container1">
-                        <img src="image/logo_camans_180w.gif" style="width:100%"/>
-                        <% if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
-                                String user = (String) request.getSession().getAttribute("username");
-                        %>
-                        <div style="height:12%"> </div>
-                        <div class="username-background">
-                            <strong class="word" style="margin-left:8px;"> Hello <%= user%></strong>
-                            </br>
-                            <button style="margin-left:2px;" type="submit" class="btn-logout" name="logout" onclick="onLogout();"><strong class="word">LOGOUT</strong></button>
-                        </div>
-                        <%
-                            }
-                        %>
-                    </td>
-                    
-                </tr>
-                <%--2nd row--%>
-                
-                <tr>
-                    
-                    <td rowspan="4" class="container6" valign="top"> <%--container6 --%>
-                        
+
+        <table border ="2" align="center" class="leftDivision">
+            <%--1st row--%>
+
+            <tr>
+                <td rowspan="3" class="container2">
+
+                </td>
+                <td rowspan="6" class="container10">
+
+                </td>
+                <td colspan="2" class="container5">
+                    <strong class="headertitle">CHANGE MY PASSWORD</strong>
+
+                </td>
+
+                <td rowspan="2" class="container1">
+                    <img src="image/logo_camans_180w.gif" style="width:100%"/>
+                    <% if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
+                            String user = (String) request.getSession().getAttribute("username");
+                    %>
+                    <div style="height:12%"> </div>
+                    <div class="username-background">
+                        <strong class="word" style="margin-left:8px;"> Hello <%= user%></strong>
                         </br>
-                        <div align="left">
-                            <form name="form1" id="changepw-form" role="form" method="post" autocomplete="off">
-                                
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label" style ="width:100%" for="inputOldPassword" >Enter old password</label>
+                        <button style="margin-left:2px;" type="submit" class="btn-logout" name="logout" onclick="onLogout();"><strong class="word">LOGOUT</strong></button>
+                    </div>
+                    <%
+                        }
+                    %>
+                </td>
+
+            </tr>
+            <%--2nd row--%>
+
+            <tr>
+
+                <td rowspan="4" class="container6" valign="top"> <%--container6 --%>
+
+                    </br>
+                    <div align="left">
+                        <form name="form1" id="changepw-form" role="form" method="post" autocomplete="off">
+
+                            <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                                <label class="col-sm-3 control-label" style ="width:100%" for="inputOldPassword" >Enter old password</label>
+                                <div style="text-indent:10px;margin:0 auto">
+
                                     <input type="password" value="" class="form-control col-sm-6" style="width:80%;left:25px;" name="inputOldPassword" id="inputOldPassword" >
-                                    <br/>
                                 </div>
-                                
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label" style ="width:100%" for="inputNewPassword" >Enter new password
-                                    <span style="color:red" id="errorTxt"></span></label>
-                                    
-                                    <input type="password" value="" class="form-control col-sm-6" style="width:80%;left:25px;" name="inputNewPassword" id="inputNewPassword" >
-                                    
-                                    <br/>
-                                    
-                                </div>
-                                <div class="form-group">
-                                    <br/>
-                                    <label class="col-sm-3 control-label" style="width:100%" for="confirmPassword" style="width:45%;">Confirm new password</label>
-                                    
-                                    <input type="password" class="form-control col-sm-6" style="width:80%;left:25px;" name="confirmPassword" id="confirmPassword">
-                                </div>
-                                
-                                <% if (session.getAttribute("successMsg") != null) {
-                              String successMsg = (String) session.getAttribute("successMsg");%>
-                              <label class="col-sm-7 control-label" style="color:green"><%=successMsg%></label> <%}%>
-                              <%session.removeAttribute("successMsg");%>
-                              
-                               <% if (session.getAttribute("errMsg") != null) {
-                              String errorMsg = (String) session.getAttribute("errMsg");%>
-                              <label class="col-sm-7 control-label" style="color:red"><%=errorMsg%></label> <%}%>
-                              <%session.removeAttribute("errMsg");%>
-                              
-                        
-                                
+                               
+                            </div>
+
+                            <div class="form-group"  style="margin-top:0px;margin-bottom:0px;">
+                                <label class="col-sm-3 control-label" style ="width:100%" for="inputNewPassword" >Enter new password </label>
+
+                                    <div style="text-indent:10px;margin:0 auto">
+                                        <span style="color:red;width:80%;font-weight:bold;margin-left:10px;"  id="errorTxt"></span></label></label>
+
+                                        <input type="password" value="" class="form-control col-sm-6" style="width:80%;left:25px;" name="inputNewPassword" id="inputNewPassword" >
+
+                                    </div>
+                         </div>
+                    <div class="form-group"  style="margin-top:0px;margin-bottom:0px;">
+                        <label class="col-sm-3 control-label" style="width:100%" for="confirmPassword" style="width:45%;">Confirm new password</label>
+                        <div style="text-indent:10px;margin:0 auto">
+                            <input type="password" class="form-control col-sm-6" style="width:80%;left:25px;" name="confirmPassword" id="confirmPassword">
                         </div>
-                        </br> 
-                        <!--message-->
-                       
-                        
-                    </td>
-                    
-                    <td class="container11">
-                        
-                    </td>
-                    
-                    
-                </tr>
-                <%--3rd row--%>
-                <tr>
-                    <td rowspan="3" colspan="2" class="container7"> <%--container7 --%>
-                        
-                    </td>
-                    
-                    
-                </tr>
-                <%--4th row--%>
-                <tr>
-                    <td class="container3">
-                        
-                    </td>
-                    
-                </tr>
-                <%--5th row--%>
-                <tr>
-                    <td rowspan="2" class="container4">
-                    </td>
-                    
-                    
-                </tr>
-                <%--6th row--%>
-                <tr>
-                    
-                    <td colspan="3" class="container9" style="border:none;">
-                        <div class="form-actions" style="margin-left:10px;">
-                            <button type="submit" class="btn btn-primary btn-large" onClick="onSubmit()">SUBMIT</button>
-                            <button type="button" class="btn btn-primary btn-large" onclick="onViewMyProfile()">CANCEL</button>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-       
+                    </div>
+
+                    <% if (session.getAttribute("successMsg") != null) {
+                            String successMsg = (String) session.getAttribute("successMsg");%>
+                    <label class="col-sm-7 control-label" style="color:green"><%=successMsg%></label> <%}%>
+                    <%session.removeAttribute("successMsg");%>
+
+                    <% if (session.getAttribute("errMsg") != null) {
+                            String errorMsg = (String) session.getAttribute("errMsg");%>
+                    <label class="col-sm-7 control-label" style="color:green"><%=errorMsg%></label> <%}%>
+                    <%session.removeAttribute("errMsg");%>
+
+
+
+                    </div>
+                    </br> 
+                    <!--message-->
+
+
+                </td>
+
+                <td class="container11">
+
+                </td>
+
+
+            </tr>
+            <%--3rd row--%>
+            <tr>
+                <td rowspan="3" colspan="2" class="container7"> <%--container7 --%>
+
+                </td>
+
+
+            </tr>
+            <%--4th row--%>
+            <tr>
+                <td class="container3">
+
+                </td>
+
+            </tr>
+            <%--5th row--%>
+            <tr>
+                <td rowspan="2" class="container4">
+                </td>
+
+
+            </tr>
+            <%--6th row--%>
+            <tr>
+
+                <td colspan="3" class="container9" style="border:none;">
+                    <div class="form-actions" style="margin-left:10px;">
+                        <button type="submit" class="btn btn-primary btn-large" onClick="onSubmit()">SUBMIT</button>
+                        <button type="button" class="btn btn-primary btn-large" onclick="onViewMyProfile()">CANCEL</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
     </form>
 </body>
 </html>

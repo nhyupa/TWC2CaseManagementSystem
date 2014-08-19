@@ -48,8 +48,8 @@ public class DBConnect {
         try{
             
             Class.forName("com.mysql.jdbc.Driver");
-            dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TWC2DB","root","pqRT:@88z3");
-            //dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TWC2DB","root","password");
+            //dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TWC2DB","root","pqRT:@88z3");
+            dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TWC2DB","root","password");
             statement = dbConnection.createStatement();
             
         }catch(Exception err){
@@ -105,6 +105,38 @@ public class DBConnect {
         return 0;
     }
     
+    public static User getUser(String FIN){
+        
+        User user = null;
+        try{
+            String query = "Select * from tbl_user where NRIC_No ='" + FIN + "';";
+            rs = statement.executeQuery(query);
+            while(rs.next()) {
+                
+                String fullName = rs.getString("Full_Name");
+                String alias = rs.getString("Alias");
+                String username = rs.getString("Username");
+                String password = rs.getString("Password");
+                String emailAddress = rs.getString("Email_Address");
+                String mobileNumber = rs.getString("Phone_Number");
+                String gender = rs.getString("gender");
+                String jobTitle = rs.getString("Job_Title");
+                String photoName = rs.getString("Photo");
+                
+                
+                User newUser = new User(FIN,  fullName, alias, username,  password,  emailAddress,  mobileNumber,  gender,  jobTitle,photoName);
+                user = newUser;
+            }
+            
+            
+        }catch(Exception err) {
+            System.out.println("Error : " + err);
+        }
+        return user;
+            
+            
+     
+    }
     public static void updatePassword(String username, String password) {
         
         try{

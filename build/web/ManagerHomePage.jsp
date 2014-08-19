@@ -1,9 +1,8 @@
 <%-- 
     Document   : ManagerHomePage
-    Created on : Jun 3, 2014, 11:41:16 AM
+    Created on : Jun 3, 2014, 10:47:47 AM
     Author     : keemin.chew.2010
 --%>
-
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="src.*"%>
@@ -11,7 +10,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="stylesheets/Andrew.css"/>
@@ -192,71 +191,57 @@
       
             });
         </script>
-        
-        
-        
+
         <title>Manager Home Page</title>
     </head>
     <body>
         <%-- left side menus--%>
-        <table border ="2" align="center" class="leftDivision">
-            <%--1st row--%>
-            
-            <tr>
-                <td rowspan="3" class="container2" >
-                    
-                </td>
-                <td rowspan="6" class="container10" style="border:none;"  >
-                    
-                </td>
-                <td colspan="2" class="container5">
-                    <strong class="headertitle"> HOME PAGE FOR MANAGER</strong>
-                </td>
-                
-                <td rowspan="2" class="container1">
-                    <img src="image/logo_camans_180w.gif" style="width:100%;"/>
-                    
-                    <%  
-                        DBConnect database = new DBConnect();
-                        DBConnect.connectDB();
-                        ArrayList<User> userList = new ArrayList<User>();
-                        userList = DBConnect.retrieveUsers();
-                      
-                            User loginUser = null;
-                           for (int j = 0; j < userList.size(); j++) {
-                               User user1 = userList.get(j);
-                                 
-                            if (user1.getUsername().equals(session.getAttribute("username").toString())) {  //Find loginUser by using session user information
-                                loginUser = user1;
+        
+            <table border ="2" align="center" class="leftDivision">
+                <%--1st row--%>
+
+                <tr>
+                    <td rowspan="3" class="container2">
+
+                    </td>
+                    <td rowspan="6" class="container10">
+
+                    </td>
+                    <td colspan="2" class="container5" >
+                        <strong class="headertitle">HOME PAGE FOR MANAGER</strong> 
+                    </td>
+
+                    <td rowspan="2" class="container1">
+                        <img src="image/logo_camans_180w.gif" style="width:100%;"/>
+
+                        <%
+                            if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
+                                String user = (String) request.getSession().getAttribute("username");
+                        %>
+                        <div style="height:12%"></div>
+                        <div class="username-background">
+                             <strong style="margin-left:8px;" class="word"> Hello <%= user%></strong>
+                            </br>
+                            <button style="margin-left:2px;" type="submit" class="btn-logout" name="logout" onclick="onLogout();"><strong class="word">LOGOUT</strong></button>
+                        </div>
+                        <%
                             }
-                        }
-                            
-                        if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
-                            String user = (String) request.getSession().getAttribute("username");
-                    %>
-                    <div style="height:12%"></div>
-                    <div class="username-background">
-                        <strong style="margin-left:8px;" class="word"> Hello <%= user%></strong>
-                        </br>
-                        <button style="margin-left:2px;" type="submit" class="btn-logout" name="logout" onclick="onLogout();"><strong class="word">LOGOUT</strong></button>
-                    </div>
-                    <%
-                        }
-                    %>
-                </td>
-                
-            </tr>
-            <%--2nd row--%>
-             <%
+                        %>
+                    </td>
+
+                </tr>
+                <%--2nd row--%>
+                <%
                     String errorMsg = null;
                     if (session.getAttribute("errMsg") != null) {
                         errorMsg = (String) session.getAttribute("errMsg");
                     }
                 %>
-            <tr>
-                
-                <td rowspan="4" class="container6"> <%--container6 --%>
-                    <form name="findForm"  role="form" action ="ManagerFindFINServlet" id="createuser-form"  method="post">
+
+                <tr>
+
+                    <td rowspan="4" class="container6"> <%--container6 --%>
+                        <form name="findForm"  role="form" action ="AdministratorFindFINServlet" id="createuser-form"  method="post">
 
                         <!-- Testing --> 
                         <div class="form-group"  style="width:100%;margin-left:10px">
@@ -448,17 +433,17 @@
                             </table>
                         </div> 
 
-
                         <div class="form-group" style="margin-top:50px;margin-left:10px;float:left;">
                             <button type="submit" class="btn btn-primary btn-large">FIND</button>
                             <% if (errorMsg != null || session.getAttribute("notFoundMsg") != null) {%>
                             <a type =" button" class ="btn btn-primary btn-large" href="CreateProfiles.jsp">Create Profiles </a>
                             <%}%>
                         </div>  
+
                            
                     </form>
                         
-                         <% if (session.getAttribute("errMsg") != null) {%>
+                        <% if (session.getAttribute("errMsg") != null) {%>
                     <label style="color:red"><%=errorMsg%></label> <%}%>
                     <%session.removeAttribute("errMsg");%>
                     
@@ -485,7 +470,7 @@
                     }%>
                     
                     <% if (session.getAttribute("nationalitySearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=nationalitySearchReesultMsg%></label></a> 
+                    <label style="color:green"><%=nationalitySearchReesultMsg%></label>
                     <br>
                     <%}%>
                     <%session.removeAttribute("nationalitySearchResultsMsg");%>
@@ -502,11 +487,11 @@
                      <%for(int i=0; i<nationalitySearchResults.size();i++){ 
                          Worker worker = nationalitySearchResults.get(i);
                          workerName  = worker.getWorkerName();%>
-                         <a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><label style="color:green"><%=workerName%></label></a> 
+                         <a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><a href="CaseMenu.jsp"><label style="color:green"><%=workerName%></label></a> 
                      <br>     
                      <% }%>
                     <%}%>
-                   
+                    <%session.removeAttribute("nationalitySearchResults");%>
                     
                     
                     <!-- SG phone number search Results -->
@@ -573,11 +558,11 @@
                      <%for(int i=0; i<genderSearchResults.size();i++){ 
                          Worker worker = genderSearchResults.get(i);
                          workername = worker.getWorkerName();%>
-                         <a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><label style="color:green"><%=workername%></label></a> 
+                     <a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><label style="color:green"><%=workername%></label></a> 
                      <br>     
                      <% }%>
                     <%}%>
-                    
+                    <%session.removeAttribute("genderSearchResults");%>
                     
                     
                     <!-- Search Not Found Message -->
@@ -592,57 +577,53 @@
                     <br>
                     
                     <%session.removeAttribute("notFoundMsg");%>
-                </td>
-                
-                <td class="container11">
-                    
-                </td>
-                
-                
-            </tr>
-            <%--3rd row--%>
-            <%String jobPosition = loginUser.getJobTitle();%>
-            <tr>
-                <td rowspan="3" colspan="2" class="container7" > <%--container7 --%>
-                    <ul class="navigation-menu">
-                        <li><a href="ViewAllUsers.jsp" class="menu-link">ALL USERS</a></li>
-                        <li><a href="ViewMyProfile.jsp" class="menu-link">MY PROFILE</a></li>
-                        <li><a href="" class="menu-link">REPORT MODULE</a></li>
-                        <li><a href="AssociateHomePage.jsp" class="menu-link">ASSOCIATES' FORMS</a></li>
-                        <li><a href="SpecialistHomePage.jsp" class="menu-link">SPECIALISTS' FORMS</a></li>
-                        <%if(jobPosition.equalsIgnoreCase("Administrator")) {%>
-                        <li><a href="AdminHomePage.jsp" class="menu-link">ADMINISTRATOR'S FORM</a></li>
-                        <%}%>
-                        
-                        
-                    </ul>
-                    
-                </td>
-                
-                
-            </tr>
-            <%--4th row--%>
-            <tr>
-                <td class="container3">
-                    
-                </td>
-                
-            </tr>
-            <%--5th row--%>
-            <tr>
-                <td rowspan="2" class="container4">
-                </td>
-                
-                
-            </tr>
-            <%--6th row--%>
-            <tr>
-                
-                <td colspan="3" class="container9">
-                    
-                </td>
-            </tr>
-        </table>
-        
+                    </td>
+
+                    <td class="container11">
+
+                    </td>
+
+
+                </tr>
+                <%--3rd row--%>
+                <tr>
+                    <td rowspan="3" colspan="2" class="container7"> <%--container7 --%>
+                        <ul class="navigation-menu">
+                            <li><a href="ViewAllUsers.jsp" class="menu-link">ALL USERS</a></li>
+                            <li><a href="ViewMyProfile.jsp" class="menu-link">MY PROFILE</a></li>
+                            <li><a href="CreateNewUser.jsp" class="menu-link">CREATE NEW USER</a></li>
+                            <li><a href="" class="menu-link">REPORT MODULE</a></li>
+                            <li><a href="ManagerHomePage.jsp" class="menu-link">MANAGERS' FORMS</a></li>
+                            <li><a href="SpecialistHomePage.jsp" class="menu-link">SPECIALISTS' FORMS</a></li>
+                            <li><a href="AssociateHomePage.jsp" class="menu-link">ASSOCIATES' FORMS</a></li>
+                        </ul>
+
+                    </td>
+
+
+                </tr>
+                <%--4th row--%>
+                <tr>
+                    <td class="container3">
+
+                    </td>
+
+                </tr>
+                <%--5th row--%>
+                <tr>
+                    <td rowspan="2" class="container4">
+                    </td>
+
+
+                </tr>
+                <%--6th row--%>
+                <tr>
+
+                    <td colspan="3" class="container9">
+
+                    </td>
+                </tr>
+            </table>
+       
     </body>
 </html>

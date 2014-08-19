@@ -139,6 +139,8 @@ public class RegistrationServlet extends HttpServlet {
                 
                
                 if(afterCreatingNewUser > existingNumOfUsers) {
+                    request.getSession().setAttribute("NewUserFIN",NRIC_No);
+                 
                     request.getSession().setAttribute("regMsg", "The User has been created successfully.");
                     response.sendRedirect(url);
                     

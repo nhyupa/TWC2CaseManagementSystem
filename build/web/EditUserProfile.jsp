@@ -19,23 +19,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Edit User Profile</title>
 
-        <!-- Bootstrap v3.1.1 -->
-        <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/bootstrap.min.css"/>
+
 
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/Andrew.css"/>
 
-        <!-- Bootstrap v3.1.1 -->
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/bootstrap.css"/>
 
-        <!--custom stylesheet-->
-        <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/style.css"/>
+        <!--jasny-bootstrap v3.1.3-->
+        <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/jasny-bootstrap.css"/>
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="/TWC2-CaseManagementSystem/jquery/jquery-1.11.1.min.js"></script>
-        <script src="/TWC2-CaseManagementSystem/jquery/bootstrap.js"></script>
-        <script src="/TWC2-CaseManagementSystem/jquery/bootstrap.min.js"></script>
-        <script src="/TWC2-CaseManagementSystem/jquery/jasny-bootstrap.js"></script>
-        <script src="/TWC2-CaseManagementSystem/jquery/jasny-bootstrap.min.js"></script>
+
+        <!--jQuery validate()-->
+        <script src="/TWC2-CaseManagementSystem/jquery/jquery-validate-1.12.0.js"></script>
+
+        <!--jasny-bootstrap v3.1.3-->
+        <script src="/TWC2-CaseManagementSystem/javascript/jasny-bootstrap.js"></script>  
+        <script src="/TWC2-CaseManagementSystem/javascript/holder.js"></script>  
 
         <!-- Bootstrap v3.1.1 -->
         <script src="javascript/bootstrap.min.js"></script>
@@ -145,11 +146,11 @@
                             DBConnect.connectDB();
                             ArrayList<User> userList = new ArrayList<User>();
                             userList = database.getUsers();
-                            
+
                             ArrayList<String> realNames = DBConnect.retrieveSortedRealNames(userList);
-                            ArrayList<User> sortedUsers = DBConnect.retrieveSortedUsers(userList,realNames);
+                            ArrayList<User> sortedUsers = DBConnect.retrieveSortedUsers(userList, realNames);
                             User currentUser = sortedUsers.get(Integer.parseInt(session.getAttribute("userToView").toString()));
-                        
+
                             // to find current login user
                             User loginUser = null;
                             for (int i = 0; i < userList.size(); i++) {
@@ -169,11 +170,26 @@
                         <%session.removeAttribute("notificationMsg");%>
 
                         <form name="form1"  role="form" id="createuser-form"  method="post"> 
-                              
-                           
+            
+                        <div class="fileinput fileinput-new" data-provides="fileinput" style="float:right">
+                            <div class="fileinput-new thumbnail" style="max-width: 150px; max-height: 200px;">
+                                <% if (currentUser.getPhoto() != null) {%>  
+                                <img style="width:150px;height:200px" src="image/<%=currentUser.getPhoto()%>">
+                                <% } else {%> 
+                                <img style="width:150px;height:200px" src="image/default.jpg"/>                                     
+                                <% }%> 
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 200px;"></div>
+                            <div>
+                                <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="file"></span>
+                                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                            </div>
+                        </div>
+                            
+
                             <section id="left">
-    
-                                <span class="dot">*Mandatory field</span><br/>
+
+                                <span class="dot" style="margin-left:10px;">*Mandatory field</span><br/>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="username">Username<span class="dot">*</span></label>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="username" placeholder="<%=currentUser.getUsername()%>">
@@ -182,12 +198,12 @@
                                     <label class="col-sm-3 control-label" for="realname">Name<span class="dot">*</span></label>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="realname" placeholder="<%=currentUser.getfullName()%>">
                                 </div>
-                                
-                                 <div class="form-group">
+
+                                <div class="form-group">
                                     <label class="col-sm-3 control-label" for="alias">Alias<span class="dot">*</span></label>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="alias" placeholder="<%=currentUser.getAlias()%>">
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="FIN" style="width:80%;">Identification Number(NRIC/FIN)<span class="dot">*</span></label>
                                     <p class="form-control col-sm-6" style="width:80%;left:25px;" > <%=currentUser.getNRICNum()%> </p>
@@ -209,15 +225,21 @@
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="email" placeholder="<%=currentUser.getEmailAddress()%>" >
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label" for="position">Position<span class="dot">*</span></label>
-                                    <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="position" placeholder="<%=currentUser.getJobTitle()%>" >
+                                    <label class="col-sm-3 control-label" for="position">Role<span class="dot">*</span></label>
+                                    <select class="form-control col-sm-6" style="background-color:yellow;width:80%;left:25px;" id="position" name="position">
+                                        <option value="<%=currentUser.getJobTitle()%>"><%=currentUser.getJobTitle()%></option>
+                                        <option value="management">Management</option>
+                                        <option value="generalSpecialist">General Specialist</option>
+                                        <option value="restrictedGeneralist">Restricted Specialist</option>
+                                        <option value="associate">Associate</option>
+                                    </select>
                                 </div>
-                                
-                               
+
+
                             </section>
-                                
+
                             <section id="right">
-                             
+
 
                             </section>
                     </td>
@@ -253,20 +275,20 @@
                 <%--6th row--%>
                 <%
                     String jobPosition = loginUser.getJobTitle();%>
-                
+
                 <tr>
 
                     <td colspan="3" class="container9">
                         <div class="form-actions" style="margin-left:10px;">
                             <button type="Submit" class="btn btn-primary btn-large" onClick="onSubmit()">SAVE</button>
                             <a type="button" href="ViewAllUsers.jsp" class="btn btn-primary btn-large">CANCEL</a>                            <!-- <button type="Submit" value="Upload" onclick="onUploadImage()">Upload</button> -->
-                             <%if(jobPosition.equalsIgnoreCase("Administrator")){%>
+                            <%if (jobPosition.equalsIgnoreCase("Administrator")) {%>
                             <a type="button" href="AdminHomePage.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
-                            <%} else if(jobPosition.equalsIgnoreCase("Management")){%>
+                            <%} else if (jobPosition.equalsIgnoreCase("Management")) {%>
                             <a type="button" href="ManagerHomePage.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
-                            <%} else if(jobPosition.equalsIgnoreCase("General Specialist") || jobPosition.equalsIgnoreCase("Restricted Specialist")){%>
+                            <%} else if (jobPosition.equalsIgnoreCase("General Specialist") || jobPosition.equalsIgnoreCase("Restricted Specialist")) {%>
                             <a type="button" href="SpecialistHomePage.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
-                            <%} else if(jobPosition.equalsIgnoreCase("Associate")){%>
+                            <%} else if (jobPosition.equalsIgnoreCase("Associate")) {%>
                             <a type="button" href="AssociateWelcome.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
                             <%}%>
                         </div>     

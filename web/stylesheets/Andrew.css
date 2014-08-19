@@ -18,38 +18,33 @@ background-color: red;
 	
     position: relative;
     width: 12.70%;
+    height: 24.28vh;
     border: 2px solid red;
-    margin:0 auto;
-    line-height: 1.4em;
 
 }
 
 .container2 {
     width: 25.16%;
     position: relative;
-    height: 31vh; 
+    height: 30vh; 
     border: 2px solid red;
-    margin:0 auto;
-    line-height: 1.4em;
+
 }
 
 .container3{	
     position: relative;
     width: 25.16%;
-    height: 30vh;
+    height: 29vh;
     border: 2px solid red;
-    margin:0 auto;
-    line-height: 1.4em;
+   
 }
 
 .container4 {
 	
     position: relative;
     width: 25.16%;
-    height: 31vh;
+    height: 30vh;
     border: 2px solid red;
-    margin:0 auto;
-    line-height: 1.4em;
 
 }
 
@@ -58,8 +53,6 @@ background-color: red;
     width: 57.95%;
     height: 8.57vh;
     border: 2px solid red;
-    margin:0 auto;
-    line-height: 1.4em;
 
 }
 
@@ -68,8 +61,6 @@ background-color: red;
     position: relative;
     width:34.93%;
     border: 2px solid red;
-    margin:0 auto;
-    line-height: 1.4em;
 
 }
 
@@ -77,8 +68,6 @@ background-color: red;
     position: relative;
     width: 35.72%;
     border: 2px solid red;
-    margin:0 auto;
-    line-height: 1.4em;
 
 }
 .container9 {	
@@ -86,8 +75,6 @@ background-color: red;
     width: 71.44%;
     height: 5.72vh;
     border: 2px solid red;
-    margin:0 auto;
-    line-height: 1.4em;
 
 }
 
@@ -96,8 +83,7 @@ background-color: red;
     width: 0.24%;
     background-color: rgb(208,64,32);
     border: 2px solid red;
-    margin:0 auto;
-    line-height: 1.4em;
+
 
 }
 
@@ -107,6 +93,4 @@ background-color: red;
     width: 22.23%;
     height: 14.28vh;
     border: 2px solid red;
-    margin:0 auto;
-    line-height: 1.4em;
 }

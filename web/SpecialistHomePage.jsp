@@ -1,14 +1,11 @@
 <%-- 
     Document   : SpecialistHomePage
-    Created on : August 3, 2014, 11:57:53 AM
-    Author     : Sion
+    Created on : Jun 3, 2014, 10:47:47 AM
+    Author     : keemin.chew.2010
 --%>
 
-<%@page import="src.User"%>
-<%@page import="src.WorkerContactDetails"%>
-<%@page import="src.DBConnect"%>
-<%@page import="src.Worker"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="src.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,13 +19,13 @@
 
         <!--javascript-->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
+        
+        <!--javascript-->
         <script>
             function onLogout(){
-                document.location.href="/LogoutServlet";
+                document.location.href="/TWC2-CaseManagementSystem/LogoutServlet";
             }
             
-
             $(document).ready(function(){
                 $("#Name").hide(); 
                 $("#FIN").hide(); 
@@ -195,66 +192,45 @@
             });
         </script>
 
-
-        <title>Specialist Home Page</title>
-        
+        <title>Administrator Home Page</title>
     </head>
-    
-    <%ArrayList<Worker> nationalitySearchResults1 = DBConnect.retrieveNationalitySearchResults("Myanmar");
-        out.println("ARrayList : " );
-    %>
     <body>
         <%-- left side menus--%>
+        
+            <table border ="2" align="center" class="leftDivision">
+                <%--1st row--%>
 
-        <table border ="2" align="center" class="leftDivision">
-            <%--1st row--%>
+                <tr>
+                    <td rowspan="3" class="container2">
 
-            <tr>
-                <td rowspan="3" class="container2">
+                    </td>
+                    <td rowspan="6" class="container10">
 
-                </td>
-                <td rowspan="6" class="container10" >
+                    </td>
+                    <td colspan="2" class="container5" >
+                        <strong class="headertitle">HOME PAGE FOR SPECIALIST</strong> 
+                    </td>
 
-                </td>
-                <td colspan="2" class="container5" >
-                    <strong class="headertitle"> HOME PAGE FOR SPECIALIST</strong>
-                </td>
+                    <td rowspan="2" class="container1">
+                        <img src="image/logo_camans_180w.gif" style="width:100%;"/>
 
-                <td rowspan="2" class="container1">
-                    <img src="image/logo_camans_180w.gif" style="width:100%;"/>
-  <%
-                      DBConnect database = new DBConnect();
-                        DBConnect.connectDB();
-                        ArrayList<User> userList = new ArrayList<User>();
-                        userList = DBConnect.retrieveUsers();
-                            User loginUser = null;
-                           for (int j = 0; j < userList.size(); j++) {
-                               User user1 = userList.get(j);
-                                 
-                            if (user1.getUsername().equals(session.getAttribute("username").toString())) {  //Find loginUser by using session user information
-                                loginUser = user1;
+                        <%
+                            if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
+                                String user = (String) request.getSession().getAttribute("username");
+                        %>
+                        <div style="height:12%"></div>
+                        <div class="username-background">
+                             <strong style="margin-left:8px;" class="word"> Hello <%= user%></strong>
+                            </br>
+                            <button style="margin-left:2px;" type="submit" class="btn-logout" name="logout" onclick="onLogout();"><strong class="word">LOGOUT</strong></button>
+                        </div>
+                        <%
                             }
-                          }
-                        
-                        if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
-                            String user = (String) request.getSession().getAttribute("username");
-                    %>
-                    <div style="height:12%"></div>
-                    <div class="username-background">
-                        <strong class="word" style="margin-left:8px;" > Hello <%= user%></strong>
-                        </br>
-                        <button style="margin-left:2px;" type="submit" class="btn-logout" name="logout" onclick="onLogout();"><strong class="word">LOGOUT</strong></button>
-                    </div>
-                    <%
-                        }
-                    %>
-                </td>
+                        %>
+                    </td>
 
-            </tr>
-            <%--2nd row--%>
-
-            <tr>
-
+                </tr>
+                <%--2nd row--%>
                 <%
                     String errorMsg = null;
                     if (session.getAttribute("errMsg") != null) {
@@ -262,9 +238,10 @@
                     }
                 %>
 
+                <tr>
 
-                <td rowspan="4" class="container6"> <%--container6 --%>
-                    <form name="findForm"  role="form" action ="SpecialistFindFINServlet" id="createuser-form"  method="post">
+                    <td rowspan="4" class="container6"> <%--container6 --%>
+                        <form name="findForm"  role="form" action ="AdministratorFindFINServlet" id="createuser-form"  method="post">
 
                         <!-- Testing --> 
                         <div class="form-group"  style="width:100%;margin-left:10px">
@@ -456,19 +433,17 @@
                             </table>
                         </div> 
 
-
-
                         <div class="form-group" style="margin-top:50px;margin-left:10px;float:left;">
                             <button type="submit" class="btn btn-primary btn-large">FIND</button>
                             <% if (errorMsg != null || session.getAttribute("notFoundMsg") != null) {%>
                             <a type =" button" class ="btn btn-primary btn-large" href="CreateProfiles.jsp">Create Profiles </a>
                             <%}%>
-                        </div>     
+                        </div>  
+
+                           
                     </form>
-
-
-
-                    <% if (session.getAttribute("errMsg") != null) {%>
+                        
+                        <% if (session.getAttribute("errMsg") != null) {%>
                     <label style="color:red"><%=errorMsg%></label> <%}%>
                     <%session.removeAttribute("errMsg");%>
                     
@@ -495,7 +470,7 @@
                     }%>
                     
                     <% if (session.getAttribute("nationalitySearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=nationalitySearchReesultMsg%></label></a> 
+                    <label style="color:green"><%=nationalitySearchReesultMsg%></label>
                     <br>
                     <%}%>
                     <%session.removeAttribute("nationalitySearchResultsMsg");%>
@@ -510,17 +485,20 @@
                      <% if (session.getAttribute("nationalitySearchResults") != null) {%>
                      <%String workername = null;%>
                      <%for(int i=0; i<nationalitySearchResults.size();i++){ 
- 
                          Worker worker = nationalitySearchResults.get(i);
                          workerName  = worker.getWorkerName();%>
-                         <a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><label style="color:green"><%=workerName%></label></a> 
+                         <a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><a href="CaseMenu.jsp"><label style="color:green"><%=workerName%></label></a> 
                      <br>     
                      <% }%>
                     <%}%>
+                    <%session.removeAttribute("nationalitySearchResults");%>
                     
                     
                     <!-- SG phone number search Results -->
-                                        
+                    
+                    <!-- Nationality Search Results -->
+                    
+                   
                    <%
                     String contactDetailsSearchResultsMsg = null;
                     if (session.getAttribute("contactDetailsSearchResultsMsg") != null) {
@@ -549,6 +527,7 @@
                      <br>     
                      <% }%>
                     <%}%>
+                    <%session.removeAttribute("contactDetailsSearchResults");%>
                     
                     
                     
@@ -579,442 +558,11 @@
                      <%for(int i=0; i<genderSearchResults.size();i++){ 
                          Worker worker = genderSearchResults.get(i);
                          workername = worker.getWorkerName();%>
-                         <a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><label style="color:green"><%=workername%></label></a>
+                     <a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><label style="color:green"><%=workername%></label></a> 
                      <br>     
                      <% }%>
                     <%}%>
-                    
-                    
-                    
-                    
-                    <!-- Name Search Results -->
-                    <%
-                    String nameSearchResultsMsg = null;
-                    if (session.getAttribute("nameSearchResultsMsg") != null) {
-                        nameSearchResultsMsg = (String) session.getAttribute("nameSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("nameSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=nameSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("nameSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> nameSearchResults = null;
-                    if (session.getAttribute("nameSearchResults") != null) {
-                        nameSearchResults = (ArrayList<Worker>)session.getAttribute("nameSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("nameSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<nameSearchResults.size();i++){ 
-                         Worker worker = nameSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    
-                    
-                    
-                    
-                    <!-- FIN Search Results -->
-                    <%
-                    String FINSearchResultsMsg = null;
-                    if (session.getAttribute("FINSearchResultsMsg") != null) {
-                        FINSearchResultsMsg = (String) session.getAttribute("FINSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("FINSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=FINSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("FINSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> FINSearchResults = null;
-                    if (session.getAttribute("FINSearchResults") != null) {
-                        FINSearchResults = (ArrayList<Worker>)session.getAttribute("FINSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("FINSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<FINSearchResults.size();i++){ 
-                         Worker worker = FINSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    
-                    
-                    
-                    
-                    <!-- Home Country Phone Number Search Results -->
-                    <%
-                    String homeCountryPhoneNumberSearchResultsMsg = null;
-                    if (session.getAttribute("homeCountryPhoneNumberSearchResultsMsg") != null) {
-                        homeCountryPhoneNumberSearchResultsMsg = (String) session.getAttribute("homeCountryPhoneNumberSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("homeCountryPhoneNumberSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=homeCountryPhoneNumberSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("homeCountryPhoneNumberSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> HomeCountryPhoneNumberSearchResults = null;
-                    if (session.getAttribute("HomeCountryPhoneNumberSearchResults") != null) {
-                        HomeCountryPhoneNumberSearchResults = (ArrayList<Worker>)session.getAttribute("HomeCountryPhoneNumberSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("HomeCountryPhoneNumberSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<HomeCountryPhoneNumberSearchResults.size();i++){ 
-                         Worker worker = HomeCountryPhoneNumberSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    
-                    
-                    
-                    
-                    <!-- Employer Name Search Results -->
-                    <%
-                    String employerNameSearchResultsMsg = null;
-                    if (session.getAttribute("employerNameSearchResultsMsg") != null) {
-                        employerNameSearchResultsMsg = (String) session.getAttribute("employerNameSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("employerNameSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=employerNameSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("employerNameSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> employerNameSearchResults = null;
-                    if (session.getAttribute("employerNameSearchResults") != null) {
-                        employerNameSearchResults = (ArrayList<Worker>)session.getAttribute("employerNameSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("employerNameSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<employerNameSearchResults.size();i++){ 
-                         Worker worker = employerNameSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    
-                    
-                    
-                    
-                    <!-- Occupation Search Results -->
-                    <%
-                    String occupationSearchResultsMsg = null;
-                    if (session.getAttribute("occupationSearchResultsMsg") != null) {
-                        occupationSearchResultsMsg = (String) session.getAttribute("occupationSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("occupationSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=occupationSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("occupationSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> occupationSearchResults = null;
-                    if (session.getAttribute("occupationSearchResults") != null) {
-                        occupationSearchResults = (ArrayList<Worker>)session.getAttribute("occupationSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("occupationSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<occupationSearchResults.size();i++){ 
-                         Worker worker = occupationSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    
-                    
-                    
-                    
-                    <!-- Workpass Search Results -->
-                    <%
-                    String workpassSearchResultsMsg = null;
-                    if (session.getAttribute("workpassSearchResultsMsg") != null) {
-                        workpassSearchResultsMsg = (String) session.getAttribute("workpassSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("workpassSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=workpassSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("workpassSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> workpassSearchResults = null;
-                    if (session.getAttribute("workpassSearchResults") != null) {
-                        workpassSearchResults = (ArrayList<Worker>)session.getAttribute("workpassSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("workpassSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<workpassSearchResults.size();i++){ 
-                         Worker worker = workpassSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    
-                    
-                    
-                    
-                    <!-- Chief Problem Search Results -->
-                    <%
-                    String chiefProblemSearchResultsMsg = null;
-                    if (session.getAttribute("chiefProblemSearchResultsMsg") != null) {
-                        chiefProblemSearchResultsMsg = (String) session.getAttribute("chiefProblemSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("chiefProblemSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=chiefProblemSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("chiefProblemSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> chiefProblemSearchResults = null;
-                    if (session.getAttribute("chiefProblemSearchResults") != null) {
-                        chiefProblemSearchResults = (ArrayList<Worker>)session.getAttribute("chiefProblemSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("chiefProblemSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<chiefProblemSearchResults.size();i++){ 
-                         Worker worker = chiefProblemSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    
-                    
-                    
-                    
-                    <!-- Aggravating Issue Search Results -->
-                    <%
-                    String aggravatingIssueSearchResultsMsg = null;
-                    if (session.getAttribute("aggravatingIssueSearchResultsMsg") != null) {
-                        aggravatingIssueSearchResultsMsg = (String) session.getAttribute("aggravatingIssueSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("aggravatingIssueSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=aggravatingIssueSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("aggravatingIssueSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> aggravatingIssueSearchResults = null;
-                    if (session.getAttribute("aggravatingIssueSearchResults") != null) {
-                        aggravatingIssueSearchResults = (ArrayList<Worker>)session.getAttribute("aggravatingIssueSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("aggravatingIssueSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<aggravatingIssueSearchResults.size();i++){ 
-                         Worker worker = aggravatingIssueSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    
-                    
-                    
-                    
-                    <!-- Lead Caseworker Search Results -->
-                    <%
-                    String leadCaseworkerSearchResultsMsg = null;
-                    if (session.getAttribute("leadCaseworkerSearchResultsMsg") != null) {
-                        leadCaseworkerSearchResultsMsg = (String) session.getAttribute("leadCaseworkerSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("leadCaseworkerSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=leadCaseworkerSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("leadCaseworkerSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> leadCaseworkerSearchResults = null;
-                    if (session.getAttribute("leadCaseworkerSearchResults") != null) {
-                        leadCaseworkerSearchResults = (ArrayList<Worker>)session.getAttribute("leadCaseworkerSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("leadCaseworkerSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<leadCaseworkerSearchResults.size();i++){ 
-                         Worker worker = leadCaseworkerSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    
-                    
-                    
-                    
-                    
-                    <!-- Auxiliary Caseworker Search Results -->
-                    <%
-                    String auxiliaryCaseworkerSearchResultsMsg = null;
-                    if (session.getAttribute("auxiliaryCaseworkerSearchResultsMsg") != null) {
-                        auxiliaryCaseworkerSearchResultsMsg = (String) session.getAttribute("auxiliaryCaseworkerSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("auxiliaryCaseworkerSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=auxiliaryCaseworkerSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("auxiliaryCaseworkerSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> auxiliaryCaseworkerSearchResults = null;
-                    if (session.getAttribute("auxiliaryCaseworkerSearchResults") != null) {
-                        auxiliaryCaseworkerSearchResults = (ArrayList<Worker>)session.getAttribute("auxiliaryCaseworkerSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("auxiliaryCaseworkerSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<auxiliaryCaseworkerSearchResults.size();i++){ 
-                         Worker worker = auxiliaryCaseworkerSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    
-                    
-                    
-                    
-                    <!-- Hospital Search Results -->
-                    <%
-                    String hospitalSearchResultsMsg = null;
-                    if (session.getAttribute("hospitalSearchResultsMsg") != null) {
-                        hospitalSearchResultsMsg = (String) session.getAttribute("hospitalSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("hospitalSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=hospitalSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("hospitalSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> hospitalSearchResults = null;
-                    if (session.getAttribute("hospitalSearchResults") != null) {
-                        hospitalSearchResults = (ArrayList<Worker>)session.getAttribute("hospitalSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("hospitalSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<hospitalSearchResults.size();i++){ 
-                         Worker worker = hospitalSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    
-                    
-                    
-                    
-                    <!-- Problem Registered Date Search Results -->
-                    <%
-                    String problemRegisteredDateSearchResultsMsg = null;
-                    if (session.getAttribute("problemRegisteredDateSearchResultsMsg") != null) {
-                        problemRegisteredDateSearchResultsMsg = (String) session.getAttribute("problemRegisteredDateSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("problemRegisteredDateSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=problemRegisteredDateSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("problemRegisteredDateSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> problemRegisteredDateSearchResults = null;
-                    if (session.getAttribute("problemRegisteredDateSearchResults") != null) {
-                        problemRegisteredDateSearchResults = (ArrayList<Worker>)session.getAttribute("problemRegisteredDateSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("problemRegisteredDateSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<problemRegisteredDateSearchResults.size();i++){ 
-                         Worker worker = problemRegisteredDateSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-					 
-                    <%}%>
-                    
-                    
-                    
-                    
-                    <!-- Between Date Search Results -->
-                    <%
-                    String betweenDateSearchResultsMsg = null;
-                    if (session.getAttribute("betweenDateSearchResultsMsg") != null) {
-                        betweenDateSearchResultsMsg = (String) session.getAttribute("betweenDateSearchResultsMsg");
-                    }%>
-                    
-                    <% if (session.getAttribute("betweenDateSearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=betweenDateSearchResultsMsg%></label> 
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("betweenDateSearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> betweenDateSearchResults = null;
-                    if (session.getAttribute("betweenDateSearchResults") != null) {
-                        betweenDateSearchResults = (ArrayList<Worker>)session.getAttribute("betweenDateSearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("betweenDateSearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<betweenDateSearchResults.size();i++){ 
-                         Worker worker = betweenDateSearchResults.get(i);
-                         workername = worker.getWorkerName();%>
-                     <label style="color:green"><%=workername%></label> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    
+                    <%session.removeAttribute("genderSearchResults");%>
                     
                     
                     <!-- Search Not Found Message -->
@@ -1029,61 +577,53 @@
                     <br>
                     
                     <%session.removeAttribute("notFoundMsg");%>
-                </td>
+                    </td>
+
+                    <td class="container11">
+
+                    </td>
 
 
-                <td class="container11">
+                </tr>
+                <%--3rd row--%>
+                <tr>
+                    <td rowspan="3" colspan="2" class="container7"> <%--container7 --%>
+                        <ul class="navigation-menu">
+                            <li><a href="ViewAllUsers.jsp" class="menu-link">ALL USERS</a></li>
+                            <li><a href="ViewMyProfile.jsp" class="menu-link">MY PROFILE</a></li>
+                            <li><a href="CreateNewUser.jsp" class="menu-link">CREATE NEW USER</a></li>
+                            <li><a href="" class="menu-link">REPORT MODULE</a></li>
+                            <li><a href="ManagerHomePage.jsp" class="menu-link">MANAGERS' FORMS</a></li>
+                            <li><a href="SpecialistHomePage.jsp" class="menu-link">SPECIALISTS' FORMS</a></li>
+                            <li><a href="AssociateHomePage.jsp" class="menu-link">ASSOCIATES' FORMS</a></li>
+                        </ul>
 
-                </td>
-
-
-            </tr>
-            
-            <%
-                String jobPosition = loginUser.getJobTitle();%>
-            <%--3rd row--%>
-            <tr>
-                <td rowspan="3" colspan="2" class="container7" style="border:none;" > <%--container7 --%>
-                    <ul class="navigation-menu">
-                        <li><a href="ViewAllUsers.jsp" class="menu-link">ALL USERS</a></li>
-                        <li><a href="ViewMyProfile.jsp" class="menu-link">MY PROFILE</a></li>
-                        <li><a href="" class="menu-link">STANDARD REPORT</a></li>
-                        <li><a href="AssociateHomePage.jsp" class="menu-link">ASSOCIATES' FORMS</a></li>
-                        <%if(jobPosition.equalsIgnoreCase("Management") || jobPosition.equalsIgnoreCase("Administrator")) {%>
-                        <li><a href="ManagerHomePage.jsp" class="menu-link">MANAGER's FORMS</a></li>
-                        <%}%>
-                        <%if(jobPosition.equalsIgnoreCase("Administrator")) {%>
-                        <li><a href="AdminHomePage.jsp" class="menu-link">ADMINISTRATOR'S FORM</a></li>
-                        <%}%>
-                    </ul>
-
-                </td>
+                    </td>
 
 
-            </tr>
-            <%--4th row--%>
-            <tr>
-                <td class="container3" style="border:none;">
-                        
-                </td>
+                </tr>
+                <%--4th row--%>
+                <tr>
+                    <td class="container3">
 
-            </tr>
-            <%--5th row--%>
-            <tr>
-                <td rowspan="2" class="container4" style="border:none;">
-                </td>
+                    </td>
+
+                </tr>
+                <%--5th row--%>
+                <tr>
+                    <td rowspan="2" class="container4">
+                    </td>
 
 
-            </tr>
-            <%--6th row--%>
-            <tr>
+                </tr>
+                <%--6th row--%>
+                <tr>
 
-                <td colspan="3" class="container9" style="border:none;">
+                    <td colspan="3" class="container9">
 
-                </td>
-            </tr>
-        </table>
-
+                    </td>
+                </tr>
+            </table>
+       
     </body>
 </html>
-
