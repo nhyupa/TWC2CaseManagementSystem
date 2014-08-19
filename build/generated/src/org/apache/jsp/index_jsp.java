@@ -96,18 +96,31 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            </div>\n");
       out.write("            \n");
       out.write("            ");
- if (request.getAttribute("msgAuth") != null) {
-                String errorMsg = (String) request.getAttribute("msgAuth");
+ if (session.getAttribute("msgAuth") != null) {
+                String msg = (String) session.getAttribute("msgAuth");
       out.write("\n");
       out.write("            <label style=\"color:red\">");
-      out.print(errorMsg);
+      out.print(msg);
       out.write("</label> ");
 }
       out.write("\n");
       out.write("            ");
-request.removeAttribute("msgAuth");
+session.removeAttribute("msgAuth");
       out.write("\n");
       out.write("            \n");
+      out.write("             ");
+ if (session.getAttribute("msgAuthFailed") != null) {
+                String msg = (String) session.getAttribute("msgAuthFailed");
+      out.write("\n");
+      out.write("            <label style=\"color:red\">");
+      out.print(msg);
+      out.write("</label> ");
+}
+      out.write("\n");
+      out.write("            ");
+session.removeAttribute("msgAuthFailed");
+      out.write("\n");
+      out.write("   \n");
       out.write("            ");
  if (session.getAttribute("errorMsg") != null) {
                 String msg = (String) session.getAttribute("errorMsg");
@@ -118,8 +131,9 @@ request.removeAttribute("msgAuth");
 }
       out.write("\n");
       out.write("            ");
-request.removeAttribute("msgAuth");
+session.removeAttribute("errorMsg");
       out.write("\n");
+      out.write("            \n");
       out.write("            ");
  if (session.getAttribute("notificationMsg") != null) {
                 String msg = (String) session.getAttribute("notificationMsg");
@@ -132,9 +146,10 @@ request.removeAttribute("msgAuth");
       out.write("            ");
 request.removeAttribute("msgAuth");
       out.write("\n");
+      out.write("            \n");
       out.write("            ");
- if (request.getAttribute("logoutMsg") != null) {
-                String msg = (String) request.getAttribute("logoutMsg");
+ if (session.getAttribute("logoutMsg") != null) {
+                String msg = (String) session.getAttribute("logoutMsg");
       out.write("\n");
       out.write("            <label style=\"color:red\">");
       out.print(msg);
@@ -142,7 +157,20 @@ request.removeAttribute("msgAuth");
 }
       out.write("\n");
       out.write("            ");
-request.removeAttribute("msgAuth");
+request.removeAttribute("logoutMsg");
+      out.write("\n");
+      out.write("            \n");
+      out.write("             ");
+ if (session.getAttribute("logout") != null) {
+                String msg = (String) session.getAttribute("logout");
+      out.write("\n");
+      out.write("            <label style=\"color:red\">");
+      out.print(msg);
+      out.write("</label> ");
+}
+      out.write("\n");
+      out.write("            ");
+request.removeAttribute("logout");
       out.write("\n");
       out.write("            \n");
       out.write("        </div><!-- end of container-->\n");

@@ -27,19 +27,26 @@ public class LogoutServlet extends HttpServlet {
     }
     
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
-       
+       HttpSession session = request.getSession(false);
+       String url="/TWC2-CaseManagementSystem/index.jsp";
         try{
-            String url="/index.jsp";
-            HttpSession session = request.getSession(false);
+            
+            
             
             if(session != null) {
                 session.invalidate();
-                request.setAttribute("logoutMsg","You have been logged out.");
+                request.getSession().setAttribute("logoutMsg","You have been logged out.");
                 
-                RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher(url);
-                requestDispatcher.forward(request, response);
+                response.sendRedirect(url);
             }
         }catch(Exception err) {
+            session.invalidate();
+            try{
+                request.getSession().setAttribute("logout","You have been logged out.");
+                response.sendRedirect(url);
+            } catch(Exception error){
+                System.out.println("Error : " +err);
+            }
             System.out.println("Error :" + err);
         }
     }

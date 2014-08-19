@@ -76,10 +76,16 @@
                 String msg = (String) session.getAttribute("notificationMsg");%>
             <label style="color:red"><%=msg%></label> <%}%>
             <%request.removeAttribute("msgAuth");%>
-            <% if (request.getAttribute("logoutMsg") != null) {
-                String msg = (String) request.getAttribute("logoutMsg");%>
+            
+            <% if (session.getAttribute("logoutMsg") != null) {
+                String msg = (String) session.getAttribute("logoutMsg");%>
             <label style="color:red"><%=msg%></label> <%}%>
-            <%request.removeAttribute("msgAuth");%>
+            <%request.removeAttribute("logoutMsg");%>
+            
+             <% if (session.getAttribute("logout") != null) {
+                String msg = (String) session.getAttribute("logout");%>
+            <label style="color:red"><%=msg%></label> <%}%>
+            <%request.removeAttribute("logout");%>
             
         </div><!-- end of container-->
         

@@ -188,7 +188,7 @@
                               
                                <% if (session.getAttribute("errMsg") != null) {
                               String errorMsg = (String) session.getAttribute("errMsg");%>
-                              <label class="col-sm-7 control-label" style="color:green"><%=errorMsg%></label> <%}%>
+                              <label class="col-sm-7 control-label" style="color:red"><%=errorMsg%></label> <%}%>
                               <%session.removeAttribute("errMsg");%>
                               
                         
