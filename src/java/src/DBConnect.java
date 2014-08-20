@@ -48,8 +48,8 @@ public class DBConnect {
         try{
             
             Class.forName("com.mysql.jdbc.Driver");
-            //dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TWC2DB","root","pqRT:@88z3");
-            dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TWC2DB","root","password");
+            dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TWC2DB","root","pqRT:@88z3");
+            //dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TWC2DB","root","password");
             statement = dbConnection.createStatement();
             
         }catch(Exception err){
