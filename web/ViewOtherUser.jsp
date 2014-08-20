@@ -167,9 +167,6 @@
                             <%
                                 String currentUserGender = currentUser.getGender();
                                 String formattedGender = currentUserGender.substring(0,1);
-                                
-                                
-                            
                             %>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="Gender"> Gender </label>
@@ -189,25 +186,24 @@
                             </div>
                             <%session.setAttribute("currentUserEmailAddress", currentUser.getEmailAddress());%>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="Position"> Position </label>
+                                <label class="col-sm-3 control-label" for="Position"> Role </label>
                                 <p class="form-control col-sm-6"  style="width:80%;left:25px;"> <%= currentUser.getJobTitle()%> </p>
 
                             </div>
-                        </section>
+                                
+                                <div class="form-group">
                                 <% if (session.getAttribute("resetSuccessMsg") != null) {
                                 String resetMsg = (String) session.getAttribute("resetSuccessMsg");%>
-                                <label class="col-sm-3 control-label" style="color:green"><%=resetMsg%></label> <%}%>
+                                <label class="col-sm-12 control-label" style="color:green"><%=resetMsg%></label> <%}%>
                                 <%session.removeAttribute("resetSuccessMsg");%>
-
-                        <section id="right">
-                            <div>
 
                             </div>
                         </section>
+                                
 
                     </form>
-
-
+                                
+                                
 
                 </td>
 
@@ -250,7 +246,7 @@
                         <button type="submit" form ="userInfo-form" class="btn btn-primary btn-large" onClick="onSubmit()">RESET PASSWORD</button>
                         
                         <button type="button" class="btn btn-primary btn-large" onclick="onEdit()">EDIT</button>
-                        <button type="button" class="btn btn-primary btn-large" onclick="onDelect()">TERMINATE USER'S ROLE</button>
+                       
                         <%}%>
                         <a type="button" href="ViewAllUsers.jsp" class="btn btn-primary btn-large">CANCEL</a>
                         <%if(jobPosition.equalsIgnoreCase("Administrator")){%>

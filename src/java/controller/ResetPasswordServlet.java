@@ -21,7 +21,9 @@ import src.SendMailSSL;
 @WebServlet(name = "ResetPasswordServlet", urlPatterns = {"/ResetPasswordServlet"})
 public class ResetPasswordServlet extends HttpServlet {
 
-    
+    public void doGet(HttpServletRequest request, HttpServletResponse response){
+        doPost(request, response);
+    }
     public void doPost(HttpServletRequest request, HttpServletResponse response){
         
         try{
@@ -30,15 +32,16 @@ public class ResetPasswordServlet extends HttpServlet {
             String username = (String) request.getSession().getAttribute("currentUsername");
             String emailAddress = (String) request.getSession().getAttribute("currentUserEmailAddress");
             String nric_num = (String) request.getSession().getAttribute("currentUserFIN");
+            String loginUsername = (String)request.getSession().getAttribute("username");
             SendMailSSL sendMail = new SendMailSSL();
             
             String encryptedPassword = sendMail.generateEncryptedPassword();
-            sendMail.sendMail(username, emailAddress, nric_num);
+            sendMail.resetMail(loginUsername,encryptedPassword,username);
             request.getSession().setAttribute("lockedNotificationMsg","This user has been locked.");
             
             DBConnect.updatePassword(username, encryptedPassword);
             
-            
+         
             request.getSession().setAttribute("resetSuccessMsg","User's password has been reset.");
             String url = "/TWC2-CaseManagementSystem/ViewOtherUser.jsp";
             response.sendRedirect(url);

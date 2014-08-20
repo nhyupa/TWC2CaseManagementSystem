@@ -219,7 +219,7 @@
                             <p class="form-control col-sm-6" style="width:80%;left:25px;" name="email" > <%=loginUser.getEmailAddress()%> </p>
                         </div> 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" for="email">Position<span class="dot">*</span></label>
+                            <label class="col-sm-3 control-label" for="email">Role<span class="dot">*</span></label>
                             <p class="form-control col-sm-6" style="width:80%;left:25px;" > <%=loginUser.getJobTitle()%> </p>
 
                         </div>

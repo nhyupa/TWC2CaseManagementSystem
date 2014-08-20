@@ -135,8 +135,8 @@ session.removeAttribute("errorMsg");
       out.write("\n");
       out.write("            \n");
       out.write("            ");
- if (session.getAttribute("notificationMsg") != null) {
-                String msg = (String) session.getAttribute("notificationMsg");
+ if (session.getAttribute("passwordNotificationMsg") != null) {
+                String msg = (String) session.getAttribute("passwordNotificationMsg");
       out.write("\n");
       out.write("            <label style=\"color:red\">");
       out.print(msg);
@@ -144,7 +144,7 @@ session.removeAttribute("errorMsg");
 }
       out.write("\n");
       out.write("            ");
-request.removeAttribute("msgAuth");
+request.removeAttribute("passwordNotificationMsg");
       out.write("\n");
       out.write("            \n");
       out.write("            ");

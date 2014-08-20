@@ -20,8 +20,15 @@ import javax.mail.internet.MimeMessage;
 
 public class SendMailSSL {
      
-    
-    public void sendMail(String recipientName, String emailAddress, String FIN, String value) {
+
+    /**Reset Password **/
+    public void resetMail(String recipientName,String encryptedPassword,String username) {
+        
+        
+        DBConnect.connectDB();
+        
+        String emailAddress = DBConnect.retrieveEmailAddress(recipientName);
+        
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
@@ -40,16 +47,15 @@ public class SendMailSSL {
         
         try {
             
-           String generatedPassword = generateEncryptedPassword(); 
+           
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("from@no-spam.com"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(emailAddress));
-            message.setSubject("TWC2: CAMANS- Account Locked notification");
-            message.setText("Dear " + recipientName + "(" + FIN + ")" +
-                    ",\n\n Your account has been locked by the administrator due to inactivity."
-                    + "\n\n Please contact your administrator for further information."
-                    + "\n\n This is a System generated email, please do not reply.");
+            message.setSubject("TWC2: CAMANS- Account Lock Notification");
+            message.setText("Dear " + recipientName +
+                    ",\n\n You reset the password of " + username + "'s account.His/Her password is changed to " + encryptedPassword
+                    + ".\n\n This is a System generated email, please do not reply.");
             
             Transport.send(message);
             
@@ -58,46 +64,10 @@ public class SendMailSSL {
         } catch (MessagingException err) {
             System.out.println("Error : " + err);
         }
+        
     }
     
-    public void sendMail(String recipientName, String emailAddress, String FIN) {
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class",
-                "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
-        props.put("mail.smtp.starttls.enable","true");
-        
-        Session session = Session.getDefaultInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("yupanyeinhtoon@gmail.com","south05621880545581");
-                    }
-                });
-        
-        try {
-            
-           String generatedPassword = generateEncryptedPassword(); 
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("from@no-spam.com"));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(emailAddress));
-            message.setSubject("TWC2: CAMANS- Account Locked notification");
-            message.setText("Dear " + recipientName + "(" + FIN + ")" +
-                    ",\n\n Your account has been locked by the administrator due to inactivity."
-                    + "\n\n Please contact your administrator for further information."
-                    + "\n\n This is a System generated email, please do not reply.");
-            
-            Transport.send(message);
-            
-            System.out.println("Done");
-            
-        } catch (MessagingException err) {
-            System.out.println("Error : " + err);
-        }
-    }
+    
     public void sendMail(String recipientName) {
         
         
