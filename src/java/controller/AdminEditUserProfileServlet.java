@@ -16,6 +16,7 @@ import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import src.DBConnect;
+import src.SendMailSSL;
 
 /**
  *
@@ -140,6 +141,11 @@ public class AdminEditUserProfileServlet extends HttpServlet {
                 
                 if(role != null || !role.equalsIgnoreCase("")){
                     DBConnect.updateJobPosition(role, NRIC_Num);
+                    if(role.equalsIgnoreCase("None")){
+                        SendMailSSL sendMail = new SendMailSSL();
+                        String encryptedPassword = sendMail.generateEncryptedPassword();
+                        sendMail.lockMail(username, encryptedPassword);
+                    }
                 }
                 
                 if(itemName.length() !=0){

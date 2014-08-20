@@ -183,10 +183,7 @@
                         <!--content-->
                         <br/>
                         <!--message-->
-                        <% if (session.getAttribute("notificationMsg") != null) {
-                                String msg = (String) session.getAttribute("notificationMsg");%>
-                        <label style="color:green;"><%=msg%></label> <%}%>
-                        <%session.removeAttribute("notificationMsg");%>
+                        
 
                         <form name="form1"  role="form" id="createuser-form"  method="post" enctype="multipart/form-data"> 
             
@@ -330,8 +327,13 @@
                                     </select>
                                         <%}%>
                                 </div>
-
-
+                                <br/>
+                                
+                                    <% if (session.getAttribute("notificationMsg") != null) {
+                                String msg = (String) session.getAttribute("notificationMsg");%>
+                                <label class="col-sm-12 control-label" style="color:green;"><%=msg%></label> <%}%>
+                                <%session.removeAttribute("notificationMsg");%>
+                            
                             </section>
 
                             <section id="right">
