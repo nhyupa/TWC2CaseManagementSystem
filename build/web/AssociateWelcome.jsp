@@ -213,7 +213,7 @@
                         <a href="AssociateOverviewKarunya.jsp">Karunya overview</a><br>
                         <a href="AssociateOverviewR2R.jsp">R2R overview</a><br>
                         <a href="AssociateViewAssociateProfile.jsp">My profile</a><br>
-                        <a href="AssociateViewAllUsers.jsp">Users gallery</a><br>
+                        <a href="ViewAllUsers.jsp">Users gallery</a><br>
                     </div> 
                  
                 </td> 

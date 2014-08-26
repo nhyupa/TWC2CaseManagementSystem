@@ -36,10 +36,7 @@
 
         <!--jasny-bootstrap v3.1.3-->
         <script src="/TWC2-CaseManagementSystem/javascript/jasny-bootstrap.js"></script>  
-        <script src="/TWC2-CaseManagementSystem/javascript/holder.js"></script>  
 
-        <!-- Bootstrap v3.1.1 -->
-        <script src="javascript/bootstrap.min.js"></script>
 
         <script language="javascript">
             function onSubmit() {
@@ -62,11 +59,11 @@
                 {
                     rules: {
                         username: {
-                            minlength: 8,
-                            required: true
+                            minlength: 8
+                            
                         },
                         realname: {
-                            required: true
+                            
                         },
                         FIN: {
                             required: true
@@ -75,10 +72,11 @@
                             required: true
                         },
                         contactnumber: {
-                            required: true
+                            
+                            maxlength: 10
                         },
                         email: {
-                            required: true,
+                            
                             email: true
                         },
                         position: {
@@ -110,44 +108,44 @@
     %>
     <body>
         <%-- left side menus--%>
-        <div class="leftDivision">
-            <table border ="2">
-                <%--1st row--%>
+        <table border ="2" align="center" class="leftDivision">
+            <%--1st row--%>
 
-                <tr>
-                    <td rowspan="3" class="container2">
+            <tr>
+                <td rowspan="3" class="container2">
 
-                    </td>
-                    <td rowspan="6" class="container10">
+                </td>
+                <td rowspan="6" class="container10">
 
-                    </td>
-                    <td colspan="2" class="container5">
-                        <strong class="headertitle">EDIT USER PROFILE </strong>
+                </td>
+                <td colspan="2" class="container5">
+                    <strong class="headertitle">EDIT USER PROFILE </strong>
 
-                    </td>
+                </td>
 
-                    <td rowspan="2" class="container1">
-                        <img src="image/logo_camans_180w.gif"/>
-                        <% if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
-                                String user = (String) request.getSession().getAttribute("username");
-                        %>
-                        <div class="username-background">
-                            <strong class="word" style="margin-left:8px;"> Hello <%= user%></strong>
-                            </br>
-                            <button style="margin-left:2px;" type="submit" class="btn-logout" name="logout" onclick="onLogout();"><strong class="word">LOGOUT</strong></button>
-                        </div>
-                        <%
-                            }
-                        %>
-                    </td>
+                <td rowspan="2" class="container1">
+                    <img src="image/logo_camans_180w.gif" style="width:100%"/>
+                    <% if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
+                            String user = (String) request.getSession().getAttribute("username");
+                    %>
+                    <div style="height:12%"> </div>
+                    <div class="username-background">
+                        <strong class="word" style="margin-left:8px;"> Hello <%= user%></strong>
+                        </br>
+                        <button style="margin-left:2px;" type="submit" class="btn-logout" name="logout" onclick="onLogout();"><strong class="word">LOGOUT</strong></button>
+                    </div>
+                    <%
+                        }
+                    %>
+                </td>
 
-                </tr>
-                <%--2nd row--%>
+            </tr>
+            <%--2nd row--%>
 
-                <tr>
+            <tr>
 
-                    <td rowspan="4" class="container6" valign="top"> <%--container6 --%>
-                        <%
+                <td rowspan="4" class="container6" valign="top"> <%--container6 --%>
+ <%
                             DBConnect database = new DBConnect();
                             DBConnect.connectDB();
                             ArrayList<User> userList = new ArrayList<User>();
@@ -159,7 +157,7 @@
                             if(session.getAttribute("userToView") != null){
                                 currentUser = sortedUsers.get(Integer.parseInt(session.getAttribute("userToView").toString()));    
                                 session.setAttribute("editedUserFIN", currentUser.getNRICNum());
-                                session.removeAttribute("userToView");
+                                //session.removeAttribute("userToView");
                             }
                             String newUserFin = null;
                             User editedUser = null;
@@ -187,23 +185,28 @@
 
                         <form name="form1"  role="form" id="createuser-form"  method="post" enctype="multipart/form-data"> 
             
-                        <div class="fileinput fileinput-new" data-provides="fileinput" style="float:right">
-                            <div class="fileinput-new thumbnail" style="max-width: 150px; max-height: 200px;">
+                        <div class="fileinput fileinput-new" data-provides="fileinput" style="float:right;margin-right:20px;">
+                            <div class="fileinput-new thumbnail">
+                                
                                 <% if (currentUser!= null) {%>  
-                                <img style="width:150px;height:200px" src="image/<%=currentUser.getPhoto()%>">
-                               
+                                   <%if(currentUser.getPhoto().length() != 0){%>
+                                <img style="width:120px;height:160px" src="image/<%=currentUser.getPhoto()%>">
+                                <%} else{%>
+                                <img style="width:120px;height:160px" src="image/default.jpg">
+                                
+                               <%}%>
                                 <%} else if(editedUser != null){
                                     if(editedUser.getPhoto() != null){
                                 %>
                                     
-                                <img style="width:150px;height:200px" src="image/<%=editedUser.getPhoto()%>"/>
+                                <img style="width:120px;height:160px" src="image/<%=editedUser.getPhoto()%>"/>
                                 <%}else {%>
-                                <img style="width:150px;height:200px" src="image/default.jpg%>"/>
+                                <img style="width:120px;height:160px" src="image/default.jpg%>"/>
                                 <%}} else{%>
-                                <img style="width:150px;height:200px" src="image/default.jpg"/>                                     
+                                <img style="width:120px;height:160px" src="image/default.jpg"/>                                     
                                 <% }%> 
                             </div>
-                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 200px;"></div>
+                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 120px; max-height: 160px;"></div>
                             <div>
                                 <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="file"></span>
                                 <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
@@ -214,8 +217,10 @@
                             <section id="left">
 
                                 <span class="dot" style="margin-left:10px;">*Mandatory field</span><br/>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label" for="username">Username<span class="dot">*</span></label>
+                                <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                                    <label class="col-sm-3 control-label" style="width:80%;margin:0 auto;" for="username">Username<span class="dot">*</span></label>
+                                                                <div style="text-indent:10px;margin:0 auto">
+
                                     <%if(currentUser != null){%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="username" placeholder="<%=currentUser.getUsername()%>">
                                     <%}else if(editedUser != null){%>
@@ -223,9 +228,11 @@
                                     <%} else{%>
                                      <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="username">
                                      <%}%>
+                                                                </div>
                                 </div> 
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label" for="realname">Name<span class="dot">*</span></label>
+                                <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                                    <label class="col-sm-12 control-label"   style="width:80%;margin:0 auto;" for="realname">Full Name<span class="dot">*</span></label>
+                                                                                                    <div style="text-indent:10px;margin:0 auto">
                                     <%if(currentUser != null){%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="realname" placeholder="<%=currentUser.getfullName()%>">
                                     <%}else if(editedUser != null){%>
@@ -233,10 +240,12 @@
                                     <%} else{%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="realname" placeholder="<%=currentUser.getfullName()%>">
                                     <%}%>
+                                                                                                    </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label" for="alias">Alias<span class="dot">*</span></label>
+                                <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                                    <label class="col-sm-6 control-label"   style="width:80%;margin:0 auto;" for="alias">Short Name<span class="dot">*</span></label>
+                                                                                                    <div style="text-indent:10px;margin:0 auto">
                                     <%if(currentUser !=null){%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="alias" placeholder="<%=currentUser.getAlias()%>">
                                     <%} else if(editedUser != null){%>
@@ -244,10 +253,12 @@
                                     <%} else{%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="alias" placeholder="<%=currentUser.getAlias()%>">
                                     <%}%>
+                                                                                                    </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label" for="FIN" style="width:80%;">Identification Number(NRIC/FIN)<span class="dot">*</span></label>
+                                <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                                    <label class="col-sm-3 control-label"  style="width:80%;margin:0 auto;" for="FIN" style="width:100%;">Identification Number (NRIC/FIN)<span class="dot">*</span></label>
+                                                                                                    <div style="text-indent:10px;margin:0 auto">
                                     <%if(currentUser != null){%>
                                     <p class="form-control col-sm-6" style="width:80%;left:25px;" > <%=currentUser.getNRICNum()%> </p>
                                     <%} else if(editedUser != null) {%>
@@ -255,31 +266,35 @@
                                     <%} else{%>
                                     <p class="form-control col-sm-6" style="width:80%;left:25px;" > <%=currentUser.getNRICNum()%> </p>
                                     <%}%>
+                                                                                                    </div>
                                 </div> 
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label" for="gender">Gender<span class="dot">*</span></label>
+                                <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                                    <label class="col-sm-3 control-label"  style="width:80%;margin:0 auto;" for="gender">Gender<span class="dot">*</span></label>
+                                                                                                    <div style="text-indent:10px;margin:0 auto">
                                     <%if(currentUser != null) {%>
                                     <select class="form-control col-sm-6" name="gender" style="width:80%;left:25px; background-color:yellow;">
-                                        <option value=""><%=currentUser.getGender()%></option>
+                                        <option value="<%=currentUser.getGender()%>"><%=currentUser.getGender()%></option>
                                         <option value="M" >M</option>
                                         <option value="F" >F</option>
                                     </select>
                                     <%} else if(editedUser != null) {%>
-                                      <select class="form-control col-sm-6" name="gender" style="width:80%;left:25px; background-color:yellow;">
+                                      <select class="form-control col-sm-6" name="gender" style="width:80%;left:25px; background-color:yellow;margin:0 auto">
                                         <option value=""><%=editedUser.getGender()%></option>
                                         <option value="M" >M</option>
                                         <option value="F" >F</option>
                                     </select>
                                     <%} else {%>
-                                    <select class="form-control col-sm-6" name="gender" style="width:80%;left:25px; background-color:yellow;">
+                                    <select class="form-control col-sm-6" name="gender" style="width:80%;left:25px; background-color:yellow;margin:0 auto">
                                         <option value=""><%=currentUser.getGender()%></option>
                                         <option value="M" >M</option>
                                         <option value="F" >F</option>
                                     </select>
                                     <%}%>
+                                                                                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label" for="contactnumber" style="width:100%">Contact Number<span class="dot">*</span></label>
+                                <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                                    <label class="col-sm-3 control-label" for="contactnumber"  style="width:80%;margin:0 auto;">Phone Number<span class="dot">*</span></label>
+                                                                                                    <div style="text-indent:10px;margin:0 auto">
                                     <%if(currentUser != null){%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="contactnumber" placeholder="<%=currentUser.getMobileNumber()%>">
                                     <%} else if(editedUser != null) {%>
@@ -287,10 +302,12 @@
                                     <%} else {%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="contactnumber" placeholder="<%=currentUser.getMobileNumber()%>">
                                     <%}%>
+                                                                                                    </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label" for="email">Email<span class="dot">*</span></label>
+                                <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                                    <label class="col-sm-3 control-label"  style="width:80%;margin:0 auto;" for="email" >Email<span class="dot">*</span></label>
+                                                                                                    <div style="text-indent:10px;margin:0 auto">
                                     <%if(currentUser != null){%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="email" placeholder="<%=currentUser.getEmailAddress()%>" >
                                     <%} else if(editedUser != null) {%>
@@ -298,9 +315,11 @@
                                     <%} else {%>
                                     <input type="text" class="form-control col-sm-6" style="width:80%;left:25px; background-color:yellow;" name="email" placeholder="<%=currentUser.getEmailAddress()%>" >
                                     <%}%>
+                                                                                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label" for="position">Role<span class="dot">*</span></label>
+                                <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                                    <label class="col-sm-3 control-label"  style="width:80%;margin:0 auto;" for="position">Role<span class="dot">*</span></label>
+                                                                                                    <div style="text-indent:10px;margin:0 auto">
                                     <%if(currentUser != null){%>
                                     <select class="form-control col-sm-6" style="background-color:yellow;width:80%;left:25px;" id="position" name="position">
                                         <option value="<%=currentUser.getJobTitle()%>"><%=currentUser.getJobTitle()%></option>
@@ -326,6 +345,8 @@
                                         
                                     </select>
                                         <%}%>
+                                        
+                                                                                                    </div>
                                 </div>
                                 <br/>
                                 
@@ -340,44 +361,43 @@
 
 
                             </section>
-                    </td>
+                </td>
 
-                    <td class="container11">
+                <td class="container11">
 
-                    </td>
-
-
-                </tr>
-                <%--3rd row--%>
-                <tr>
-                    <td rowspan="3" colspan="2" class="container7"> <%--container7 --%>
-
-                    </td>
+                </td>
 
 
-                </tr>
-                <%--4th row--%>
-                <tr>
-                    <td class="container3">
+            </tr>
+            <%--3rd row--%>
+            <tr>
+                <td rowspan="3" colspan="2" class="container7"> <%--container7 --%>
 
-                    </td>
-
-                </tr>
-                <%--5th row--%>
-                <tr>
-                    <td rowspan="2" class="container4">
-                    </td>
+                </td>
 
 
-                </tr>
-                <%--6th row--%>
-                <%
-                    String jobPosition = loginUser.getJobTitle();%>
+            </tr>
+            <%--4th row--%>
+            <tr>
+                <td class="container3">
 
-                <tr>
+                </td>
 
-                    <td colspan="3" class="container9">
-                        <div class="form-actions" style="margin-left:10px;">
+            </tr>
+            <%--5th row--%>
+            <tr>
+                <td rowspan="2" class="container4">
+                </td>
+
+
+            </tr>
+            <%--6th row--%>
+            <%
+                String jobPosition = loginUser.getJobTitle();%>
+            <tr>
+
+                <td colspan="3" class="container9">
+                  <div class="form-actions" style="margin-left:10px;">
                             <button type="Submit" class="btn btn-primary btn-large" onClick="onSubmit()">SAVE</button>
                             <a type="button" href="ViewAllUsers.jsp" class="btn btn-primary btn-large">CANCEL</a>                            <!-- <button type="Submit" value="Upload" onclick="onUploadImage()">Upload</button> -->
                             <%if (jobPosition.equalsIgnoreCase("Administrator")) {%>
@@ -390,10 +410,9 @@
                             <a type="button" href="AssociateWelcome.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
                             <%}%>
                         </div>     
-                    </td>
-                </tr>
-            </table>
-        </div>
+                </td>
+            </tr>
+        </table>
     </form>
 </body>
 </html>

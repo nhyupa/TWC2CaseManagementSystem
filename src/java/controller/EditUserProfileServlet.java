@@ -31,7 +31,10 @@ public class EditUserProfileServlet extends HttpServlet {
     
     public void doPost (HttpServletRequest request, HttpServletResponse response) {
             String NRIC_Num = (String)request.getSession().getAttribute("FIN");
+            String username = null;
+            String gender = null;
             String realname = null;
+            
             String alias = null;
             String contactNumber = null;
             String itemName = null;
@@ -56,6 +59,12 @@ public class EditUserProfileServlet extends HttpServlet {
                         }
                         else if("realname".equalsIgnoreCase(fieldName)){
                             realname = value;
+                        }
+                        else if("username".equalsIgnoreCase(fieldName)){
+                            username = value;
+                        }
+                        else if("gender".equalsIgnoreCase(fieldName)){
+                            gender = value;
                         }
                         else if("alias".equalsIgnoreCase(fieldName)){
                             alias = value;
@@ -98,9 +107,17 @@ public class EditUserProfileServlet extends HttpServlet {
                 
                 DBConnect.updatePhoto(itemName, NRIC_Num);
             }
-            String url  = "/TWC2-CaseManagementSystem/EditMyProfile.jsp";
-            request.getSession().setAttribute("notificationMsg", "Your profile has been edited");
-            response.sendRedirect(url);
+            
+            if(gender != null){
+                DBConnect.updateUserGender(gender, NRIC_Num);
+            }
+            if(username!=null){
+                DBConnect.updateUsername(username, NRIC_Num);
+            }
+           String url  = "/TWC2-CaseManagementSystem/EditMyProfile.jsp";
+           request.getSession().setAttribute("notificationMsg", "Your profile has been edited");
+           request.getSession().setAttribute("username",username);
+           response.sendRedirect(url);
            
         }catch(Exception err) {
             System.out.println("Error :" + err);

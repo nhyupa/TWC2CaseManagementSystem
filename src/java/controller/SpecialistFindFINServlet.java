@@ -45,7 +45,7 @@ public class SpecialistFindFINServlet extends HttpServlet {
            
             DBConnect database = new DBConnect();
             DBConnect.connectDB();   
-            String url = "/TWC2-CaseManagementSystem/SpecialistHomePage.jsp";
+            String url = "/TWC2-CaseManagementSystem/SpecialistHomePageSearchResult.jsp";
             
             response.getWriter().println("Before: " + sgPhoneNumber);
                
@@ -59,13 +59,15 @@ public class SpecialistFindFINServlet extends HttpServlet {
                 String existedNationality = worker.getNationality();
                 response.getWriter().println("After: " + sgPhoneNumber);
                 
-                if(workerName.length()!= 0){
-                    if(workerName.equalsIgnoreCase(existedWorkername)){
+                if(workerName.length()!= 0 && workerName != null){
+                    ArrayList<Worker> workerNames = DBConnect.retrieveByWorkerNames(workerName);
+                    
+                    if(workerNames != null && workerNames.size() !=0){
                         response.getWriter().println("inside workerName Loop");
                         request.getSession().setAttribute("FIN",existedFINNum);
                         request.getSession().setAttribute("workerName", existedWorkername);
-                        request.getSession().setAttribute("workerObj",worker);
-                        request.getSession().setAttribute("searchResults", "() Records have been found.");
+                        request.getSession().setAttribute("workerNameSearchResults","Records have been found.");
+                        request.getSession().setAttribute("workerObjs",workerNames);
                         response.sendRedirect(url);
                         break;
                     }
@@ -73,19 +75,21 @@ public class SpecialistFindFINServlet extends HttpServlet {
                         if(workers.size()-i ==1){
                             response.getWriter().println("After: " + sgPhoneNumber);
                             request.getSession().setAttribute("notFoundMsg","No Records have been found.");
-                            response.sendRedirect(url);
+                            String homepage = "/TWC2-CaseManagementSystem/SpecialistHomePage.jsp";
+                            response.sendRedirect(homepage);
                         }
                         continue;   
                     }
                 }
                  response.getWriter().println("After: " + sgPhoneNumber);
-                if(FIN.length() !=0) {
-                    if(FIN.equalsIgnoreCase(existedFINNum)){
-                        
-                        response.getWriter().println("After: " + sgPhoneNumber);
+                if(FIN.length() !=0 && FIN != null) {
+                    ArrayList<Worker> workerFins = DBConnect.retrieveByFIN(FIN);
+                    if(workerFins!=null){
+                        response.getWriter().println("inside workerName Loop");
                         request.getSession().setAttribute("FIN",existedFINNum);
                         request.getSession().setAttribute("workerName", existedWorkername);
-                        request.getSession().setAttribute("searchResults", "() Records have been found.");
+                        request.getSession().setAttribute("workerFINSearchResults","Records have been found.");
+                        request.getSession().setAttribute("workerFINObjs",workerFins);
                         response.sendRedirect(url);
                         break;
                     }
@@ -98,19 +102,17 @@ public class SpecialistFindFINServlet extends HttpServlet {
                         continue;   
                     }
                 }
-                 response.getWriter().println("After: " + sgPhoneNumber);
-                if(nationality.length() !=0){
-                    if(nationality.equalsIgnoreCase(existedNationality)){
-                       response.getWriter().println("After: " + sgPhoneNumber);
-                        ArrayList<Worker> nationalitySearchResults = new ArrayList<Worker>();
-                        nationalitySearchResults = DBConnect.retrieveNationalitySearchResults(nationality);
-                        response.getWriter().println("Testing "  + nationalitySearchResults.size());
-                        request.getSession().setAttribute("nationalitySearchResults",nationalitySearchResults);
-                        request.getSession().setAttribute("nationalitySearchResultsMsg", "() Records have been found.");
-                        response.sendRedirect(url);
+                 
+                if(nationality.length() !=0 && nationality!=null){
+                    ArrayList<Worker>nationalitySearchResults = DBConnect.retrieveNationalitySearchResults(nationality);
+                        if(nationalitySearchResults!= null){
+                            response.getWriter().println("After: " + sgPhoneNumber);
+                            response.getWriter().println("Testing "  + nationalitySearchResults.size());
+                            request.getSession().setAttribute("nationalitySearchResults",nationalitySearchResults);
+                            request.getSession().setAttribute("nationalitySearchResultsMsg", "Records have been found.");
+                            response.sendRedirect(url);
                         break;
-                    }
-                    
+                        }
                      else{
                         if(workers.size()-i ==1){
                             response.getWriter().println("After: " + sgPhoneNumber);
@@ -124,18 +126,17 @@ public class SpecialistFindFINServlet extends HttpServlet {
                  response.getWriter().println("daf: " + sgPhoneNumber);
                 /** Needs to record whether the user's choose the value or default value **/
                  
-                if(sgPhoneNumber.length()!=0){
+                if(sgPhoneNumber.length()!=0 && sgPhoneNumber != null){
                     
-                    ArrayList<WorkerContactDetails> contactDetailsSearchResults = new ArrayList<WorkerContactDetails>();
-                    contactDetailsSearchResults = DBConnect.retrieveSgPhoneNumberSearchResults(sgPhoneNumber);
-                    if(contactDetailsSearchResults.size() != 0){
-                        request.getSession().setAttribute("contactDetailsSearchResults",contactDetailsSearchResults);
-                        request.getSession().setAttribute("contactDetailsSearchResultsMsg", "()Records have been found.");
+                    ArrayList<Worker> sgPhoneNumResults = DBConnect.retrieveSgPhoneNumberSearchResults(sgPhoneNumber);
+                    if(sgPhoneNumResults != null){
+                        request.getSession().setAttribute("contactDetailsSearchResults",sgPhoneNumResults);
+                        request.getSession().setAttribute("contactDetailsSearchResultsMsg", "Records have been found.");
                         response.sendRedirect(url);
                         break;
                     }
                     else{
-                        if(contactDetailsSearchResults.size() ==0){
+                        if(sgPhoneNumResults.size() - i ==1){
                             request.getSession().setAttribute("notFoundMsg","No Records have been found.");
                             response.sendRedirect(url);
                         }
@@ -144,14 +145,13 @@ public class SpecialistFindFINServlet extends HttpServlet {
                 }
                 
                 /** Gender problem still needs to be resolved **/
-                if(formattedGender.length() !=0 ){
-                    if(formattedGender.equalsIgnoreCase(existedGender)){
-                       
-                        ArrayList<Worker> genderSearchResults = new ArrayList<Worker>();
-                        
-                        genderSearchResults = DBConnect.retrieveGenderSearchResults(formattedGender.toUpperCase());
-                        request.getSession().setAttribute("genderSearchResults",genderSearchResults);
-                        request.getSession().setAttribute("genderSearchResultsMsg", "() Records have been found.");
+                if(formattedGender.length() !=0 && formattedGender != null){
+                    ArrayList<Worker> genderSearchResults = DBConnect.retrieveGenderSearchResults(formattedGender.toUpperCase());
+                    if(genderSearchResults!= null){
+                        request.getSession().setAttribute("FIN",existedFINNum);
+                        request.getSession().setAttribute("workerName", existedWorkername);
+                        request.getSession().setAttribute("workerGenderSearchResults","Records have been found.");
+                        request.getSession().setAttribute("workerGenderObjs",genderSearchResults);
                         response.sendRedirect(url);
                         break;
                     }

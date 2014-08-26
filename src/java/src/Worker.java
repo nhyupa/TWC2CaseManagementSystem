@@ -45,6 +45,14 @@ public class Worker {
         this.gender = gender;
         this.nationality = nationality;
     }
+     
+   public Worker(String FIN_Num, String workerName, String gender, String nationality, String workerRegDate){
+       this.FIN_Num = FIN_Num;
+       this.workerName = workerName;
+       this.gender = gender;
+       this.nationality = nationality;
+       this.workerRegistrationDate = workerRegDate;
+   }
     
     public Worker(String FIN_Num,String registrationDate,String workerName, String socialWorkerName, String gender, String nationality,String dateOfBirth){
         this.FIN_Num = FIN_Num;

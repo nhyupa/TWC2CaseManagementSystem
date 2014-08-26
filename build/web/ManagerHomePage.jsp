@@ -11,7 +11,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="stylesheets/Andrew.css"/>
         <!-- Bootstrap v3.1.1 -->
@@ -262,7 +261,7 @@
                         <form name="findForm"  role="form" action ="AdministratorFindFINServlet" id="createuser-form"  method="post">
 
                         <!-- Testing --> 
-                        <div class="form-group"  style="width:100%;margin-left:10px">
+                        <div style="width:100%;margin-left:10px">
                             <table> 
                                 <tr>
                                     <td>
@@ -610,13 +609,10 @@
                         <ul class="navigation-menu">
                             <li><a href="ViewAllUsers.jsp" class="menu-link">ALL USERS</a></li>
                             <li><a href="ViewMyProfile.jsp" class="menu-link">MY PROFILE</a></li>
-                            <li><a href="CreateNewUser.jsp" class="menu-link">CREATE NEW USER</a></li>
+                            
                             <li><a href="" class="menu-link">REPORT MODULE</a></li>
                              <%if(jobPosition.equalsIgnoreCase("Administrator")) {%>
                             <li><a href="AdminHomePage.jsp" class="menu-link">ADMINISTRATORS' FORMS</a></li>
-                            <%}%>
-                            <%if(jobPosition.equalsIgnoreCase("Administrator") || jobPosition.equalsIgnoreCase("Management")){%>
-                            <li><a href="ManagerHomePage.jsp" class="menu-link">MANAGERS' FORMS</a></li>
                             <%}%>
                             <%if(jobPosition.equalsIgnoreCase("Administrator") || jobPosition.equalsIgnoreCase("Restricted Specialist") || jobPosition.equalsIgnoreCase("General Specialist") || jobPosition.equalsIgnoreCase("Management")){%>
                             <li><a href="SpecialistHomePage.jsp" class="menu-link">SPECIALISTS' FORMS</a></li>

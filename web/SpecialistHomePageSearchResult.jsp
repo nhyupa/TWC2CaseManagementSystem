@@ -1,7 +1,7 @@
 <%-- 
     Document   : SpecialistHomePageSearchResult
     Created on : August 3, 2014, 11:57:53 AM
-    Author     : Sion
+    Author     : Sion & Yupa
 --%>
 
 <%@page import="java.util.ArrayList"%>
@@ -13,7 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="stylesheets/Andrew.css"/>
+        <link rel="stylesheet" href="stylesheets/Beatrice.css"/>
         <!-- Bootstrap v3.1.1 -->
         <link rel="stylesheet" href="stylesheets/bootstrap.css"/>
         <link href="assets/css/font-awesome.css" rel="stylesheet" />
@@ -59,24 +59,15 @@
     </head>
     
    <%
-                    ArrayList<Worker> nationalitySearchResults = null;
-                    if (session.getAttribute("nationalitySearchResults") != null) {
-                        nationalitySearchResults = (ArrayList<Worker>)session.getAttribute("nationalitySearchResults");
-                    }
-                    
-                    ArrayList<Worker> genderSearchResults = null;
-                    if (session.getAttribute("genderSearchResults") != null) {
-                        genderSearchResults = (ArrayList<Worker>)session.getAttribute("genderSearchResults");
-                    }
-                    
-                    Worker workerFromNameSearchResult = null;
-                    if (session.getAttribute("searchResults") != null) {
-                         workerFromNameSearchResult = (Worker)session.getAttribute("workerObj");
-                    }
+                    ArrayList<Worker> workerFromNameSearchResult = (ArrayList<Worker>)session.getAttribute("workerObjs");
+                    ArrayList<Worker> workerFromFINSearchResult = (ArrayList<Worker>)session.getAttribute("workerFINObjs");
+                    ArrayList<Worker> nationalitySearchResults = (ArrayList<Worker>)session.getAttribute("nationalitySearchResults");
+                    ArrayList<Worker> genderSearchResults = (ArrayList<Worker>)session.getAttribute("workerGenderObjs");
+                    ArrayList<Worker> workersFromSgPhoneNumSearchResults = (ArrayList<Worker>)session.getAttribute("contactDetailsSearchResults");
                     
                    
                  
-   %>
+   %>               
     
     
     
@@ -94,7 +85,7 @@
                 <td rowspan="6" class="container10" >
 
                 </td>
-                <td colspan="2" class="container5" >
+                <td class="container5" >
                     <strong class="headertitle">SPECIALIST SEARCH RESULTS PAGE</strong>
                 </td>
 
@@ -114,7 +105,7 @@
                     <%
                         }
                     %>
-                </td>
+                </td
 
             </tr>
             <%--2nd row--%>
@@ -143,35 +134,110 @@
                                             <th>Name</th>
                                             <th>Gender</th>
                                             <th>Nationality</th>
+                                            <th>Worker Registration Date</th>
+                                                
                           
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <%if(workerFromNameSearchResult !=null){%>
-                                        <tr class="odd gradeX">
-                                    <td><a href="CaseMenu.jsp"><%=workerFromNameSearchResult.getFIN_Num()%></a></td>
-                                            <td><%=workerFromNameSearchResult.getWorkerName()%></td>
-                                            <td><%=workerFromNameSearchResult.getGender()%></td>
-                                            <td class="center"><%=workerFromNameSearchResult.getNationality()%></td>
-                                     
+                                        <%if(workersFromSgPhoneNumSearchResults!=null && workersFromSgPhoneNumSearchResults.size()!=0){%>
+                                    <%for(int i=0 ; i < workersFromSgPhoneNumSearchResults.size(); i++){
+                                    
+                                    
+                                    Worker worker = workersFromSgPhoneNumSearchResults.get(i);
+                                            String workerName = worker.getWorkerName();
+                                            String FIN_Number = worker.getFIN_Num();
+                                            String gender = worker.getGender();
+                                            String nationality = worker.getNationality();
+                                            String workerRegDate = worker.getWorkerRegistrationDate(); %>  
+                                            
+                                            <tr class="odd gradeX">
+                                            <td><a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><%=FIN_Number%></a></td>
+                                            <td><%=workerName%></td>
+                                            <td><%=gender%></td>
+                                            <td class="center"><%=nationality%></td>
+                                            <td><%=workerRegDate%></td>
                                         </tr>
-                                    <%}%>
-                                    <%if(nationalitySearchResults != null){%>
+                                        <%}%>
+                                        <%}%>
+                                        
+                                        
+                                        
+                                        
+                                    <%if(genderSearchResults!=null && genderSearchResults.size()!=0){%>
+                                    <%for(int i=0 ; i < genderSearchResults.size(); i++){
+                                    
+                                    
+                                    Worker worker = genderSearchResults.get(i);
+                                            String workerName = worker.getWorkerName();
+                                            String FIN_Number = worker.getFIN_Num();
+                                            String gender = worker.getGender();
+                                            String nationality = worker.getNationality();
+                                            String workerRegDate = worker.getWorkerRegistrationDate(); %>  
+                                            
+                                            <tr class="odd gradeX">
+                                            <td><a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><%=FIN_Number%></a></td>
+                                            <td><%=workerName%></td>
+                                            <td><%=gender%></td>
+                                            <td class="center"><%=nationality%></td>
+                                            <td><%=workerRegDate%></td>
+                                        </tr>
+                                        <%}%>
+                                        <%}%>
+                                    <%if(workerFromFINSearchResult!= null &&workerFromFINSearchResult.size()!=0){%>
+                                    <%for(int i = 0;  i< workerFromFINSearchResult.size(); i++){
+                                            Worker worker = workerFromFINSearchResult.get(i);
+                                            String workerName = worker.getWorkerName();
+                                            String FIN_Number = worker.getFIN_Num();
+                                            String gender = worker.getGender();
+                                            String nationality = worker.getNationality();
+                                            String workerRegDate = worker.getWorkerRegistrationDate(); %>  
+                                            
+                                            <tr class="odd gradeX">
+                                            <td><a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><%=FIN_Number%></a></td>
+                                            <td><%=workerName%></td>
+                                            <td><%=gender%></td>
+                                            <td class="center"><%=nationality%></td>
+                                            <td><%=workerRegDate%></td>
+                                        </tr>
+                                        <%}%>
+                                        <%}%>
+                                    
+                                    <%if(workerFromNameSearchResult != null && workerFromNameSearchResult.size()!=0){%>
+                                        <%for(int i =0 ; i < workerFromNameSearchResult.size(); i++){
+                                            Worker worker = workerFromNameSearchResult.get(i);
+                                            String workerName = worker.getWorkerName();
+                                            String FIN_Number = worker.getFIN_Num();
+                                            String gender = worker.getGender();
+                                            String nationality = worker.getNationality();
+                                            String workerRegDate = worker.getWorkerRegistrationDate();        
+                                        %>
+                                        <tr class="odd gradeX">
+                                            <td><a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><%=FIN_Number%></a></td>
+                                            <td><%=workerName%></td>
+                                            <td><%=gender%></td>
+                                            <td class="center"><%=nationality%></td>
+                                            <td><%=workerRegDate%></td>
+                                        </tr>
+                                        <%}%>
+                                        <%}%>
+                                    <%if(nationalitySearchResults != null && nationalitySearchResults.size()!=0){%>
                                         <%for(int i = 0 ; i < nationalitySearchResults.size();i++){
                                             Worker worker = nationalitySearchResults.get(i);
                                             String workerName = worker.getWorkerName();
                                             String FIN_Number = worker.getFIN_Num();
                                             String gender = worker.getGender();
                                             String nationality = worker.getNationality();
+                                            String workerRegDate = worker.getWorkerRegistrationDate(); 
                                            
                                         %>
                                         
                                         <tr class="odd gradeX">
-                                            <td><a href="CaseMenu.jsp"><%=FIN_Number%></a></td>
+                                            <td><a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><%=FIN_Number%></a></td>
                                             <td><%=workerName%></td>
                                             <td><%=gender%></td>
                                             <td class="center"><%=nationality%></td>
-                                     
+                                            <td><%=workerRegDate%></td>
                                         </tr>
                                         <%}%>
                                         
@@ -211,24 +277,18 @@
                     <%session.removeAttribute("nationalitySearchResultsMsg");%>
                 </td>
 
-
-                <td class="container11">
-
-                </td>
-
-
             </tr>
             <%--3rd row--%>
             <tr>
-                <td rowspan="3" colspan="2" class="container7" style="border:none;" > <%--container7 --%>
+                <td rowspan="3" class="container7" style="margin-right:10px;"> <%--container7 --%>
                     <ul class="navigation-menu">
-                        <li><a href="ViewAllUsers.jsp" class="menu-link">ALL USERS</a></li>
-                        <li><a href="ViewMyProfile.jsp" class="menu-link">MY PROFILE</a></li>
-                        <li><a href="" class="menu-link">STANDARD REPORT</a></li>
-                        <li><a href="AssociateHomePage.jsp" class="menu-link">ASSOCIATES' FORMS</a></li>
-                        <li><a href="SpecialistHomePage.jsp" class="menu-link">SPECIALISTS' FORMS</a></li>
-                        <li><a href="ManagerHomePage.jsp" class="menu-link">MANAGER's FORMS</a></li>
-                        <li><a href="AdminHomePage.jsp" class="menu-link">ADMINISTRATOR'S FORM</a></li>
+                        <li><a href="ViewAllUsers.jsp" class="menu-link" style="font-size:13px;">ALL USERS</a></li>
+                        <li><a href="ViewMyProfile.jsp" class="menu-link" style="font-size:13px;">MY PROFILE</a></li>
+                        <li><a href="" class="menu-link" style="font-size:13px;">STANDARD REPORT</a></li>
+                        <li><a href="AssociateHomePage.jsp" class="menu-link" style="font-size:13px;">ASSOCIATES' FORMS</a></li>
+                        <li><a href="SpecialistHomePage.jsp" class="menu-link" style="font-size:13px;">SPECIALISTS' FORMS</a></li>
+                        <li><a href="ManagerHomePage.jsp" class="menu-link" style="font-size:13px;">MANAGER's FORMS</a></li>
+                        <li><a href="AdminHomePage.jsp" class="menu-link" style="font-size:13px;">ADMINISTRATOR'S FORM</a></li>
                         
                     </ul>
 
@@ -238,14 +298,14 @@
             </tr>
             <%--4th row--%>
             <tr>
-                <td class="container3" style="border:none;">
+                <td class="container3">
 
                 </td>
 
             </tr>
             <%--5th row--%>
             <tr>
-                <td rowspan="2" class="container4" style="border:none;">
+                <td rowspan="2" class="container4">
                 </td>
 
 
@@ -253,7 +313,7 @@
             <%--6th row--%>
             <tr>
 
-                <td colspan="3" class="container9" style="border:none;">
+                <td colspan="2" class="container9">
 
                 </td>
             </tr>

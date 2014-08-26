@@ -12,7 +12,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         
         <link rel="stylesheet" href="stylesheets/Andrew.css"/>
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/associate.css"/>
@@ -92,7 +91,7 @@
             %>
             <tr>
                 
-                <td rowspan="4" class="container6"> <%--container6 --%>
+                <td rowspan="4" class="container6" style="margin-left:10px;"> <%--container6 --%>
                     <strong>Find worker</strong>
                     <br>
                     <form name="find" action="FindFINServlet">
@@ -143,7 +142,7 @@
                       <ul class="navigation-menu">
                             <li><a href="ViewAllUsers.jsp" class="menu-link">ALL USERS</a></li>
                             <li><a href="ViewMyProfile.jsp" class="menu-link">MY PROFILE</a></li>
-                            <li><a href="CreateNewUser.jsp" class="menu-link">CREATE NEW USER</a></li>
+                            
                           
                             <%if(jobPosition.equalsIgnoreCase("Administrator")) {%>
                             <li><a href="AdminHomePage.jsp" class="menu-link">ADMINISTRATORS' FORMS</a></li>
@@ -154,8 +153,7 @@
                             <%if(jobPosition.equalsIgnoreCase("Administrator") || jobPosition.equalsIgnoreCase("Restricted Specialist") || jobPosition.equalsIgnoreCase("General Specialist") || jobPosition.equalsIgnoreCase("Management")){%>
                             <li><a href="SpecialistHomePage.jsp" class="menu-link">SPECIALISTS' FORMS</a></li>
                             <%}%>
-                           
-                            <li><a href="AssociateHomePage.jsp" class="menu-link">ASSOCIATES' FORMS</a></li>
+                            
                         </ul>
                         
                         

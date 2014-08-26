@@ -29,43 +29,52 @@
         <%
             
             String userToView = request.getParameter("userToView");
+            session.setAttribute("userView", userToView);
+            ArrayList<Worker> workerFromNameSearchResults = (ArrayList<Worker>)session.getAttribute("workerObjs"); 
+            ArrayList<Worker> workerFromFINSearchResult = (ArrayList<Worker>)session.getAttribute("workerFINObjs");
+           
+            String FIN = null;
+           
+            if(workerFromNameSearchResults != null && workerFromNameSearchResults.size() != 0 ){
+                Worker worker = null;
+                if(userToView != null){
+                    worker = workerFromNameSearchResults.get(Integer.parseInt(userToView));
+                    
+                    FIN = worker.getFIN_Num();
+                    session.setAttribute("FIN",FIN);
+                    session.removeAttribute("workerObjs");
+                }
+                else {
+                    FIN = (String)session.getAttribute("FIN");
+                } 
+            }
             
             
-            ArrayList<Worker> nationalitySearchResults = (ArrayList<Worker>)session.getAttribute("nationalitySearchResults");
-            ArrayList<Worker> genderSearchResults = (ArrayList<Worker>)session.getAttribute("genderSearchResults");
+            /** Worker FIN **/
+          
+            if(workerFromFINSearchResult != null && workerFromFINSearchResult.size() != 0 ){
+                Worker worker = null;
+                if(userToView != null){
+                    worker = workerFromFINSearchResult.get(Integer.parseInt(userToView));
+                    
+                    FIN = worker.getFIN_Num();
+                    session.setAttribute("FIN",FIN);
+                    session.removeAttribute("workerFINObjs");
+                }
+                else {
+                    FIN = (String)session.getAttribute("FIN");
+                } 
+            }
+            
+          
          
-       
-            String FIN = (String)session.getAttribute("FIN");
+            
+            
             String tempFIN = "";
             
-            /** Nationlaty Search Results **/
-            /**
-            if(nationalitySearchResults != null){
-               
-                Worker worker = nationalitySearchResults.get(Integer.parseInt(userToView));
-                tempFIN = worker.getFIN_Num();
-                session.setAttribute("FIN_Number",tempFIN);
-                //session.removeAttribute("FIN");
-                session.removeAttribute("nationalitySearchResults");
-            }
-            
-           **/
-            /** Gender Search Results**/
-            /**
-            if(genderSearchResults != null){
-                Worker worker = genderSearchResults.get(Integer.parseInt(userToView));
-                tempFIN = worker.getFIN_Num();
-                session.setAttribute("FIN_Number",tempFIN);
-                //session.removeAttribute("FIN");
-                session.removeAttribute("genderSearchResults");
-            }
-            
-            
-             if(session.getAttribute("FIN_Number") != null){
-                FIN = (String)session.getAttribute("FIN_Number");
-                
-            }
-            **/
+          
+           
+           
             String workerName = DBConnect.getWorkername(FIN);
             String phoneNumber = null;
             
@@ -121,7 +130,7 @@
                             %>
                         <div class="col-md-5">
                             <div style="height:5px;"></div>
-                            <div class="thumbnail" style="width: 150px; height: 200px;"><img src ="WorkerFacePicture/<%=pictureName%>"></div>
+                            <div class="thumbnail" style="width: 120px; height: 160px;"><img src ="WorkerFacePicture/<%=pictureName%>"></div>
                         </div>
                     </td>
 
@@ -140,15 +149,17 @@
                         DBConnect.connectDB();
                         ArrayList<User> userList = new ArrayList<User>();
                         userList = DBConnect.retrieveUsers();
-                      
+                        
                             User loginUser = null;
                            for (int j = 0; j < userList.size(); j++) {
                                User user1 = userList.get(j);
-                                 
+                               
                             if (user1.getUsername().equals(session.getAttribute("username").toString())) {  //Find loginUser by using session user information
                                 loginUser = user1;
+                                
                             }
                         }
+                            
                             if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                 String user = (String) request.getSession().getAttribute("username");
                         %>
@@ -205,7 +216,7 @@
                         </div>
                         <div style="margin-left:5px;"> 
                             <div class="col-md-8">
-                                <a href="ViewJobProfile.jsp" >View full profile</a>
+                                <a href="/TWC2-CaseManagementSystem/ViewJobProfile.jsp" >View full profile</a>
                             </div>
                             <div class="col-md-4">
                                 <a href="ListExistingJobProfile.jsp">Not this job</a>
@@ -275,24 +286,29 @@
 
                 </tr>
                 <%--6th row--%>
-                <%String jobPosition = loginUser.getJobTitle();%>
                 
+                <%
+                String jobPosition = "";
+                if(loginUser != null){
+                    jobPosition = loginUser.getJobTitle();%>
+                  
+                <%}%>
                 <tr>
 
                     <td colspan="2" class="container9">
                         
                         <% if(jobPosition.equalsIgnoreCase("Administrator")) {%>
-                            <a type="button" class="btn btn-primary btn-large" href="AdminHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
+                            <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/AdminHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
                         <%}%>
                         <% if(jobPosition.equalsIgnoreCase("Management")) {%>
-                            <a type="button" class="btn btn-primary btn-large" href="ManagerHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
+                            <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/ManagerHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
                         <%}%>
                         <% if(jobPosition.equalsIgnoreCase("General Specialist") ||jobPosition.equalsIgnoreCase("Restricted Specialist")) {%>
-                            <a type="button" class="btn btn-primary btn-large" href="SpecialistHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
+                            <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/SpecialistHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
                         <%}%>
                         
                         
-                        <a type="button" style="height:55px; line-height: 40px"class="btn btn-primary btn-large" href="ListAttachment.jsp">Attachments</a>
+                        <a type="button" style="height:55px; line-height: 40px"class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/ListAttachment.jsp">Attachments</a>
                     
                     </td>
                 </tr>

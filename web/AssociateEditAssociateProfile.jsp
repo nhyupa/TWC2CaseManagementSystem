@@ -17,9 +17,19 @@
         <!--stylesheet-->
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/associate.css"/>
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/bootstrap.css"/>
+        
         <!--jasny-bootstrap v3.1.3-->
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/jasny-bootstrap.css"/>
-        
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="/TWC2-CaseManagementSystem/jquery/jquery-1.11.1.min.js"></script>
+
+        <!--jQuery validate()-->
+        <script src="/TWC2-CaseManagementSystem/jquery/jquery-validate-1.12.0.js"></script>
+
+        <!--jasny-bootstrap v3.1.3-->
+        <script src="/TWC2-CaseManagementSystem/javascript/jasny-bootstrap.js"></script>  
+        <script src="/TWC2-CaseManagementSystem/javascript/holder.js"></script>  
                     
         <style>
             .form-control-associate{
@@ -109,13 +119,13 @@
                 </td> 
             </tr>
             <tr>
-                <td class="containerD" style="height:10%;">
+                <td class="containerD" style="height:10%;text-indent:20px;">
                          <div class="headertitle-associate">EDIT MY PROFILE </div>
                 </td> 
             </tr>
 
             <tr>
-                <td class="containerE" style="height:10%;">
+                <td class="containerE" style="height:10%; text-indent:10px;">
                     
                     <%    if (loginUser==null){response.sendRedirect("index.jsp"); return;} %>
                        
@@ -125,21 +135,38 @@
                          <%
                          session.setAttribute("NRIC",loginUser.getNRICNum());
                         %>     
+                        
+                            <div class="fileinput fileinput-new" data-provides="fileinput" style="float:left;margin-left:20px;" align="center">
+                            <div class="fileinput-new thumbnail" style="max-width: 150px; max-height: 200px;">
+                                <% if (loginUser.getPhoto() == null) {%>  
+                                <img style="width:150px;height:200px" src="image/<%=loginUser.getPhoto()%>" align="center"/>
+                                <% } else {%> 
+                                <img style="width:150px;height:200px" src="image/Tulips.jpg" align="center"/>                                     
+                                <% }%> 
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 200px;"></div>
+                            <div>
+                                <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="file"></span>
+                                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                            </div>
+                        </div>
+                        <div style="float:left">
+                               
                             <div class="form-group-associate">
-                                <label class="control-label" for="username">Username</label>
-                                <p class="form-control-associate" ><%=loginUser.getUsername()%></p>
+                                <label class="control-label"  for="username">Username</label>
+                                <p style="margin-left:10px;" class="form-control-associate" ><%=loginUser.getUsername()%></p>
                             </div> 
                             <div class="form-group-associate">
-                                <label class="control-label" for="fullName">Name</label>
-                                <input type="text" value="<%=loginUser.getfullName()%>"class="form-control-associate" style="background-color:yellow;" name="realname" placeholder="<%=loginUser.getfullName()%>">
+                                <label class="control-label" for="fullName">Full Name</label>
+                                <input type="text" value="<%=loginUser.getfullName()%>"class="form-control-associate" style="background-color:yellow;width:70%;margin-left:20px;" name="realname" placeholder="<%=loginUser.getfullName()%>">
                             </div> 
                             <div class="form-group-associate">
-                                <label class="control-label" for="alias">Alias</label>
-                                <input type="text" value="<%=loginUser.getAlias()%>"class="form-control-associate" style="background-color:yellow;" name="alias" placeholder="<%=loginUser.getAlias()%>">
+                                <label class="control-label" for="alias">Short Name</label>
+                                <input type="text" value="<%=loginUser.getAlias()%>"class="form-control-associate" style="background-color:yellow;width:70%;margin-left:20px;" name="alias" placeholder="<%=loginUser.getAlias()%>">
                             </div> 
                             <div class="form-group-associate">
                                 <label class="control-label" for="FIN">Identification Number(NRIC/FIN)</label>
-                                <p class="form-control-associate"><%=loginUser.getNRICNum()%></p>
+                                <p style="margin-left:10px;" class="form-control-associate"><%=loginUser.getNRICNum()%></p>
                             </div> 
                             <div class="form-group-associate">
                                   <%
@@ -156,8 +183,8 @@
                               }
                         
                             %>
-                                <label class="control-label" for="Gender"> Gender </label>
-                            <select class="form-control-associate" name="gender" style="background-color:yellow;">
+                                <label class="control-label" for="Gender" style="width:40%;"> Gender </label>
+                            <select class="form-control-associate" name="gender" style="background-color:yellow; width:70%;margin-left:20px;">
                                 <option value="M"<%=selectedGenderMale%>>M</option> 
                                 <option value="F"<%=selectedGenderFemale%>>F</option>
                             </select>
@@ -165,23 +192,25 @@
                             </div> 
                             <div class="form-group-associate">
                                 <label class="control-label" for="ContactNumber"> Contact Number </label>
-                                <input type="text" value="<%=loginUser.getMobileNumber()%>" class="form-control-associate" style="background-color:yellow;" name="contactnumber" placeholder="<%=loginUser.getMobileNumber()%>">
+                                <input type="text" value="<%=loginUser.getMobileNumber()%>" class="form-control-associate" style="background-color:yellow;width:70%;margin-left:20px;" name="contactnumber" placeholder="<%=loginUser.getMobileNumber()%>">
                             </div> 
                             <div class="form-group-associate">
-                                <label class="control-label" for="Email"> Email</label>
-                                 <p class="form-control-associate" name="email" > <%=loginUser.getEmailAddress()%>
+                                <label class="control-label" for="Email" style="width:40%;"> Email</label>
+                                <input type="text" value="<%=loginUser.getEmailAddress() %>" class="form-control-associate" style="background-color:yellow;width:70%;margin-left:20px;" name="email" placeholder="<%=loginUser.getEmailAddress()%>">
+                           
                             </div>
                             <div class="form-group-associate">
                                 <label class="control-label" for="Position">Role</label>
-                                <p class="form-control-associate"><%=loginUser.getJobTitle()%> </p>
+                                <p style="margin-left:10px;" class="form-control-associate"><%=loginUser.getJobTitle()%> </p>
                             </div>
                             <%  %>
                     
                 <% if (session.getAttribute("notificationMsg") != null) {
                             String msg = (String) session.getAttribute("notificationMsg");%>
-                                <label class="col-sm-7 control-label" style="color:green"><%=msg%></label> <%}%>
+                                <label class="col-sm-7 control-label" style="color:green;margin-left:10px;"><%=msg%></label> <%}%>
                                 <%session.removeAttribute("notificationMsg");%>
                             
+                        </div>       
                   </div><!--end of main content-->
                 </td> 
             </tr>
@@ -190,11 +219,11 @@
             <tr>
                 <td class="containerF" style="height:10%">
                  <div class="btn-associate-landscape btn-associate">
-                        <button type="Submit" class="btn btn-primary btn-large" onClick="onSubmit()">SAVE</button>
+                        <button style="margin-left:10px;"  type="Submit" class="btn btn-primary btn-large" onClick="onSubmit()">SAVE</button>
                  </form>
-                        <a type="button" href="AssociateViewAssociateProfile.jsp" class="btn btn-primary btn-large">CANCEL</a>
+                        <a type="button" style="margin-left:10px;"  href="AssociateViewAssociateProfile.jsp" class="btn btn-primary btn-large">CANCEL</a>
                         <br><br>
-                        <a type="button" href="AssociateWelcome.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
+                        <a type="button" style="margin-left:10px;"  href="AssociateWelcome.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
                         <!-- <button type="Submit" value="Upload" onclick="onUploadImage()">Upload</button> -->
                   </div>    
                 </td> 

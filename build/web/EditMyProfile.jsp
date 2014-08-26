@@ -74,6 +74,16 @@
                             required: true
                         },
                         
+                        contactnumber: {
+                            maxlength: 10,
+                            required: true
+                        },
+                        alias: {
+                            required: true
+                        },
+                        realname: {
+                           required: true
+                        },
                         email: {
                             required: true,
                             email: true
@@ -162,16 +172,19 @@
                             session.setAttribute("FIN", loginUser.getNRICNum());
                         }%>
                     <!--message-->
-
+                      <%
+                            String gender = loginUser.getGender();
+                            String formattedGender = gender.substring(0, 1);
+                        %>
                     <br>
                     <form name="form1"  role="form" id="createuser-form"  method="post" enctype="multipart/form-data">
 
-                        <div class="fileinput fileinput-new" data-provides="fileinput" style="float:right">
-                            <div class="fileinput-new thumbnail" style="max-width: 150px; max-height: 200px;">
+                        <div class="fileinput fileinput-new" data-provides="fileinput" style="float:right;margin-right:20px;">
+                            <div class="fileinput-new thumbnail">
                                 <% if (loginUser.getPhoto() != null) {%>  
-                                <img style="width:150px;height:200px" src="image/<%=loginUser.getPhoto()%>">
+                                <img style="width:120px;height:160px" src="image/<%=loginUser.getPhoto()%>">
                                 <% } else {%> 
-                                <img style="width:150px;height:200px" src="image/default.jpg"/>                                     
+                                <img style="width:120px;height:160px" src="image/default.jpg"/>                                     
                                 <% }%> 
                             </div>
                             <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 200px;"></div>
@@ -182,46 +195,64 @@
                         </div>
 
                         <span class="dot" style="margin-left:10px;">*Mandatory field</span><br/>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="username" style="width:80%;padding-top:5px !important;">User name<span class="dot">*</span></label>
-                            <p class="form-control col-sm-6" style="width:80%;left:25px;" name="username" > <%=loginUser.getUsername()%> </p>
+                        <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                            <label class="col-sm-3 control-label" for="username" style="width:80%;margin:0 auto;padding-top:5px !important;">User name<span class="dot">*</span></label>
+                            <div style="text-indent:10px;margin:0 auto">
+                            
+                            <input type="text" value="<%=loginUser.getUsername()%>"class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="username" placeholder="<%=loginUser.getUsername()%>">
+                            </div>
+                            
                         </div> 
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="realname" style="padding-top:5px !important;">Name<span class="dot">*</span></label>
+                        <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                            <label class="col-sm-3 control-label" for="realname" style="width:80%;margin:0 auto;padding-top:5px !important;">Full Name<span class="dot">*</span></label>
+                            <div style="text-indent:10px;margin:0 auto">
                             <input type="text" value="<%=loginUser.getfullName()%>"class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="realname" placeholder="<%=loginUser.getfullName()%>">
-                        </div> 
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="alias" style="padding-top:5px !important;">Alias<span class="dot">*</span></label>
-                            <input type="text" value="<%=loginUser.getAlias()%>"class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="alias" placeholder="<%=loginUser.getfullName()%>">
-                        </div> 
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="FIN" style="width:80%;padding-top:5px;">NRIC/FIN Number<span class="dot">*</span></label>
-                            <p class="form-control col-sm-6" style="width:80%;left:25px;" name="FIN" > <%=loginUser.getNRICNum()%> </p>
-                        </div> 
-                        <%
-                            String gender = loginUser.getGender();
-                            String formattedGender = gender.substring(0, 1);
-                        %>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="gender" style="width:80%;">Gender<span class="dot">*</span></label>
-                            <p class="form-control col-sm-6" style="width:80%;left:25px;" name="gender" > <%=formattedGender%> </p>
-                        </div> 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="contactnumber" style="width:80%">Contact Number<span class="dot">*</span></label>
-                            <input type="text" value="<%=loginUser.getMobileNumber()%>" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="contactnumber" placeholder="<%=loginUser.getMobileNumber()%>">
+                            </div> 
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="email" style="width:80%;">Email<span class="dot">*</span></label>
-                            <p class="form-control col-sm-6" style="width:80%;left:25px;" name="email" > <%=loginUser.getEmailAddress()%> </p>
+                        <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                            <label class="col-sm-6 control-label" for="alias" style="width:80%;margin:0 auto;padding-top:5px !important;">Short Name<span class="dot">*</span></label>
+                            <div style="text-indent:10px;margin:0 auto">
+                            <input type="text" value="<%=loginUser.getAlias()%>"class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="alias" placeholder="<%=loginUser.getfullName()%>">
+                            </div> 
+                        </div>
+                        <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                            <label class="col-sm-3 control-label" for="FIN" style="width:80%;margin:0 auto;padding-top:5px;">Identification Number (NRIC/FIN)<span class="dot">*</span></label>
+                            <div style="text-indent:10px;margin:0 auto">
+                            <p class="form-control col-sm-6" style="width:80%;left:25px;" name="FIN" > <%=loginUser.getNRICNum()%> </p>
+                            </div>
+                       </div> 
+                      
+                        <div class="form-group" style="margin-top:0px !important;margin-bottom:0px;">
+                            <label class="col-sm-3 control-label" for="gender" style="width:80%;margin:0 auto;padding-top:0.05px;">Gender<span class="dot">*</span></label>
+                            <div style="text-indent:10px;margin:0 auto">
+                            
+                            <select class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow" name="gender" style="width:80%;left:25px; background-color:yellow;">
+                                        <option value="<%=formattedGender%>"><%=loginUser.getGender()%></option>
+                                        <option value="M" >M</option>
+                                        <option value="F" >F</option>
+                            </select>
+                            </div>
                         </div> 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="email">Role<span class="dot">*</span></label>
-                            <p class="form-control col-sm-6" style="width:80%;left:25px;" > <%=loginUser.getJobTitle()%> </p>
+                        <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                            <label class="col-sm-3 control-label" for="contactnumber" style="width:80%;margin:0 auto;">Phone Number (max: 10 characters)<span class="dot">*</span></label>
+                            <div style="text-indent:10px;margin:0 auto">
+                            <input type="text" value="<%=loginUser.getMobileNumber()%>" class="form-control col-sm-6" style="width:80%;left:25px;background-color:yellow;" name="contactnumber" placeholder="<%=loginUser.getMobileNumber()%>">
+                            </div>
+                        </div>
 
+                        <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                            <label class="col-sm-3 control-label" for="email" style="width:80%;margin:0 auto;">Email<span class="dot">*</span></label>
+                            <div style="text-indent:10px;margin:0 auto">
+                            <p class="form-control col-sm-6" style="width:80%;left:25px;" name="email" > <%=loginUser.getEmailAddress()%> </p>
+                            </div> 
+                        </div>
+                        <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
+                            <label class="col-sm-3 control-label" style="width:80%;margin:0 auto;" for="email">Role<span class="dot">*</span></label>
+                            <div style="text-indent:10px;margin:0 auto">
+                            <p class="form-control col-sm-6" style="width:80%;left:25px;" > <%=loginUser.getJobTitle()%> </p>
+                            </div>
                         </div>
 
                         <% if (session.getAttribute("notificationMsg") != null) {

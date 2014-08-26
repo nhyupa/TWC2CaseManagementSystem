@@ -7,6 +7,8 @@ package controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import src.*;
 
 /**
  *
@@ -14,17 +16,9 @@ import java.io.OutputStream;
  */
 public class Test {
     public static void main(String [] args){
-        String pdfFileName = "D:\\cookbook2.pdf";
-        try{
-        FileInputStream in = new FileInputStream(new File(pdfFileName));
-        
-        OutputStream out = null;
-        byte[] outputByte = new byte[4096];
-        while(in.read(outputByte,0,4096) != -1){
-                out.write(outputByte, 0,4096);
-        }
-        }catch(Exception err){
-            System.out.println("Error : " +err);
-        }       
+        DBConnect.connectDB();
+       DBConnect.insertEmployerDetails("Yupa", "Clementi", "90439566", "Jo12", "G0909493N");
+        //ArrayList<Worker> contactNums = DBConnect.retrieveSgPhoneNumberSearchResults("42%");
+        //System.out.println(contactNums.size());
     }
 }

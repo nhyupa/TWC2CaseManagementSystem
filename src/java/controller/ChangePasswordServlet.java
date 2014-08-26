@@ -38,7 +38,7 @@ public class ChangePasswordServlet extends HttpServlet {
         String username = (String)request.getSession().getAttribute("username");
         String existingPassword = DBConnect.retrievePassword(username);
         String confirmPassword = request.getParameter("confirmPassword");
-        DBConnect.updatePassword(username, confirmPassword);
+        
         
         try{
             response.getWriter().println(confirmPassword);
@@ -46,12 +46,13 @@ public class ChangePasswordServlet extends HttpServlet {
             
             String url = "/TWC2-CaseManagementSystem/ChangeMyPassword.jsp";
             
-            if(!oldPassword.equals(existingPassword)){
+           if(!oldPassword.equals(existingPassword)){
                 request.getSession().setAttribute("errMsg", "Your old password is wrong. Please check again.");
                 response.sendRedirect(url);
             }
-            if(!confirmPassword.equalsIgnoreCase(existingPassword) && oldPassword.equals(existingPassword)) {
+           else if(!confirmPassword.equalsIgnoreCase(existingPassword) && oldPassword.equals(existingPassword)) {
                 request.getSession().setAttribute("successMsg", "Your password has been changed.");
+                DBConnect.updatePassword(username, confirmPassword);
                 try{
                     response.sendRedirect(url);
                     //RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher(url);
@@ -60,6 +61,10 @@ public class ChangePasswordServlet extends HttpServlet {
                     System.out.println("Error: " + err);
                 }
             }
+           else{
+               request.getSession().setAttribute("errMsg", "Your old password is wrong. Please check again.");
+               response.sendRedirect(url);
+           }
         }catch(Exception err) {
             err.printStackTrace();
         }

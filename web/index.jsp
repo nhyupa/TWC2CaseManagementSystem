@@ -75,17 +75,17 @@
             <% if (session.getAttribute("passwordNotificationMsg") != null) {
                 String msg = (String) session.getAttribute("passwordNotificationMsg");%>
             <label style="color:red"><%=msg%></label> <%}%>
-            <%request.removeAttribute("passwordNotificationMsg");%>
+            <%session.removeAttribute("passwordNotificationMsg");%>
             
             <% if (session.getAttribute("logoutMsg") != null) {
                 String msg = (String) session.getAttribute("logoutMsg");%>
             <label style="color:red"><%=msg%></label> <%}%>
-            <%request.removeAttribute("logoutMsg");%>
+            <%session.removeAttribute("logoutMsg");%>
             
              <% if (session.getAttribute("logout") != null) {
                 String msg = (String) session.getAttribute("logout");%>
             <label style="color:red"><%=msg%></label> <%}%>
-            <%request.removeAttribute("logout");%>
+            <%session.removeAttribute("logout");%>
             
         </div><!-- end of container-->
         

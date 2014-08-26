@@ -97,13 +97,18 @@
                 <td valign="top" rowspan="4" class="container6"> <%--container6 --%>
 
                     <form action="#" name="form1" role="form" id="userInfo-form"  method="post"> 
-                        <div class="fileinput fileinput-new" style="float:right" >
-                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 220px;">
-                                <% if (loginUser.getPhoto() != null) {%>  
-                                <img style="width:150px;height:200px" src="image/<%=loginUser.getPhoto()%>">
-                                <% } else {%> 
-                                <img style="width:150px;height:200px" src="image/default.jpg"/>                                     
-                                <% }%> 
+                        <div class="fileinput fileinput-new" style="float:right;margin-right:20px;" >
+                            <div class="fileinput-preview fileinput-exists thumbnail" >
+                                 <%if(loginUser != null){%>
+                               
+                                   <%if(loginUser.getPhoto().length() != 0){%>
+                                    <img style="width:120px;height:160px;" src="image/<%=loginUser.getPhoto()%>"/>
+                                    <%}else {%>
+                                    <img contactnumber src="image/default.jpg"/>
+                                    <%}%>
+                                <%} else{%>
+                                <img src="image/default.jpg"/>
+                                <%}%>
                             </div>
 
                             <!-- photosize 150x200-->
@@ -114,11 +119,15 @@
                                 <p class="form-control col-sm-6" style="width:80%;left:25px;"> <%=loginUser.getUsername()%></p>
                             </div> 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="fullName">Name</label>
+                                <label class="col-sm-6 control-label" for="fullName">Full Name</label>
                                 <p class="form-control col-sm-6" style="width:80%;left:25px;"> <%=loginUser.getfullName()%></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label" for="alias">Short Name</label>
+                                <p class="form-control col-sm-6" style="width:80%;left:25px;"> <%=loginUser.getAlias()%></p>
                             </div> 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="FIN" style="width:80%;"> NRIC/FIN Number</label>
+                                <label class="col-sm-3 control-label" for="FIN" style="width:80%;">Identification Number (NRIC/FIN)</label>
                                 <p class="form-control col-sm-6" style="width:80%;left:25px;" > <%=loginUser.getNRICNum()%> </p>
                             </div> 
                             <div class="form-group">
@@ -126,7 +135,7 @@
                                 <p class="form-control col-sm-6" style="width:80%;left:25px;"> <%=formattedGender%> </p>
                             </div> 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="ContactNumber" style="width:80%;"> Contact Number </label>
+                                <label class="col-sm-3 control-label" for="ContactNumber" style="width:80%;"> Phone Number </label>
                                 <p class="form-control col-sm-6" style="width:80%;left:25px;"> <%=loginUser.getMobileNumber()%> </p>
                             </div> 
                             <div class="form-group">

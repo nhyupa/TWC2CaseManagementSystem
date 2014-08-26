@@ -200,10 +200,10 @@
                         <form id ="createWorkerForm" name="form1" role="form" action ="WorkerAndJobRegistrationServlet" method="post" enctype="multipart/form-data"> 
                             <div style="padding-left:20px;">
                                 <div class="fileinput fileinput-new" data-provides="fileinput" style="float:right">
-                                    <div class="fileinput-new thumbnail" style="width: 100px; height: 130px;">
+                                    <div class="fileinput-new thumbnail" style="width: 130px; height: 160px;">
                                         <img data-src="holder.js/100x130" alt="...">
                                     </div>
-                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 200px;"></div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 130px; max-height: 160px;"></div>
                                     <div>
                                         <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="file"></span>
                                         <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>

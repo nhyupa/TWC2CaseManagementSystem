@@ -115,31 +115,31 @@ public class AdminEditUserProfileServlet extends HttpServlet {
                 response.getWriter().println(NRIC_Num);
                 DBConnect.connectDB();
                 
-                if(username != null || username.equalsIgnoreCase("")){
+                if(username != null && username.length()!=0){
                     DBConnect.updateUsername(username, NRIC_Num);
                 }
                 
-                if(realname != null || !realname.equalsIgnoreCase("")){
+                if(realname != null && realname.length()!=0){
                     DBConnect.updateRealname(realname, NRIC_Num);
                 }
                 
-                if(alias != null || !alias.equalsIgnoreCase("")){
+                if(alias != null && alias.length()!=0){
                     DBConnect.updateAlias(alias,NRIC_Num);
                 }
                 
-                if(gender!= null || !gender.equalsIgnoreCase("")){
-                    DBConnect.updateUserGender(NRIC_Num, gender);
+                if(gender!= null && gender.length()!=0){
+                    DBConnect.updateUserGender(gender, NRIC_Num);
                 }
                 //DBConnect.updateJobPosition(job_position, NRIC_Num);
-                if(contactNumber != null || !contactNumber.equalsIgnoreCase("")){
+                if(contactNumber != null &&contactNumber.length()!=0){
                     DBConnect.updateContactNumber(contactNumber,NRIC_Num);
                 }
                 
-                if(email != null || !email.equalsIgnoreCase("")){
+                if(email != null && email.length()!=0){
                     DBConnect.updateEmail(email, NRIC_Num);
                 }
                 
-                if(role != null || !role.equalsIgnoreCase("")){
+                if(role != null && role.length()!=0){
                     DBConnect.updateJobPosition(role, NRIC_Num);
                     if(role.equalsIgnoreCase("None")){
                         SendMailSSL sendMail = new SendMailSSL();
@@ -154,9 +154,9 @@ public class AdminEditUserProfileServlet extends HttpServlet {
                 }
                 //DBConnect.updateAlias(alias, NRIC_Num);
                 //DBConnect.updateContactNumber(contactNumber,NRIC_Num);
-                
+          
                 String url  = "/TWC2-CaseManagementSystem/EditUserProfile.jsp";
-                request.getSession().setAttribute("notificationMsg", "Your profile has been edited.");
+                request.getSession().setAttribute("notificationMsg", "User's profile has been edited.");
                 request.getSession().setAttribute("editedUserFINNo",NRIC_Num);
                 response.sendRedirect(url);
             }

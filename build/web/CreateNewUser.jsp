@@ -69,6 +69,7 @@
                             required: true
                         },
                         contactnumber: {
+                            maxlength: 10,
                             required: true
                         }, 
                         gender: {
@@ -218,7 +219,12 @@
                         <div class="fileinput fileinput-new" data-provides="fileinput" style="float:right">
                             <div class="fileinput-new thumbnail" style="width: 150px; height: 200px;margin:0 auto;">
                                 <%if(createdUser != null){%>
-                                <img src="image/<%=createdUser.getPhoto()%>"/>
+                               
+                                   <%if(createdUser.getPhoto().length() != 0){%>
+                                    <img src="image/<%=createdUser.getPhoto()%>"/>
+                                    <%}else {%>
+                                    <img src="image/default.jpg"/>
+                                    <%}%>
                                 <%} else{%>
                                 <img src="image/default.jpg"/>
                                 <%}%>
@@ -244,7 +250,7 @@
                             </div>
                         </div> 
                         <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
-                            <label class="col-sm-3 control-label" for="realname" style="width:80%;margin:0 auto;">Name<span class="dot">*</span></label>
+                            <label class="col-sm-3 control-label" for="realname" style="width:80%;margin:0 auto;">Full Name<span class="dot">*</span></label>
                             <div style="text-indent:10px;margin:0 auto">
                             <%if(createdUser!=null){%>
                             <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;" placeholder="<%=createdUser.getfullName()%>"  name="realname">
@@ -255,7 +261,7 @@
                        </div> 
                         
                         <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
-                            <label class="col-sm-3 control-label" for="alias" style="width:80%;margin:0 auto;">Alias<span class="dot">*</span></label>
+                            <label class="col-sm-3 control-label" for="alias" style="width:80%;margin:0 auto;">Short Name<span class="dot">*</span></label>
                             <div style="text-indent:10px;margin:0 auto">
                             
                             <%if(createdUser!=null){%>    
@@ -266,7 +272,7 @@
                             </div> 
                         </div>
                         <div class="form-group NRIC_No" style="margin-top:0px;margin-bottom:0px;">
-                            <label class="col-sm-3 control-label" for="NRIC_No" style="width:80%;margin:0 auto;">Identification Number(NRIC/FIN)<span class="dot">*</span><br/><span style="color:red;font-size: 9"  id="errorTxt"></span></label>
+                            <label class="col-sm-3 control-label" for="NRIC_No" style="width:80%;margin:0 auto;">Identification Number (NRIC/FIN)<span class="dot">*</span><br/><span style="color:red;font-size: 9"  id="errorTxt"></span></label>
                            <div style="text-indent:10px;margin:0 auto">
                             <%if(createdUser!=null){%>
                             <input id="NIRC_No" type="text" class="form-control col-sm-6" style="width:80%;left:25px;" placeholder="<%=createdUser.getNRICNum()%>" name="NRIC_No">
@@ -294,7 +300,7 @@
                             </div>
                             </div>
                         <div class="form-group" style="margin-top:0px;margin-bottom:0px;">
-                            <label class="col-sm-3 control-label" for="contactnumber" style="width:80%;margin:0 auto;">Contact Number (max: 10 characters)<span class="dot">*</span></label>
+                            <label class="col-sm-3 control-label" for="contactnumber" style="width:80%;margin:0 auto;">Phone Number (max: 10 characters)<span class="dot">*</span></label>
                             <div style="text-indent:10px;margin:0 auto">
                             <%if(createdUser != null){%>
                             <input type="text" class="form-control col-sm-6" style="width:80%;left:25px;" placeholder="<%=createdUser.getMobileNumber()%>" name="contactnumber">

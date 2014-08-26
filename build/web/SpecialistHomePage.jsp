@@ -11,7 +11,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="stylesheets/Andrew.css"/>
         <!-- Bootstrap v3.1.1 -->
@@ -192,7 +191,7 @@
             });
         </script>
 
-        <title>Administrator Home Page</title>
+        <title>Specialist Home Page</title>
     </head>
     
     <%
@@ -210,6 +209,8 @@
                   loginUser = user1;
             }
         }
+        ArrayList<String> nationalities = DBConnect.getNationalitieslists();
+        ArrayList<String> workpass = DBConnect.getWorkPassList();
         
     %>
     <body>
@@ -259,10 +260,10 @@
                 <tr>
 
                     <td rowspan="4" class="container6"> <%--container6 --%>
-                        <form name="findForm"  role="form" action ="AdministratorFindFINServlet" id="createuser-form"  method="post">
+                        <form name="findForm"  role="form" action ="SpecialistFindFINServlet" id="createuser-form"  method="post">
 
                         <!-- Testing --> 
-                        <div class="form-group"  style="width:100%;margin-left:10px">
+                        <div style="width:100%;margin-left:10px">
                             <table> 
                                 <tr>
                                     <td>
@@ -323,8 +324,10 @@
                                             <select name="Nationality" class="form-control col-md-2" style="margin-left:10px;width:100%">
                                                 <!-- for loop, use list of nationality from database --> 
                                                 <option value="">Select an option</option>
-                                                <option value="Korea" >Korea</option>
-                                                <option value="Myanmar" >Myanmar</option>
+                                                <%for(int i = 0 ; i < nationalities.size() ; i++){%>
+                                                <option value="<%=nationalities.get(i)%>" ><%=nationalities.get(i)%></option>
+                                                
+                                                <%}%>
 
                                             </select>
                                         </div>
@@ -362,9 +365,11 @@
                                                 Workpass type that came with the job
                                             </label>
                                             <select name="Workpass" class="form-control col-md-2" style="width:100%;margin-left:10px;">
-                                                <!-- use for loop, retrieve list of workpass types from database --> 
-                                                <option value="w1" >W1</option>
-                                                <option value="w2" >W2</option>
+                                                <!-- use for loop, retrieve list of workpass types from database -->
+                                                <option value="">Select an option</option>
+                                                <%for(int i = 0 ; i < workpass.size() ; i++){%>
+                                                <option value="<%=workpass.get(i)%>" ><%=workpass.get(i)%> </option>
+                                                <%}%>
                                             </select> 
                                         </div>
 
@@ -487,31 +492,7 @@
                         nationalitySearchReesultMsg = (String) session.getAttribute("nationalitySearchResultsMsg");
                     }%>
                     
-                    <% if (session.getAttribute("nationalitySearchResultsMsg") != null) {%>
-                    <label style="color:green"><%=nationalitySearchReesultMsg%></label>
-                    <br>
-                    <%}%>
-                    <%session.removeAttribute("nationalitySearchResultsMsg");%>
-                    
-                    
-                     <%
-                    ArrayList<Worker> nationalitySearchResults = null;
-                    if (session.getAttribute("nationalitySearchResults") != null) {
-                        nationalitySearchResults = (ArrayList<Worker>)session.getAttribute("nationalitySearchResults");
-                    }%>
-                    
-                     <% if (session.getAttribute("nationalitySearchResults") != null) {%>
-                     <%String workername = null;%>
-                     <%for(int i=0; i<nationalitySearchResults.size();i++){ 
-                         Worker worker = nationalitySearchResults.get(i);
-                         workerName  = worker.getWorkerName();%>
-                         <a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><a href="CaseMenu.jsp"><label style="color:green"><%=workerName%></label></a> 
-                     <br>     
-                     <% }%>
-                    <%}%>
-                    <%session.removeAttribute("nationalitySearchResults");%>
-                    
-                    
+
                     <!-- SG phone number search Results -->
                     
                     <!-- Nationality Search Results -->
@@ -610,7 +591,7 @@
                         <ul class="navigation-menu">
                             <li><a href="ViewAllUsers.jsp" class="menu-link">ALL USERS</a></li>
                             <li><a href="ViewMyProfile.jsp" class="menu-link">MY PROFILE</a></li>
-                            <li><a href="CreateNewUser.jsp" class="menu-link">CREATE NEW USER</a></li>
+                           
                             <li><a href="" class="menu-link">REPORT MODULE</a></li>
                              <%if(jobPosition.equalsIgnoreCase("Administrator")) {%>
                             <li><a href="AdminHomePage.jsp" class="menu-link">ADMINISTRATORS' FORMS</a></li>
@@ -618,9 +599,7 @@
                             <%if(jobPosition.equalsIgnoreCase("Administrator") || jobPosition.equalsIgnoreCase("Management")){%>
                             <li><a href="ManagerHomePage.jsp" class="menu-link">MANAGERS' FORMS</a></li>
                             <%}%>
-                            <%if(jobPosition.equalsIgnoreCase("Administrator") || jobPosition.equalsIgnoreCase("Restricted Specialist") || jobPosition.equalsIgnoreCase("General Specialist") || jobPosition.equalsIgnoreCase("Management")){%>
-                            <li><a href="SpecialistHomePage.jsp" class="menu-link">SPECIALISTS' FORMS</a></li>
-                            <%}%>
+                            
                            
                             <li><a href="AssociateHomePage.jsp" class="menu-link">ASSOCIATES' FORMS</a></li>
                         </ul>

@@ -17,6 +17,20 @@
         <!--stylesheet-->
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/associate.css"/>
         <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/bootstrap.css"/>
+        
+        <!--jasny-bootstrap v3.1.3-->
+        <link rel="stylesheet" href="/TWC2-CaseManagementSystem/stylesheets/jasny-bootstrap.css"/>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="/TWC2-CaseManagementSystem/jquery/jquery-1.11.1.min.js"></script>
+
+
+        <!--jQuery validate()-->
+        <script src="/TWC2-CaseManagementSystem/jquery/jquery-validate-1.12.0.js"></script>
+
+        <!--jasny-bootstrap v3.1.3-->
+        <script src="/TWC2-CaseManagementSystem/javascript/jasny-bootstrap.js"></script>  
+        <script src="/TWC2-CaseManagementSystem/javascript/holder.js"></script>  
        
         <style>
             .form-control-associate{
@@ -99,46 +113,62 @@
                 </td> 
             </tr>
             <tr>
-                <td class="containerD" style="height:10%;">
+                <td class="containerD" style="height:10%; text-indent:10px;">
                      <div class="headertitle-associate"> VIEW MY PROFILE </div>
                 </td> 
             </tr>
 
             <tr>
-                <td class="containerE" style="height:10%;">
+                <td class="containerE" style="height:10%; text-indent:10px;">
                   <div class="maincontent-associate">
                       <% if(loginUser!=null){%>
+                            <div style="float:left;margin-right:20px;margin-top:10px;" >
+                           
+                                <% if (loginUser.getPhoto() != null) {%>  
+                                <img style="width:150px;height:200px" src="image/<%=loginUser.getPhoto()%>">
+                                <% } else {%> 
+                                <img style="width:150px;height:200px" src="image/default.jpg"/>                                     
+                                <% }%> 
+                            
+                            </div>
+                            <div style="float:left">  
+                                
                             <div class="form-group-associate">
                                 <label class="control-label" for="username">Username</label>
-                                <p class="form-control-associate"><%=loginUser.getUsername()%></p>
+                                <p style="margin-left:10px;" class="form-control-associate"><%=loginUser.getUsername()%></p>
                             </div> 
+                            
+                      
+
+
                             <div class="form-group-associate">
                                 <label class="control-label" for="fullName">Name</label>
-                                <p class="form-control-associate"><%=loginUser.getfullName()%></p>
+                                <p style="margin-left:10px;" class="form-control-associate"><%=loginUser.getfullName()%></p>
                             </div> 
                              <div class="form-group-associate">
                                 <label class="control-label" for="fullName">Alias</label>
-                                <p class="form-control-associate"><%=loginUser.getAlias()%></p>
+                                <p style="margin-left:10px;" class="form-control-associate"><%=loginUser.getAlias()%></p>
                             </div>
                             <div class="form-group-associate">
                                 <label class="control-label" for="FIN">Identification Number(NRIC/FIN)</label>
-                                <p class="form-control-associate"><%=loginUser.getNRICNum()%></p>
+                                <p style="margin-left:10px;" class="form-control-associate"><%=loginUser.getNRICNum()%></p>
                             </div> 
                             <div class="form-group-associate">
                                 <label class="control-label" for="Gender"> Gender </label>
-                                <p class="form-control-associate"><%=loginUser.getGender()%></p>
+                                <p style="margin-left:10px;" class="form-control-associate"><%=loginUser.getGender()%></p>
                             </div> 
                             <div class="form-group-associate">
                                 <label class="control-label" for="ContactNumber" style="width:80%;"> Contact Number </label>
-                                <p class="form-control-associate"><%=loginUser.getMobileNumber()%>  </p>
+                                <p style="margin-left:10px;" class="form-control-associate"><%=loginUser.getMobileNumber()%>  </p>
                             </div> 
                             <div class="form-group-associate">
                                 <label class="control-label" for="Email"> Email</label>
-                                <p class="form-control-associate" ><%=loginUser.getEmailAddress()%></p>  
+                                <p style="margin-left:10px;" class="form-control-associate" ><%=loginUser.getEmailAddress()%></p>  
                             </div>
                             <div class="form-group-associate">
                                 <label class="control-label" for="Position">Role</label>
-                                <p class="form-control-associate"><%=loginUser.getJobTitle()%> </p>
+                                <p style="margin-left:10px;" class="form-control-associate"><%=loginUser.getJobTitle()%> </p>
+                            </div>
                             </div>
                   </div><!--end of main content-->
                   <%}else{
@@ -153,10 +183,10 @@
             <tr>
                 <td class="containerF" style="height:10%">
                    <div class="btn-associate-landscape btn-associate">
-                        <button type="submit" form ="userInfo-form" class="btn btn-primary btn-large" onClick="onEditPassword()">CHANGE PASSWORD</button>
-                        <button type="button" class="btn btn-primary btn-large" onclick="onEdit()">EDIT</button>
+                        <button style="margin-left:10px" type="submit" form ="userInfo-form" class="btn btn-primary btn-large" onClick="onEditPassword()">CHANGE PASSWORD</button>
+                        <button style="margin-left:10px" type="button" class="btn btn-primary btn-large" onclick="onEdit()">EDIT</button>
                         <br> <br>
-                        <a type="button" href="AssociateWelcome.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
+                        <a type="button" style="margin-left:10px" href="AssociateWelcome.jsp" class="btn btn-primary btn-large">BACK TO HOMEPAGE</a>
                     </div>     
                 </td> 
             </tr>

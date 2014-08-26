@@ -136,13 +136,20 @@
 
                     <form action="#" name="form1" role="form" id="userInfo-form"  method="post"> 
 
-                        <div class="fileinput fileinput-new" style="float:right" >
-                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 220px;">
-                                <% if (currentUser.getPhoto() != null) {%>  
-                                <img style="width:150px;height:160px" src="image/<%=currentUser.getPhoto()%>">
-                                <% } else {%> 
-                                <img style="width:150px;height:160px" src="image/default.jpg"/>                                     
-                                <% }%> 
+                        <div class="fileinput fileinput-new" style="float:right;margin-right:20px;" >
+                            <div class="fileinput-preview fileinput-exists thumbnail">
+                                
+                                
+                                <%if(currentUser != null){%>
+                               
+                                   <%if(currentUser.getPhoto().length() != 0){%>
+                                    <img style="width:120px;height:160px;" src="image/<%=currentUser.getPhoto()%>"/>
+                                    <%}else {%>
+                                    <img style="width:120px;height:160px;" src="image/default.jpg"/>
+                                    <%}%>
+                                <%} else{%>
+                                <img src="image/default.jpg"/>
+                                <%}%>
                             </div>
 
                             <!-- photosize 150x200-->
@@ -155,11 +162,15 @@
                             </div> 
                             <%session.setAttribute("currentUsername", currentUser.getUsername());%>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="fullName">Name</label>
+                                <label class="col-sm-6 control-label" for="fullName">Full Name</label>
                                 <p class="form-control col-sm-6" style="width:80%;left:25px;"> <%= currentUser.getfullName()%></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label" for="alias">Short Name</label>
+                                <p class="form-control col-sm-6" style="width:80%;left:25px;"> <%=currentUser.getAlias()%></p>
                             </div> 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="FIN" style="width:80%">NRIC/FIN Number</label>
+                                <label class="col-sm-3 control-label" for="FIN" style="width:80%">Identification Number (NRIC/FIN)</label>
                                 <p class="form-control col-sm-6" style="width:80%;left:25px;"> <%= currentUser.getNRICNum()%> </p>
                             </div> 
                             <%session.setAttribute("currentUserFIN", currentUser.getNRICNum());%>
@@ -174,7 +185,7 @@
                             </div> 
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" for="ContactNumber" style="width:80%;"> Contact Number </label>
+                                <label class="col-sm-3 control-label" for="ContactNumber" style="width:80%;"> Phone Number </label>
                                 <p class="form-control col-sm-6" style="width:80%;left:25px;"> <%= currentUser.getMobileNumber()%> </p>
 
                             </div> 
@@ -237,12 +248,19 @@
             </tr>
             <%--6th row--%>
             <%
-                String jobPosition = loginUser.getJobTitle();%>
+                String jobPosition = loginUser.getJobTitle();
+                String fin = loginUser.getNRICNum();
+                String currentUserFin = currentUser.getNRICNum();
+                boolean check = true;
+                if(fin.equalsIgnoreCase(currentUserFin)){
+                    check = false;
+                }
+            %>    
             <tr>
 
                 <td colspan="3" class="container9">
                     <div class="form-actions" style="margin-left:10px;">
-                        <%if(jobPosition.equalsIgnoreCase("Administrator") && !currentUser.getJobTitle().equalsIgnoreCase("Administrator")){%>
+                        <%if(jobPosition.equalsIgnoreCase("Administrator") && check == true){%>
                         <button type="submit" form ="userInfo-form" class="btn btn-primary btn-large" onClick="onSubmit()">RESET PASSWORD</button>
                         
                         <button type="button" class="btn btn-primary btn-large" onclick="onEdit()">EDIT</button>

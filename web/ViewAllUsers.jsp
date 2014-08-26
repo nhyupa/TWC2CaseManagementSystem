@@ -38,7 +38,7 @@
             $(document).ready(function(){
 
                 var start = 0;
-                var nb = 12;
+                var nb = 18;
                 var end = start + nb;
                 var length = $('.img-list div').length;
                 var list = $('.img-list div');
@@ -128,6 +128,10 @@
                     %>
 
                     <br/>
+                    <div class="col-sm-6 col-md-4" style="width:100%;margin-bottom:10px;margin-left:10px;">
+                        <a href="#" class="prev">Prev</a>
+                        <a href="#" class="next">Next</a>
+                    </div>
 
                     <div class="img-list">
 
@@ -139,10 +143,14 @@
 
                         <div class="col-sm-6 col-md-4">
                             <div class="thumbnail" align ="center">
-
-                                <a href="/TWC2-CaseManagementSystem/ViewOtherUser.jsp?userToView=<%=(i)%>" > <img src ="image/<%=currentUser.getPhoto()%>" data-src="holder.js" style="height:130px;width:100px"></a>
+                                 <%if(currentUser.getPhoto().length() !=0){%>
+                                <a href="/TWC2-CaseManagementSystem/ViewOtherUser.jsp?userToView=<%=(i)%>" > <img src ="image/<%=currentUser.getPhoto()%>" data-src="holder.js" style="height:160px;width:120px"></a>
+                                <%} else{%>
+                                <a href="/TWC2-CaseManagementSystem/ViewOtherUser.jsp?userToView=<%=(i)%>" > <img src ="image/default.jpg" data-src="holder.js" style="height:160px;width:120px"></a>
+                                <%}%>
                                     <%if (loginUserPosition.equalsIgnoreCase("Associate")) {%>
-                                <a href=""><%=currentUser.getfullName()%></a><text>{<%=currentUser.getAlias()%>}</text>
+                                <text><%=currentUser.getfullName()%></text><br/>
+                                <text><%=currentUser.getAlias()%></text>
                                 <p style="font-weight:bold;"><%=currentUser.getJobTitle()%></p>
                                 <%} else {%>
                                 <a href="/TWC2-CaseManagementSystem/ViewOtherUser.jsp?userToView=<%= (i)%>" > <%= currentUser.getfullName()%></a><br/>
@@ -158,11 +166,7 @@
                         %>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
-                        <a href="#" class="prev">Prev</a>
-                        <a href="#" class="next">Next</a>
-                    </div>
-
+               
                 </td>
             </tr>
             <%--3rd row--%>

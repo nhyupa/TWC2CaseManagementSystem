@@ -61,18 +61,9 @@
     
     <%
             String FIN = (String)session.getAttribute("FIN");
-           
-           /**
-            if(session.getAttribute("FIN") != null){
-              
-                FIN = (String) session.getAttribute("FIN");
-            }
-            if(session.getAttribute("FIN_Number") !=null) {
-                FIN = (String)session.getAttribute("FIN_Number");
-            }
-**/
-        String workerName = DBConnect.getWorkername(FIN);
-        String phoneNumber = null;
+       
+            String workerName = DBConnect.getWorkername(FIN);
+            String phoneNumber = null;
         
         
             ArrayList<CaseWorker> caseWorkerDetails = DBConnect.getCaseWorkerDetails(FIN);
@@ -201,7 +192,7 @@
                                     <label>Passport issue</label>
                                     <input class="form-control" placeholder=" <% %>" style="left:25px;height:20px;width:30%;" name="passport_issue"></input>
                                     <label>Passport expiry date</label>
-                                    <input class="form-control" placeholder=" <% %>" style="left:25px;height:20px;width:30%;" name="passport_expiry_date"></input>
+                                    <input type="date" class="form-control" placeholder=" <% %>" style="left:25px;height:20px;width:30%;" name="passport_expiry_date"></input>
                                 </div>
                                 <% }%>
                                 
@@ -215,13 +206,13 @@
                                 <div style="margin-left:10px;">
                                     <label>Date stamp</label>
                                     <input class="form-control" name="dateStamp" placeholder=" <% %>" style="left:25px;height:20px;width:30%;"> </input>
-                                    <label>Face pic 150 x 200 pixels</label>
+                                    <label>Face pic 120 x 160 pixels</label>
                                     <div style="height:10px;margin-left:10px;"> </div>
                                     <div class="fileinput fileinput-new" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail">
-                                            <img style="width:170px;height:160px" src="image/<%%>">
+                                            <img style="width:120px;height:160px" src="image/<%%>">
                                         </div>
-                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 200px;"></div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 120px; max-height: 160px;"></div>
                                         <div>
                                             <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="file"></span>
                                             <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
@@ -452,7 +443,7 @@
                                     <label>Pass number</label>
                                     <input class="form-control" placeholder=" <% %>" name="passNumber" style="left:25px;height:20px;width:30%;" > </input>   
                                     <label>Pass issue date</label>
-                                    <input class="form-control" placeholder=" <% %>" name="passIssueDate" style="left:25px;height:20px;width:30%;" > </input>
+                                    <input type="date" class="form-control" placeholder=" <% %>" name="passIssueDate" style="left:25px;height:20px;width:30%;" > </input>
                                     <label>Date discovered to be obsolete</label>
                                     <input class="form-control" placeholder=" <% %>" name="passObsolete" style="left:25px;height:20px;width:30%;" > </input>
                                 </div> 
@@ -509,7 +500,7 @@
                                 <div class="row1 col-md-10">
                                     
                                     <label>Contract date </label>
-                                    <input class="form-control" name="contractDate" placeholder=" <% %>" style="left:25px;height:20px;width:30%;">  </input>
+                                    <input type="date" class="form-control" name="contractDate" placeholder=" <% %>" style="left:25px;height:20px;width:30%;">  </input>
                                     <label>Where contract signed</label>
                                     <input class="form-control" name="contractSigned" placeholder=" <% %>" style="left:25px;height:20px;width:30%;">  </input>   
                                     <label>Relationship of opposite contracting party to job</label>
@@ -919,7 +910,7 @@
                                     <label>Current MC or Light Duty status </label>
                                     <input class="form-control" name="currentMCStatus" placeholder=" <% %>" style="left:25px;height:20px;width:30%;">  </input>   
                                     <label>Latest known MC expiry date</label>
-                                    <input class="form-control" name="latestMCExpirydate" placeholder=" <% %>" style="left:25px;height:20px;width:30%;">  </input>
+                                    <input type ="date" class="form-control" name="latestMCExpirydate" placeholder=" <% %>" style="left:25px;height:20px;width:30%;">  </input>
                                     <label>Cumulative MC days so far</label>
                                     <input class="form-control" name="cumulativeMCDays" placeholder=" <% %>" style="left:25px;height:20px;width:30%;">  </input>
                                     

@@ -40,6 +40,8 @@
             // ArrayList<Job> jobList = new ArrayList<Job>();
             DBConnect dbConnect = new DBConnect();
             dbConnect.connectDB();
+            
+            
             String FIN = (String)session.getAttribute("FIN");
            
             /**
