@@ -28,13 +28,15 @@ public class DBConnect {
     
     private ArrayList<User> users = new ArrayList<User>();
     private ArrayList<Worker> workers = new ArrayList<Worker>();
-    
-    
+    private ArrayList<JobProfile> jobs = new ArrayList<JobProfile>(); 
+    private ArrayList<ChiefProblem> problems = new ArrayList<ChiefProblem>(); 
+
     
     //Testing Purpose
     private static ArrayList<Blob> images = new ArrayList<Blob>();
     //private static ArrayList<String> roles = new ArrayList<String>();
     private static int numOfUsers = 0;
+    private static int numOfJobs = 0;
     private static String userEmailAddress = null;
     private static String existingPassword = null;
     private static String FIN = null;
@@ -437,6 +439,24 @@ public class DBConnect {
         return numOfUsers;
     }
     
+    public static int countJobs() {
+        
+        try {
+            
+            String sqlQuery = "Select Count(*) from tbl_job";
+            rs = executeQuery(sqlQuery);
+            
+            while(rs.next()) {
+                numOfJobs++;
+            }
+            return numOfJobs;
+            
+        }catch(Exception err) {
+            System.out.println("Error " + err);
+        }
+        return numOfJobs;
+    }
+    
     public static String retrievePassword(String username) {
         try{
             String sqlQuery = "Select * from tbl_user where Username = '" + username +"'";
@@ -455,7 +475,7 @@ public class DBConnect {
      public static ArrayList<ChiefProblem> retrieveProblems(String FIN, String jobKey) {
         ArrayList<ChiefProblem> problems = new ArrayList<ChiefProblem>();
          try{
-            String sqlQuery = "Select * from tbl_problem where FIN_Number = '" + FIN + "' AND JobKey ='" + jobKey  +"';";
+            String sqlQuery = "Select * from tbl_problem where Worker_FIN_Number = '" + FIN + "' AND JobKey ='" + jobKey  +"';";
             rs = executeQuery(sqlQuery);
             
             while(rs.next()) {
@@ -706,6 +726,61 @@ public class DBConnect {
         }
         return workers; 
     }
+     
+    public ArrayList<ChiefProblem> getProblems() {
+        try{
+            
+            String query = "Select * from tbl_problem";
+            rs = statement.executeQuery(query);
+            while(rs.next()) {
+                String entryDate = rs.getString("EntryDate");
+                String workerFinNumber = rs.getString("Worker_FIN_Number");
+                String jobKey = rs.getString("JobKey");
+                String probKey = rs.getString("ProbKey");
+                String chiefProlbemDate = rs.getString("Chief_Problem_Date");
+                String chiefProblem = rs.getString("Chief_Problem");
+                String chiefProblemMore = rs.getString("Chief_Problem_More");
+                String chiefProblemRemarks = rs.getString("Chief_Problem_Remarks");
+                
+                ChiefProblem chiefProblem2 = new ChiefProblem(chiefProlbemDate,chiefProblem, chiefProblemMore,chiefProblemRemarks,workerFinNumber,jobKey,probKey);
+                problems.add(chiefProblem2);
+            }
+            return problems;
+            
+        }catch(Exception err) {
+            System.out.println("Error : " + err);
+        }
+        return problems; 
+    }
+    public ArrayList<JobProfile> getJobs() {
+        try{
+            
+            String query = "Select * from tbl_job";
+            rs = statement.executeQuery(query);
+            while(rs.next()) {
+                String FIN_Number = rs.getString("Worker_FIN_Number");
+                String JobKey = rs.getString("JobKey");
+                String employerName = rs.getString("Employer_Name");
+                String workpassType = rs.getString("Workpass_Type");
+                String workpassMore = rs.getString("Workpass_More");
+                String jobSector = rs.getString("Job_Sector");
+                String jobSectorMore = rs.getString("Job_Sector_More");
+                String occupation = rs.getString("Occupation");
+                String jobStartDate = rs.getString("Job_Start_Date");
+                String jobEndDate = rs.getString("Job_End_Date");
+                String jobWhetherTJS = rs.getString("Job_Whether_TJS");
+                String jobRemarks = rs.getString("Job_Remarks");
+                JobProfile jobProfile = new JobProfile(FIN_Number,JobKey,employerName,workpassType,workpassMore,jobSector,jobSectorMore,occupation,jobStartDate,jobEndDate,jobWhetherTJS,jobRemarks);
+                jobs.add(jobProfile);
+            }
+            return jobs;
+            
+        }catch(Exception err) {
+            System.out.println("Error : " + err);
+        }
+        return jobs; 
+    }
+    
     
     /** May be subjected to change **/
     public static String getEmployer(String FIN) {
@@ -758,6 +833,40 @@ public class DBConnect {
         }
         return workPassType;
     }
+    
+    public static String getJobKey(String FIN) {
+        String jobKey = null;
+        try{
+            String query = "Select * from tbl_job where Worker_FIN_Number ='" + FIN + "'";
+            rs = statement.executeQuery(query);
+            
+            while(rs.next()){
+                jobKey = rs.getString("JobKey");
+            }
+            
+        }catch(Exception err) {
+            System.out.println("Error  : " + err);
+        }
+        return jobKey;
+    }
+        
+    public static String getProbKey(String FIN, String jobKey) {
+        String probKey = null;
+        try{
+            String query = "Select * from tbl_problem where Worker_FIN_Number ='" + FIN + "' and JobKey ='" +jobKey + "' ";
+            rs = statement.executeQuery(query);
+            
+            while(rs.next()){
+                probKey = rs.getString("ProbKey");
+            }
+            
+        }catch(Exception err) {
+            System.out.println("Error  : " + err);
+        }
+        return probKey;
+    }
+    
+    
     
     public static String getJobSector(String FIN) {
         String jobSector = null;
@@ -1024,19 +1133,23 @@ public class DBConnect {
         
         ChiefProblem problem = null;
         String FIN_Num = null;
+        String jobKey = null;
+        String probKey = null;
         try{
-            String query = "Select * from tbl_problem where FIN_Number = '" + FIN + "'";
+            String query = "Select * from tbl_problem where Worker_FIN_Number = '" + FIN + "'";
             rs = statement.executeQuery(query);
             
             while(rs.next()){
                 
-                FIN_Num = rs.getString("FIN_Number");
+                FIN_Num = rs.getString("Worker_FIN_Number");
+                jobKey = rs.getString("JobKey");
+                probKey = rs.getString("ProbKey");
                 String chiefProblemDate = rs.getString("Chief_Problem_Date");
                 String chiefProblem = rs.getString("Chief_Problem");
                 String chiefProblemMore = rs.getString("Chief_Problem_More");
                 String chiefProblemRemarks  = rs.getString("Chief_Problem_Remarks");
                 
-                problem = new ChiefProblem(chiefProblemDate,chiefProblem,chiefProblemMore,chiefProblemRemarks,FIN_Num);
+                problem = new ChiefProblem(chiefProblemDate,chiefProblem,chiefProblemMore,chiefProblemRemarks,FIN_Num,jobKey,probKey);
                 
                 
             }
@@ -1050,7 +1163,7 @@ public class DBConnect {
     public static ArrayList<Pass> getPassDetails(String FIN) {
          ArrayList<Pass> passDetails = new ArrayList<Pass>();
          try{
-             String query = "Select * from tbl_pass_details where FIN_Number ='"  + FIN + "'";
+             String query = "Select * from tbl_pass_details where Worker_FIN_Number ='"  + FIN + "'";
              rs = statement.executeQuery(query);
              
              while(rs.next()) {
@@ -1073,7 +1186,7 @@ public class DBConnect {
     public static ArrayList<IPA> getIPADetails(String FIN) {
          ArrayList<IPA> ipaDetails = new ArrayList<IPA>();
          try{
-             String query = "Select * from tbl_ipa_details where FIN_Number ='"  + FIN + "'";
+             String query = "Select * from tbl_ipa_details where Worker_FIN_Number ='"  + FIN + "'";
              rs = statement.executeQuery(query);
              
              while(rs.next()) {
@@ -1097,7 +1210,7 @@ public class DBConnect {
     public static ArrayList<VerbalAssurance> getVerbalAssuranceDetails(String FIN) {
          ArrayList<VerbalAssurance> verbalAssuranceDetails = new ArrayList<VerbalAssurance>();
          try{
-             String query = "Select * from tbl_verbal_assurances where FIN_Number ='"  + FIN + "'";
+             String query = "Select * from tbl_verbal_assurances where Worker_FIN_Number ='"  + FIN + "'";
              rs = statement.executeQuery(query);
              
              while(rs.next()) {
@@ -1120,7 +1233,7 @@ public class DBConnect {
      public static ArrayList<EmploymentContract> getEmploymentContractDetails(String FIN) {
          ArrayList<EmploymentContract> employmentContractDetails = new ArrayList<EmploymentContract>();
          try{
-             String query = "Select * from tbl_employment_contract where FIN_Number ='"  + FIN + "'";
+             String query = "Select * from tbl_employment_contract where Worker_FIN_Number ='"  + FIN + "'";
              rs = statement.executeQuery(query);
              
              while(rs.next()) {
@@ -1144,7 +1257,7 @@ public class DBConnect {
      public static ArrayList<Agent> getAgentDetails(String FIN) {
          ArrayList<Agent> agentDetails = new ArrayList<Agent>();
          try{
-             String query = "Select * from tbl_agent where FIN_Number ='"  + FIN + "'";
+             String query = "Select * from tbl_agent where Worker_FIN_Number ='"  + FIN + "'";
              rs = statement.executeQuery(query);
              
              while(rs.next()) {
@@ -1168,7 +1281,7 @@ public class DBConnect {
       public static ArrayList<Employer> getEmployerDetails(String FIN) {
          ArrayList<Employer> employerDetails = new ArrayList<Employer>();
          try{
-             String query = "Select * from tbl_employer where FIN_Number ='"  + FIN + "'";
+             String query = "Select * from tbl_employer where Worker_FIN_Number ='"  + FIN + "'";
              rs = statement.executeQuery(query);
              
              while(rs.next()) {
@@ -1191,7 +1304,7 @@ public class DBConnect {
        public static ArrayList<Workplace> getWorkplaceDetails(String FIN) {
          ArrayList<Workplace> workplaceDetails = new ArrayList<Workplace>();
          try{
-             String query = "Select * from tbl_workplace where FIN_Number ='"  + FIN + "'";
+             String query = "Select * from tbl_workplace where Worker_FIN_Number ='"  + FIN + "'";
              rs = statement.executeQuery(query);
              
              while(rs.next()) {
@@ -1199,7 +1312,7 @@ public class DBConnect {
                  String workplaceWhose =  rs.getString("Workplace_Whose");
                  String workplaceDirect = rs.getString("Workplace_Direct"); 
                  String workplaceStart = rs.getString("Workplace_Start");
-                 String FIN_Number = rs.getString("FIN_Number");
+                 String FIN_Number = rs.getString("Worker_FIN_Number");
                  Workplace workplace = new Workplace(workplaceType,workplaceWhose,workplaceDirect,workplaceStart,FIN_Number);
                  workplaceDetails.add(workplace);
              }
@@ -1214,7 +1327,7 @@ public class DBConnect {
        public static ArrayList<WorkHistory> getWorkHistoryDetails(String FIN) {
          ArrayList<WorkHistory> workHistoryDetails = new ArrayList<WorkHistory>();
          try{
-             String query = "Select * from tbl_work_history where FIN_Number ='"  + FIN + "'";
+             String query = "Select * from tbl_work_history where Worker_FIN_Number ='"  + FIN + "'";
              rs = statement.executeQuery(query);
              
              while(rs.next()) {
@@ -1222,7 +1335,7 @@ public class DBConnect {
                  String workHistoryDate = rs.getString("Work_History_Date");
                  String workHistoryFirst =  rs.getString("Work_History_First");
                  String workHistoryFirstYearArrival = rs.getString("Work_History_Year_Arrive"); 
-                 String FIN_Number = rs.getString("FIN_Number");
+                 String FIN_Number = rs.getString("Worker_FIN_Number");
                  
                  WorkHistory workHistory = new WorkHistory(getWorkHow,workHistoryDate,workHistoryFirst,workHistoryFirstYearArrival,FIN_Number);
                  
@@ -1239,7 +1352,7 @@ public class DBConnect {
     public static ArrayList<Accomodation> getAccomodationDetails(String FIN) {
          ArrayList<Accomodation> workHistoryDetails = new ArrayList<Accomodation>();
          try{
-             String query = "Select * from tbl_accomodation where FIN_Number ='"  + FIN + "'";
+             String query = "Select * from tbl_accomodation where Worker_FIN_Number ='"  + FIN + "'";
              rs = statement.executeQuery(query);
              
              while(rs.next()) {
@@ -1247,7 +1360,7 @@ public class DBConnect {
                  String accomodationType = rs.getString("Accomodation_Type");
                  String accomodationCharged = rs.getString("Accomodation_Charged"); 
                  String accomodationSelfPaid =  rs.getString("Accomodation_Self_Paid");
-                 String FIN_Number = rs.getString("FIN_Number");
+                 String FIN_Number = rs.getString("Worker_FIN_Number");
                  
                  Accomodation accomodation = new Accomodation(accomodationProvided,accomodationType,accomodationCharged,accomodationSelfPaid,FIN_Number);
                  
@@ -1262,10 +1375,10 @@ public class DBConnect {
     }
     
     
-    public static ArrayList<AggravatingIssue> getAggravatingIssueDetails(String FIN) {
+    public static ArrayList<AggravatingIssue> getAggravatingIssueDetails(String FIN, String jobKey) {
          ArrayList<AggravatingIssue> aggraIssueDetails = new ArrayList<AggravatingIssue>();
          try{
-             String query = "Select * from tbl_aggravating_issue where FIN_Number ='"  + FIN + "'";
+             String query = "Select * from tbl_aggravating_issue where Worker_FIN_Number ='" + FIN + "' and JobKey ='" +jobKey + "' ";
              rs = statement.executeQuery(query);
              
              while(rs.next()) {
@@ -1273,9 +1386,11 @@ public class DBConnect {
                  String aggraIssueMore = rs.getString("AggraIssueMore");
                  String aggraLoss = rs.getString("AggraLoss"); 
                  String aggraRemarks =  rs.getString("AggraRemarks");
+                 String JobKey = rs.getString("JobKey");
+                 String ProbKey = rs.getString("ProbKey");
                  
                  
-                 AggravatingIssue aggravatingIssue = new AggravatingIssue(aggraIssue,aggraIssueMore,aggraLoss,aggraRemarks,FIN);
+                 AggravatingIssue aggravatingIssue = new AggravatingIssue(aggraIssue,aggraIssueMore,aggraLoss,aggraRemarks,FIN,JobKey, ProbKey);
                  
                  aggraIssueDetails.add(aggravatingIssue);
              }
@@ -1287,18 +1402,20 @@ public class DBConnect {
         return aggraIssueDetails;
     }
     
-    public static ArrayList<CaseWorker> getCaseWorkerDetails(String FIN) {
+    public static ArrayList<CaseWorker> getCaseWorkerDetails(String FIN, String jobKey) {
          ArrayList<CaseWorker> caseWorkerDetails = new ArrayList<CaseWorker>();
          try{
-             String query = "Select * from tbl_leadcaseworker where FIN_Number ='"  + FIN + "'";
+             String query = "Select * from tbl_leadcaseworker where Worker_FIN_Number ='" + FIN + "' and JobKey ='" +jobKey + "' ";
              rs = statement.executeQuery(query);
              
              while(rs.next()) {
                  String leadCaseWorker =  rs.getString("leadCaseWorker");
                  String startDate = rs.getString("leadStart");
                  String endDate = rs.getString("leadEnd"); 
+                 String JobKey = rs.getString("JobKey");
+                 String ProbKey = rs.getString("ProbKey");
  
-                 CaseWorker caseWorker = new CaseWorker(leadCaseWorker,startDate,endDate,FIN);
+                 CaseWorker caseWorker = new CaseWorker(leadCaseWorker,startDate,endDate,FIN,JobKey, ProbKey);
                  
                  caseWorkerDetails.add(caseWorker);
              }
@@ -1310,18 +1427,20 @@ public class DBConnect {
         return caseWorkerDetails;
     }
     
-    public static ArrayList<AuxillaryCaseWorker> getAuxCaseWorkerDetails(String FIN) {
+    public static ArrayList<AuxillaryCaseWorker> getAuxCaseWorkerDetails(String FIN, String jobKey) {
          ArrayList<AuxillaryCaseWorker> caseWorkerDetails = new ArrayList<AuxillaryCaseWorker>();
          try{
-             String query = "Select * from tbl_auxillaryCaseWorker where FIN_Number ='"  + FIN + "'";
+             String query = "Select * from tbl_auxillaryCaseWorker where Worker_FIN_Number ='" + FIN + "' and JobKey ='" +jobKey + "' ";
              rs = statement.executeQuery(query);
              
              while(rs.next()) {
                  String auxCaseWorker =  rs.getString("AuxName");
                  String startDate = rs.getString("AuxStart");
                  String endDate = rs.getString("AuxEnd"); 
+                 String JobKey = rs.getString("JobKey");
+                 String ProbKey = rs.getString("ProbKey");
  
-                 AuxillaryCaseWorker caseWorker = new AuxillaryCaseWorker(auxCaseWorker,startDate,endDate,FIN);
+                 AuxillaryCaseWorker caseWorker = new AuxillaryCaseWorker(auxCaseWorker,startDate,endDate,FIN,JobKey,ProbKey);
                  
                  caseWorkerDetails.add(caseWorker);
              }
@@ -1349,7 +1468,9 @@ public class DBConnect {
                  String salaryMode = rs.getString("SalMode");
                  String salLossTotal = rs.getString("SalLossTotal"); 
                  String salLoss = rs.getString("SalLoss1Yr");
-                 SalaryRelatedHistory salaryHistory = new SalaryRelatedHistory(salaryHistoryBasic,salaryMode,salLossTotal,salLoss,FIN);
+                 String JobKey = rs.getString("JobKey");
+                 String ProbKey = rs.getString("ProbKey");
+                 SalaryRelatedHistory salaryHistory = new SalaryRelatedHistory(salaryHistoryBasic,salaryMode,salLossTotal,salLoss,FIN, JobKey, ProbKey);
                  
                  salaryRelatedDetails.add(salaryHistory);
              }
@@ -1420,7 +1541,7 @@ public class DBConnect {
     public static String getChiefProblem(String FIN) {
         String chiefProblem = null;
         try{
-            String query = "Select Chief_Problem from tbl_problem where FIN_Number = '" + FIN + "'";
+            String query = "Select Chief_Problem from tbl_problem where Worker_FIN_Number = '" + FIN + "'";
             rs = statement.executeQuery(query);
             while(rs.next()){
                 chiefProblem = rs.getString("Chief_Problem");
@@ -1521,19 +1642,21 @@ public class DBConnect {
         return LawyerDetails;
     }
     
-    public static ArrayList getLeadCaseWorkers(String FIN_Num){
+    public static ArrayList getLeadCaseWorkers(String FIN_Num, String jobKey){
        
             ArrayList<CaseWorker> workers = new ArrayList<CaseWorker>();
         try{
-            String query = "Select * from tbl_leadcaseworker where FIN_Number = '" + FIN_Num + "'";
+            String query = "Select * from tbl_leadcaseworker where Worker_FIN_Number ='" + FIN + "' and JobKey ='" +jobKey + "' ";
             rs = statement.executeQuery(query);
             
             while(rs.next()) {
                 String leadCaseWorker = rs.getString("leadCaseWorker");
                 String leadStart = rs.getString("leadStart");
                 String leadEnd = rs.getString("leadEnd");
+                String JobKey = rs.getString("JobKey");
+                String ProbKey = rs.getString("ProbKey");
                 
-                CaseWorker CaseWorker1 = new CaseWorker(leadCaseWorker ,leadStart,leadEnd, FIN_Num);
+                CaseWorker CaseWorker1 = new CaseWorker(leadCaseWorker ,leadStart,leadEnd, FIN_Num,JobKey,ProbKey);
                 workers.add(CaseWorker1);
             }
            
@@ -1544,19 +1667,21 @@ public class DBConnect {
         return workers;
    }
     
-    public static ArrayList getAuxillaryWorker (String FIN_Num){
+    public static ArrayList getAuxillaryWorker (String FIN_Num, String jobKey){
        
             ArrayList<AuxillaryCaseWorker> workers = new ArrayList<AuxillaryCaseWorker>();
         try{
-            String query = "Select * from tbl_auxillarycaseworker where FIN_Number = '" + FIN_Num + "'";
+            String query = "Select * from tbl_auxillarycaseworkerwhere Worker_FIN_Number ='" + FIN + "' and JobKey ='" +jobKey + "' ";
             rs = statement.executeQuery(query);
             
             while(rs.next()) {
                 String AuxName = rs.getString("AuxName");
                 String AuxStart = rs.getString("AuxStart");
                 String AuxEnd = rs.getString("AuxEnd");
+                String JobKey = rs.getString("JobKey");
+                String ProbKey = rs.getString("ProbKey");
                 
-                AuxillaryCaseWorker CaseWorker1 = new AuxillaryCaseWorker(AuxName ,AuxStart,AuxEnd, FIN_Num);
+                AuxillaryCaseWorker CaseWorker1 = new AuxillaryCaseWorker(AuxName ,AuxStart,AuxEnd, FIN_Num, JobKey, ProbKey);
                 workers.add(CaseWorker1);
             }
            
@@ -1613,36 +1738,13 @@ public class DBConnect {
         }
         return jobSector;
     }
-    public static ChiefProblem getAssociateProblemDetails(String FIN) {
-         
-        ChiefProblem ProblemDetails = null;
-         try{
-             String query = "Select * from tbl_problem where FIN_Number ='"  + FIN + "'";
-             rs = statement.executeQuery(query);
-             
-             while(rs.next()) {
-                 String ProblemDate = rs.getString("Chief_Problem_Date");
-                 String ChiefProblem = rs.getString("Chief_Problem");
-                 String ChiefProblemMore = rs.getString("Chief_Problem_More");
-                 String ChiefProblemRemarks = rs.getString("Chief_Problem_Remarks");
-                 
-                 
-                 
-                 ProblemDetails = new ChiefProblem(ProblemDate,ChiefProblem,ChiefProblemMore,ChiefProblemRemarks,FIN);
-             }
-             
-             
-         }catch(Exception err) {
-             System.out.println("Error : " +  err);
-         }
-        return ProblemDetails;
-    }
+ 
     
     public static ArrayList getProblems(String FIN) {
         
         ArrayList<String> problems = new ArrayList<String>();
         try{
-            String query = "Select Chief_Problem from tbl_problem where FIN_Number = '" + FIN + "'";
+            String query = "Select * from tbl_problem where Worker_FIN_Number = '" + FIN + "'";
             rs = statement.executeQuery(query);
             
             while(rs.next()) {
@@ -1657,22 +1759,7 @@ public class DBConnect {
         return problems;
     }
     
-    public ArrayList getHospitals(){
-        ArrayList<String> hospitals = new ArrayList<String>();
-        try{
-            String sqlQuery = " SELECT * FROM `tbl_hospitaltype`";
-            rs = executeQuery(sqlQuery);
-            
-            while(rs.next()) {
-                String hospital= rs.getString(2);
-                hospitals.add(hospital);
-            }
-        }catch(Exception err){
-            System.out.println("Error" + err);
-        }
-        
-        return hospitals;
-    }
+    
     
     public static MC getAssociateMCDetails(String FIN) {
          
@@ -2233,7 +2320,7 @@ public class DBConnect {
             String jobRemarks = job.getJobRemarks();
             String FIN_Number =job.getFIN_No();
             
-            String sqlQuery = "Insert into tbl_job(EntryDate,FIN_Number,JobKey,Employer_Name,Workpass_Type, Workpass_More,Job_Sector,Job_Sector_More,Occupation"
+            String sqlQuery = "Insert into tbl_job(EntryDate,Worker_FIN_Number,JobKey,Employer_Name,Workpass_Type, Workpass_More,Job_Sector,Job_Sector_More,Occupation"
                     + ",Job_Start_Date,Job_End_Date,Job_Whether_TJS,Job_Remarks) Values ('" + entryDate + "','" + FIN_Number + "','" + jobKey + "','" + employerName + "','" + workpassType + "','" + workpassMore + "','" + jobSector + "','" + jobSectorMore + "','"+  occupation + "','" + startDate + "','" + endDate + "','" + jobWhetherTJS + "','" + jobRemarks +"')";
             
             executeUpdate(sqlQuery);
@@ -2245,8 +2332,11 @@ public class DBConnect {
     
     public static void createProblem(ChiefProblem problem){
         try{
-            
+            Date currentDate = new Date();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String entryDate = df.format(currentDate);
             String jobKey = problem.getJobKey();
+            String probKey = problem.getProbKey();
             String FIN_Number = problem.getFIN_Number();
             String problemRegDate = problem.getProblemRegDate();
             String chiefProblem = problem.getChiefProblem();
@@ -2254,8 +2344,7 @@ public class DBConnect {
             String problemRemarks = problem.getProblemRemarks();
             
             
-            String sqlQuery = "Insert into tbl_problem(JobKey,FIN_Number,Chief_Problem_Date,Chief_Problem,Chief_Problem_More, Chief_Problem_Remarks"
-                    + ") Values ('" + jobKey + "','" +  FIN_Number + "','" + problemRegDate + "','" + chiefProblem + "','" + problemOther + "','" + problemRemarks +"')";
+            String sqlQuery = "INSERT INTO `tbl_problem` (`EntryDate`, `Worker_FIN_Number`, `JobKey`, `ProbKey`, `Chief_Problem_Date`, `Chief_Problem`, `Chief_Problem_More`, `Chief_Problem_Remarks`) VALUES ('"+entryDate+"', '"+FIN_Number+"', '"+jobKey+"', '"+probKey+"', '"+problemRegDate+"', '"+chiefProblem+"', '"+problemOther+"', '"+problemRemarks+"');";
             
             executeUpdate(sqlQuery);
             
@@ -2268,7 +2357,7 @@ public class DBConnect {
             Date currentDate = new Date();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDate = df.format(currentDate);
-            String insertImageSqlQuery = "Insert Into tbl_worker_facepic(FacePicture,Datestamp,FIN_Number) Values ('" + itemName + "','" + formattedDate + "','" + FIN + "')";
+            String insertImageSqlQuery = "Insert Into tbl_worker_facepic(FacePicture,Datestamp,Worker_FIN_Number) Values ('" + itemName + "','" + formattedDate + "','" + FIN + "')";
             executeUpdate(insertImageSqlQuery);
         }catch(Exception err) {
             System.out.println("Error : " +  err);
@@ -2442,8 +2531,8 @@ public class DBConnect {
         {
           try{
               
-              String sqlQuery = "Insert into tbl_bank_acc_details(Bank_Account_Name,Bank_Account_Number,Bank_Name"
-                      + ",Bank_Branch_Name,Bank_Branch_Address,Bank_Branch_Code,Bank_Swift_Code,Bank_Account_Remarks,Bank_Obsolete,FIN_Number) Values ('" + bankAccName + "','" + bankAccNumber+ "','" + bankName + "','" + "null" + "','" + "null" + "','" + "null" + "','" + "null"+ "','" + "null" + "','" + bankObsoleteDate + "','" + FIN_Num +"')";
+              String sqlQuery = "Insert into tbl_bank_acc_details(Bank_Account_Name,Bank_Account_Number,Bank_Name,"
+                      + "Bank_Branch_Name,Bank_Branch_Address,Bank_Branch_Code,Bank_Swift_Code,Bank_Account_Remarks,Bank_Obsolete,Worker_FIN_Number) Values ('" + bankAccName + "','" + bankAccNumber+ "','" + bankName + "','" + "null" + "','" + "null" + "','" + "null" + "','" + "null"+ "','" + "null" + "','" + bankObsoleteDate + "','" + FIN_Num +"')";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2472,7 +2561,7 @@ public class DBConnect {
         {
           try{
               
-              String sqlQuery = "Insert into tbl_kin(FIN_Number,Kin_Name,Kin_Relationship,Kin_Id_doc"
+              String sqlQuery = "Insert into tbl_kin(Worker_FIN_Number,Kin_Name,Kin_Relationship,Kin_Id_doc"
                       + ",Kin_Phone,Kin_Digital,Kin_Address,Kin_Proof,Kin_Remarks,Kin_Obsolete) Values ('" + FIN_Num + "','" + kinName + "','" + kinRelationship+ "','" + "null" + "','" + kinPhoneNum + "','" + "null" + "','" + "null" + "','" + "null" + "','" + "null" + "','" +kinPhoneNumOBsoleteDate +"')";
               executeUpdate(sqlQuery);
               
@@ -2498,12 +2587,12 @@ public class DBConnect {
         }
         
           /** Insert Language Details **/
-        public static void insertLanguageDetails(String workerMainLanguage, String spokenEnglishStandard, String FIN_Num)
+        public static void insertLanguageDetails(String workerMainLanguage, String spokenEnglishStandard, String otherLanaguage, String FIN_Num)
         {
             try{
                 
                 String sqlQuery = "Insert into tbl_language(Worker_Main_Language,Spoken_English_Standard,Language_Remarks"
-                        + ",Worker_FIN_Number) Values ('" + workerMainLanguage + "','" + spokenEnglishStandard+ "','" + "null" + "','" +  FIN_Num +"')";
+                        + ",Worker_FIN_Number) Values ('" + workerMainLanguage + "','" + spokenEnglishStandard+ "','" + otherLanaguage + "','" +  FIN_Num +"')";
                 executeUpdate(sqlQuery);
                 
             }catch(Exception err) {
@@ -2607,25 +2696,29 @@ public class DBConnect {
           }
       }
       /** Update Pass Details**/
-      public static void insertPassDetails(String passType,String passNumber,String passIssueDate, String passObsoleteDate, String FIN){
+      public static void insertPassDetails(String passType,String passNumber,String passIssueDate, String passObsoleteDate, String FIN, String jobKey){
           try{
               Date currentDate = new Date();
               SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
               String entryDate = df.format(currentDate);
-              String sqlQuery = "Insert Into tbl_pass_details (EntryDate,Worker_FIN_Number,JobKey,PassType,PassTypeMore,PassNumber,Pass_Application_Date,Pass_Issue_Date,Pass_Expiry_Date,Pass_Issuer,Pass_Remarks,Pass_Obsolete_Date) VALUES "
-                      + "(' " + entryDate + "','" + FIN + "','" + "null" + "','" + passType +"','" + "null" +  "','" + passNumber + "','" + "0000-00-00" + "','" + passIssueDate +  "','"+ "0000-00-00" + "','" + "null" + "','" + "null" + "','" + passObsoleteDate + "');";
+              
+              String sqlQuery = "INSERT INTO `tbl_pass_details` (`EntryDate`, `Worker_FIN_Number`, `Jobkey`, `PassType`, `PassTypeMore`, `PassNumber`, `Pass_Application_Date`, `Pass_Issue_Date`, `Pass_Expiry_Date`, `Pass_Issuer`, `Pass_Remarks`, `Pass_Obsolete_Date`) VALUES ('"+entryDate+"', '"+FIN+"', '"+jobKey+"', '"+passType+"', NULL, '"+passNumber+"', NULL, '"+passIssueDate+"', NULL, NULL, NULL, '"+passObsoleteDate+"');";
               executeUpdate(sqlQuery);
+              
               
           }catch(Exception err) {
               System.out.println("Error : " + err);
           }
       }
       
-       public static void insertIPADetails(String workpassSpecified,String ipaEmployerName, String ipaBasicMonthlySalary, double ipaDeductions, String FIN){
+       public static void insertIPADetails(String workpassSpecified,String ipaEmployerName, String ipaBasicMonthlySalary, double ipaDeductions, String FIN, String jobKey){
           try{
+              Date currentDate = new Date();
+              SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+              String entryDate = df.format(currentDate);
               
-              String sqlQuery = "Insert Into tbl_ipa_details (EntryDate,FIN_Number,JobKey,IPA_Pass_Type,IPA_Pass_Type_More,IPA_Application_Date,IPA_Employer_Name,IPA_Agent_Name,IPA_Industry,IPA_Occupation,IPA_Period_Years,IPA_Basic_Salary,IPA_Allowances,IPA_Allowances_Details,IPA_Deduction,IPA_Deduction_details,Housing_Provided,IPA_Remarks) VALUES "
-                      + "(' " + "0000-00-00" + "','" + FIN + "','" + "null" + "','" + workpassSpecified +"','" + "null" +  "','" + "0000-00-00" + "','" + ipaEmployerName + "','" + "null" +  "','"+ "null" + "','" + "null" + "','" + "null" + "','" + ipaBasicMonthlySalary + "','" + "0.0" + "','" + "null" + "','" + ipaDeductions + "','" + "null" + "','" + "" + "','" + "null" + "');";
+              
+              String sqlQuery = "INSERT INTO `tbl_ipa_details` (`EntryDate`, `Worker_FIN_Number`, `JobKey`, `IPA_Pass_Type`, `IPA_Pass_Type_More`, `IPA_Application_Date`, `IPA_Employer_Name`, `IPA_Agent_Name`, `IPA_Industry`, `IPA_Occupation`, `IPA_Period_Years`, `IPA_Basic_Salary`, `IPA_Allowances`, `IPA_Allowances_Details`, `IPA_Deduction`, `IPA_Deduction_details`, `Housing_Provided`, `IPA_Remarks`) VALUES ('"+entryDate+"', '"+FIN+"', '"+jobKey+"', '"+workpassSpecified+"', NULL, NULL, '"+ipaEmployerName+"', NULL, NULL, NULL, NULL,  '"+ipaBasicMonthlySalary+"', NULL, NULL, '"+ipaDeductions+"' , NULL, NULL, NULL);";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2633,11 +2726,11 @@ public class DBConnect {
           }
       }
        
-       public static void insertVerbalAssuranceDetails(String giverName,String giverRelationship,String givenDate, String givenPlace, String FIN){
+       public static void insertVerbalAssuranceDetails(String giverName,String giverRelationship,String givenDate, String givenPlace, String FIN, String jobKey){
           try{
               
-              String sqlQuery = "Insert Into tbl_verbal_assurances (Verbal_Name,Verbal_Relationship,Verbal_When,Verbal_Where,Verbal_Content,FIN_Number) VALUES "
-                      + "('" + giverName + "','" + giverRelationship + "','" + givenDate + "','" + givenPlace +"','" + "null" + "','" + FIN + "');";
+              String sqlQuery = "Insert Into tbl_verbal_assurances (Verbal_Name,Verbal_Relationship,Verbal_When,Verbal_Where,Verbal_Content,Worker_FIN_Number, JobKey) VALUES "
+                      + "('" + giverName + "','" + giverRelationship + "','" + givenDate + "','" + givenPlace +"','" + "null" +"','" + FIN + "','" + jobKey + "');";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2645,11 +2738,12 @@ public class DBConnect {
           }
       }
        
-       public static void insertEmploymentContractDetails(String contractDate,String contractSigned, String contractRelationship, String contractBasicSalary, String FIN){
+       public static void insertEmploymentContractDetails(String contractDate,String contractSigned, String contractRelationship, String contractBasicSalary, String FIN,String jobKey){
           try{
-              
-              String sqlQuery = "Insert Into tbl_employment_contract (EntryDate,FIN_Number,shortname,JobKey,Contract_Date,Contract_Where,Contract_Language,Contract_Opposite_Name,Contract_Opposite_Relationship,Contract_Occupation,Contract_Basic_Salary,Contract_Allowances,Contract_Deduction_Details,Contract_Duration,Contract_Duress,Contract_Remarks) VALUES "
-                      + "(' " + "0000-00-00" + "','" + FIN + "','" + "" + "','" + "" +"','" + contractDate +  "','" + contractSigned + "','" + "" + "','" + "" +  "','"+ contractRelationship + "','" + "" + "','" + contractBasicSalary + "','" + "" + "','" + "" + "','" + "" + "','" + "" + "','" + ""  + "');";
+              Date currentDate = new Date();
+              SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+              String entryDate = df.format(currentDate);
+              String sqlQuery = "INSERT INTO `tbl_employment_contract` (`EntryDate`, `Worker_FIN_Number`, `shortname`, `JobKey`, `Contract_Date`, `Contract_Where`, `Contract_Language`, `Contract_Opposite_Name`, `Contract_Opposite_Relationship`, `Contract_Occupation`, `Contract_Basic_Salary`, `Contract_Allowances`, `Contract_Deduction_Details`, `Contract_Duration`, `Contract_Duress`, `Contract_Remarks`) VALUES ('"+entryDate+"', '"+FIN+"',  NULL,  '"+jobKey+"',  '"+contractDate+"',  '"+contractSigned+"', NULL, NULL,  '"+contractRelationship+"', NULL,  '"+contractBasicSalary+"', NULL, NULL, NULL, NULL, NULL);";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2657,11 +2751,11 @@ public class DBConnect {
           }
       }
        
-       public static void insertAgentDetails(String agentCompanyName,String agentLocation, double agentAmountPaid, double agentMoneyOwed, String FIN){
+       public static void insertAgentDetails(String agentCompanyName,String agentLocation, double agentAmountPaid, double agentMoneyOwed, String FIN, String jobKey){
           try{
               
-              String sqlQuery = "Insert Into tbl_agent (Agent_Company,Agent_Person_Name,Agent_Location,Agent_Address,Agent_Contact,Agent_Amt_Paid,Agent_Amt_Owed,Agent_Fee_Shared,Agent_Fee_Training,Agent_Fee_Airfare,Agent_Fee_Where,Agent_Fee_Repay,Agent_Employer,Agent_Remarks,FIN_Number) VALUES "
-                      + "(' " + agentCompanyName + "','" + "" + "','" + agentLocation + "','" + "" +"','" + "" +  "','" + agentAmountPaid + "','" + agentMoneyOwed + "','" + "" +  "','"+ "" + "','" + "" + "','" + "" + "','" + "" + "','" + "" + "','" + "" + "','" + FIN  + "');";
+              String sqlQuery = "Insert Into tbl_agent (Agent_Company,Agent_Person_Name,Agent_Location,Agent_Address,Agent_Contact,Agent_Amt_Paid,Agent_Amt_Owed,Agent_Fee_Shared,Agent_Fee_Training,Agent_Fee_Airfare,Agent_Fee_Where,Agent_Fee_Repay,Agent_Employer,Agent_Remarks,Worker_FIN_Number,jobKey) VALUES "
+                      + "(' " + agentCompanyName + "','" + "" + "','" + agentLocation + "','" + "" +"','" + "" +  "','" + agentAmountPaid + "','" + agentMoneyOwed + "','" + "" +  "','"+ "" + "','" + "" + "','" + "" + "','" + "" + "','" + "" + "','" + "" + "','" + FIN  + "','" + jobKey  +"');";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2670,14 +2764,14 @@ public class DBConnect {
       }
        
        
-       public static void insertEmployerDetails(String employerName,String employerAddress, String employerContacts, String employerKey, String FIN){
+       public static void insertEmployerDetails(String employerName,String employerAddress, String employerContacts, String employerKey, String FIN, String jobKey){
           try{
               
               Date currentDate = new Date();
               SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
               String formattedDate = df.format(currentDate);
               String sqlQuery = "Insert Into tbl_employer (EntryDate,Worker_FIN_Number,JobKey,Employer_Official_Name,Employer_ID,Employer_Address,Employer_Contacts,Employer_Persons,Employer_Remarks) VALUES "
-                      + "(' " + formattedDate + "','" + FIN + "','" + "" + "','" + employerName +"','" + "" +  "','" + employerAddress + "','" + employerContacts + "','" + employerKey +  "','" + "" + "');";
+                      + "(' " + formattedDate + "','" + FIN + "','" + jobKey + "','" + employerName +"','" + "" +  "','" + employerAddress + "','" + employerContacts + "','" + employerKey +  "','" + "" + "');";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2685,12 +2779,10 @@ public class DBConnect {
           }
       }
        
-       public static void insertWorkplaceDetails(String workplaceType,String workplaceWhose, String workplaceDirect, String workplaceStart, String FIN){
-          try{
+       public static void insertWorkplaceDetails(String workplaceType,String workplaceWhose, String workplaceDirect, String workplaceStart, String FIN, String jobKey){
+          try{ 
               
-              
-              String sqlQuery = "Insert Into tbl_workplace (FIN_Number,Workplace_Type,Workplace_Whose,Workplace_Persons,Workplace_Employer_Relationship,Workplace_Direct,Workplace_Start,Workplace_End,Workplace_Condition,Workplace_Safety,Workplace_Remarks) VALUES "
-                      + "('" + FIN + "','" + workplaceType + "','" + workplaceWhose + "','" + "" +"','" + "" +  "','" + workplaceDirect + "','" + workplaceStart + "','" + "" +  "','" + "" + "','" + "" + "','" + "" +  "');";
+              String sqlQuery = "INSERT INTO `tbl_workplace` (`Worker_FIN_Number`, `JobKey`, `Workplace_Type`, `Workplace_Whose`, `Workplace_Persons`, `Workplace_Employer_Relationship`, `Workplace_Direct`, `Workplace_Start`, `Workplace_End`, `Workplace_Condition`, `Workplace_Safety`, `Workplace_Remarks`) VALUES ('"+FIN+"', '"+jobKey+"', '"+workplaceType+"', '"+workplaceWhose+"', NULL, NULL, '"+workplaceDirect+"', '"+workplaceStart+"', NULL, NULL, NULL, NULL);";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2698,14 +2790,13 @@ public class DBConnect {
           }
       }
        
-        public static void insertWorkHistoryDetails(String getWorkHow,String singaporeDateArrival, String firstJobWhether, String firstJobArrival, String FIN){
+        public static void insertWorkHistoryDetails(String getWorkHow,String singaporeDateArrival, String firstJobWhether, String firstJobArrival, String FIN, String jobKey){
           try{
               
               Date currentDate = new Date();
               SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-              String formattedDate = df.format(currentDate);
-              String sqlQuery = "Insert Into tbl_work_history (EntryDate,FIN_Number,JobKey,Work_History_How,Work_History_How_More,Work_History_Date,Work_History_First,Work_History_Year_Arrive,Work_History_Previous,Work_History_Previous_Problems,Work_History_Remarks) VALUES "
-                      + "('" + formattedDate + "','" + FIN + "','" + ""  +"','" + getWorkHow +  "','" + "" + "','" + singaporeDateArrival + "','" + firstJobWhether +  "','" + firstJobArrival + "','" + "" + "','" + "" + "','" + "" + "');";
+              String entryDate = df.format(currentDate);
+              String sqlQuery = "INSERT INTO `tbl_work_history` (`EntryDate`, `Worker_FIN_Number`, `JobKey`, `Work_History_How`, `Work_History_How_More`, `Work_History_Date`, `Work_History_First`, `Work_History_Year_Arrive`, `Work_History_Previous`, `Work_History_Previous_Problems`, `Work_History_Remarks`) VALUES ('"+entryDate+"','"+FIN+"', '"+jobKey+"', '"+getWorkHow+"', NULL, '"+singaporeDateArrival+"', '"+firstJobWhether+"','"+firstJobArrival+"', NULL, NULL, NULL);";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2714,10 +2805,10 @@ public class DBConnect {
       }
         
         
-          public static void insertAccomodationDetails(String accomodationProvided,String accomodationType, String employerMonthlyCost, String selfPaidCost, String FIN){
+          public static void insertAccomodationDetails(String accomodationProvided,String accomodationType, String employerMonthlyCost, String selfPaidCost, String FIN, String jobKey){
           try{
-              String sqlQuery = "Insert Into tbl_accomodation (Accomodation_Provided,Accomodation_Type,Accomodation_Location,Accomodation_Condition,Accomodation_Charged,Accomodation_Self_Paid,Accomodation_Meals,Accomodation_Start,Accomdation_End,Accomodation_Remarks,FIN_Number) VALUES "
-                      + "('" + accomodationProvided + "','" + accomodationType + "','" + ""  +"','" + "" +  "','" + Double.parseDouble(employerMonthlyCost)+ "','" + Double.parseDouble(selfPaidCost) +  "','" + "" + "','" + "" + "','" + "" + "','" + "" + "','" + FIN + "');";
+              String sqlQuery = "Insert Into tbl_accomodation (Accomodation_Provided,Accomodation_Type,Accomodation_Location,Accomodation_Condition,Accomodation_Charged,Accomodation_Self_Paid,Accomodation_Meals,Accomodation_Start,Accomdation_End,Accomodation_Remarks,Worker_FIN_Number,JobKey) VALUES "
+                      + "('" + accomodationProvided + "','" + accomodationType + "',NULL,NULL,'" + Double.parseDouble(employerMonthlyCost)+ "','" + Double.parseDouble(selfPaidCost) +  "',NULL,NULL,NULL,NULL,'" + FIN + "','" + jobKey + "');";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2726,10 +2817,14 @@ public class DBConnect {
       }
       
           
-        public static void insertAggravatingIssueDetails(String aggravatingIssue,String aggravatingIssueOther, String monetaryLoss, String aggravatingIssueRemarks, String FIN){
+        public static void insertAggravatingIssueDetails(String aggravatingIssue,String aggravatingIssueOther, String monetaryLoss, String aggravatingIssueRemarks, String FIN, String JobKey, String ProbKey){
           try{
-              String sqlQuery = "Insert Into tbl_aggravating_issue (AggraIssue,AggraIssueMore,AggraLoss,AggraRemarks,FIN_Number) VALUES "
-                      + "('" + aggravatingIssue + "','" + aggravatingIssueOther + "','" + Double.parseDouble(monetaryLoss)  +"','" + aggravatingIssueRemarks + "','" + FIN + "');";
+              Date currentDate = new Date();
+              SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+              String entryDate = df.format(currentDate);
+			  
+              
+              String sqlQuery = "INSERT INTO `tbl_aggravating_issue` (`EntryDate`, `Worker_FIN_Number`, `JobKey`, `ProbKey`, `AggraIssue`, `AggraIssueMore`, `AggraLoss`, `AggraRemarks`) VALUES ('"+entryDate+"', '"+FIN+"', '"+JobKey+"', '"+ProbKey+"', '"+aggravatingIssue+"', '"+aggravatingIssueOther+"', '"+monetaryLoss+"', '"+aggravatingIssueRemarks+"');";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2738,10 +2833,9 @@ public class DBConnect {
       }
         
         
-        public static void insertLeadCaseWorkerDetails(String leadCaseWorker,String startDate, String endDate, String FIN){
+        public static void insertLeadCaseWorkerDetails(String leadCaseWorker,String startDate, String endDate, String FIN, String jobKey, String probKey){
           try{
-              String sqlQuery = "Insert Into tbl_leadcaseworker (leadCaseWorker,leadStart,leadEnd,FIN_Number) VALUES "
-                      + "('" + leadCaseWorker + "','" + startDate + "','" + endDate  +"','" + FIN + "');";
+              String sqlQuery = "INSERT INTO `tbl_leadcaseworker` (`leadCaseWorker`, `leadStart`, `leadEnd`, `Worker_FIN_Number`, `JobKey`, `ProbKey`) VALUES ('"+leadCaseWorker+"', '"+startDate+"', '"+endDate+"', '"+FIN+"', '"+jobKey+"', '"+probKey+"');";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2749,10 +2843,9 @@ public class DBConnect {
           }
       }
        
-        public static void insertAuxillaryCaseWorkerDetails(String auxCaseWorkerName,String auxStartDate, String auxEndDate, String FIN){
+        public static void insertAuxillaryCaseWorkerDetails(String auxCaseWorkerName,String auxStartDate, String auxEndDate, String FIN, String jobKey, String probKey){
           try{
-              String sqlQuery = "Insert Into tbl_auxillaryCaseWorker (AuxName,AuxStart,AuxEnd,FIN_Number) VALUES "
-                      + "('" + auxCaseWorkerName + "','" + auxStartDate + "','" + auxEndDate  +"','" + FIN + "');";
+              String sqlQuery = "INSERT INTO `tbl_auxillarycaseworker` (`AuxName`, `AuxStart`, `AuxEnd`, `Worker_FIN_Number`, `JobKey`, `ProbKey`) VALUES ('"+auxCaseWorkerName+"', '"+auxStartDate+"', '"+auxEndDate+"', '"+FIN+"', '"+jobKey+"', '"+probKey+"');";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2762,10 +2855,13 @@ public class DBConnect {
         
         
         
-        public static void insertBasicSalaryComplaintDetails(String basicSalaryComplaint,String salaryPaymentMode, String estimatedClaim, String estimated2MonthsClaim, String FIN){
+        public static void insertBasicSalaryComplaintDetails(String basicSalaryComplaint,String salaryPaymentMode, String estimatedClaim, String estimated2MonthsClaim, String FIN, String jobKey, String probKey){
           try{
-              String sqlQuery = "Insert Into tbl_salary_history (SalHisBasic,SalHisOT,SalHistAllowances,SalHisDeductions,SalhisKickBacks,SalHistOther,SalMode,SalModeMore,SalLossTotal,SalLoss1Yr,SalHisRemarks,FIN_Number) VALUES "
-                      + "('" + basicSalaryComplaint + "','" + "" + "','" + ""  +"','" + "" + "','" + "" + "','" + "" + "','"+ salaryPaymentMode + "','" + ""+ "','" + Double.parseDouble(estimatedClaim) +"','" + Double.parseDouble(estimated2MonthsClaim) + "','" + "" + "','" + FIN + "');";
+              
+                Date currentDate = new Date();
+              SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+              String entryDate = df.format(currentDate);
+              String sqlQuery = "INSERT INTO `tbl_salary_history` (`EntryDate`, `Worker_FIN_Number`, `JobKey`, `ProbKey`, `SalHisBasic`, `SalHisOT`, `SalHistAllowances`, `SalHisDeductions`, `SalhisKickBacks`, `SalHistOther`, `SalMode`, `SalModeMore`, `SalLossTotal`, `SalLoss1Yr`, `SalHisRemarks`) VALUES ('"+entryDate+"', '"+FIN+"', '"+jobKey+"', '"+probKey+"', '"+basicSalaryComplaint+"', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);";
               executeUpdate(sqlQuery);
               
           }catch(Exception err) {
@@ -2966,7 +3062,7 @@ public class DBConnect {
       public static ArrayList<JobProfile> retrieveJobs(String FIN_Number){
           ArrayList<JobProfile> jobs = new ArrayList<JobProfile>();
           try{
-             String sqlQuery = "Select * from tbl_job where FIN_Number = '" + FIN_Number + "';";
+             String sqlQuery = "Select * from tbl_job where Worker_FIN_Number = '" + FIN_Number + "';";
               rs = executeQuery(sqlQuery);
               while(rs.next()){
                   String employerName = rs.getString("Employer_Name");
@@ -3019,8 +3115,8 @@ public class DBConnect {
       
       public static void insertHomeCountryContactDetails(String homePhoneNumber, String homePhoneNumOwner, String FIN_Num, String homeNumObsoleteDate){
           try{
-              String sqlQuery = "Insert into tbl_homeCountry_phoneNumber (Home_Country_telephone_number,Owner_of_Number"
-                    + ",Home_Phone_Obsolete,FIN_Number) Values ('" + homePhoneNumber + "','" + homePhoneNumOwner + "','" + homeNumObsoleteDate  + "','" + FIN_Num +"')"; 
+              String sqlQuery = "Insert into tbl_homecountry_phonenumber (Home_Country_telephone_number,Owner_of_Number"
+                    + ",Home_Phone_Obsolete,Worker_FIN_Number) Values ('" + homePhoneNumber + "','" + homePhoneNumOwner + "','" + homeNumObsoleteDate  + "','" + FIN_Num +"')"; 
               executeUpdate(sqlQuery);
           }catch(Exception err) {
               System.out.println("Error : "  + err);
@@ -3032,14 +3128,14 @@ public class DBConnect {
       public static ArrayList<HomeCountryContactDetails> retrieveHomeCountryContactDetails(String FIN){
           ArrayList<HomeCountryContactDetails> workerInfo = new ArrayList<HomeCountryContactDetails>();
         try{
-            String sqlQuery = "Select * from tbl_homeCountry_phoneNumber where FIN_Number = '"  + FIN  + "';";
+            String sqlQuery = "Select * from tbl_homecountry_phonenumber where Worker_FIN_Number = '"  + FIN  + "';";
             rs = executeQuery(sqlQuery);
             while(rs.next()){
                 
                 String homePhoneNumber = rs.getString("Home_Country_telephone_number");
                 String homePhoneOwner = rs.getString("Owner_of_Number");
                 String homePhoneObsoleteDate = rs.getString("Home_Phone_Obsolete");
-                String FIN_Number = rs.getString("FIN_Number");                
+                String FIN_Number = rs.getString("Worker_FIN_Number");                
                 HomeCountryContactDetails contactDetails = new HomeCountryContactDetails(homePhoneNumber,homePhoneOwner,homePhoneObsoleteDate,FIN_Number);
                 workerInfo.add(contactDetails);
             }
@@ -3071,13 +3167,13 @@ public class DBConnect {
       public static ArrayList<WorkerHomeCountryAddress> retrieveHomeCountryAddress(String FIN){
           ArrayList<WorkerHomeCountryAddress> workerInfo = new ArrayList<WorkerHomeCountryAddress>();
         try{
-            String sqlQuery = "Select * from tbl_homecountry_address where FIN_Number = '"  + FIN  + "';";
+            String sqlQuery = "Select * from tbl_homecountry_address where Worker_FIN_Number = '"  + FIN  + "';";
             rs = executeQuery(sqlQuery);
             while(rs.next()){
                 
                 String homeCountryAddress = rs.getString("Home_Country_Address");
                 String homeCountryAddressObsolete = rs.getString("Home_Country_Obsolete_Address");
-                String FIN_Number = rs.getString("FIN_Number");                
+                String FIN_Number = rs.getString("Worker_FIN_Number");                
                 WorkerHomeCountryAddress homeCountryAddrDetail = new WorkerHomeCountryAddress(homeCountryAddress,homeCountryAddressObsolete,FIN_Number);
                 workerInfo.add(homeCountryAddrDetail);
             }
@@ -3090,7 +3186,7 @@ public class DBConnect {
       public static ArrayList<WorkerDigitalContactType> retrieveDigitalContactType(String FIN){
           ArrayList<WorkerDigitalContactType> workerInfo = new ArrayList<WorkerDigitalContactType>();
         try{
-            String sqlQuery = "Select * from tbl_digital_contact where FIN_Number = '"  + FIN  + "';";
+            String sqlQuery = "Select * from tbl_digital_contact where Worker_FIN_Number = '"  + FIN  + "';";
             rs = executeQuery(sqlQuery);
             while(rs.next()){
                 
@@ -3099,7 +3195,7 @@ public class DBConnect {
                 String digitalContactOwner = rs.getString("Owner_of_Electronic_Contact");
                 String digitalRemarks  = rs.getString("Digital_Remarks");
                 String obsoleteDate = rs.getString("Obsolete_Date");
-                String FIN_Number = rs.getString("FIN_Number");                
+                String FIN_Number = rs.getString("Worker_FIN_Number");                
                 WorkerDigitalContactType workerDigitalContactType = new WorkerDigitalContactType(digitalContactType,emailAddress,digitalContactOwner,digitalRemarks,obsoleteDate,FIN_Number);
                 workerInfo.add(workerDigitalContactType);
             }
@@ -3113,7 +3209,7 @@ public class DBConnect {
       public static ArrayList<WorkerBankAccountDetails> retrieveWorkerBankAccountDetails(String FIN){
           ArrayList<WorkerBankAccountDetails> workerInfo = new ArrayList<WorkerBankAccountDetails>();
           try{
-              String sqlQuery = "Select * from tbl_bank_acc_details where FIN_Number = '"  + FIN  + "';";
+              String sqlQuery = "Select * from tbl_bank_acc_details where Worker_FIN_Number = '"  + FIN  + "';";
               rs = executeQuery(sqlQuery);
               while(rs.next()){
                   
@@ -3121,7 +3217,7 @@ public class DBConnect {
                   String bankAccountNumber = rs.getString("Bank_Account_Number");
                   String bankName = rs.getString("Bank_Name");
                   String bankObsolete  = rs.getString("Bank_Obsolete");
-                  String FIN_Number = rs.getString("FIN_Number");
+                  String FIN_Number = rs.getString("Worker_FIN_Number");
                   WorkerBankAccountDetails workerBankAccountDetail = new WorkerBankAccountDetails(bankAccountName,bankAccountNumber,bankName,bankObsolete,FIN_Number);
                   workerInfo.add(workerBankAccountDetail);
               }
@@ -3145,7 +3241,7 @@ public class DBConnect {
        public static void insertDigitalContact(String digitalContactType, String emailAddress, String electronicContactOwner, String obsoleteDate, String FIN_Num){
            try{
                 String sqlQuery = "Insert into tbl_digital_contact(Digital_Contact_Type,Email_or_QQ_Address"
-                      + ",Owner_of_Electronic_Contact,Digital_Remarks,Obsolete_Date,FIN_Number) Values ('" + digitalContactType + "','" + emailAddress+ "','" + electronicContactOwner + "','" + "null" + "','" +  obsoleteDate + "','" + FIN_Num +"')";
+                      + ",Owner_of_Electronic_Contact,Digital_Remarks,Obsolete_Date,Worker_FIN_Number) Values ('" + digitalContactType + "','" + emailAddress+ "','" + electronicContactOwner + "','" + "null" + "','" +  obsoleteDate + "','" + FIN_Num +"')";
                executeUpdate(sqlQuery);
            }catch(Exception err) {
                System.out.println("Error : "  + err);
@@ -3187,7 +3283,7 @@ public class DBConnect {
        public static void insertHomeCountryAddress(String homeCountryAddress, String homeCountryAddrObsoleteDate, String FIN_Num){
            try{
                String sqlQuery = "Insert into tbl_homecountry_address (Home_Country_Address,Home_Country_Obsolete_Address"
-                       + ",FIN_Number) Values ('" + homeCountryAddress + "','" + homeCountryAddrObsoleteDate + "','" + FIN_Num +"')";
+                       + ",Worker_FIN_Number) Values ('" + homeCountryAddress + "','" + homeCountryAddrObsoleteDate + "','" + FIN_Num +"')";
                executeUpdate(sqlQuery);
            }catch(Exception err) {
                System.out.println("Error : "  + err);
@@ -3221,7 +3317,7 @@ public class DBConnect {
                   obsoleteDate = "0000-00-00";
               }
               String sqlQuery = "Insert into tbl_friend(Friend_SG_Name,Friend_SG_Phone,Friend_SG_Relationship"
-                    + ",Friend_Remarks,Friend_SG_Obsolete,FIN_Number) Values ('" + friendName + "','" + friendPhone + "','" + workerRelationship + "','" + "null" + "','" + obsoleteDate  + "','" + FIN +"')";
+                    + ",Friend_Remarks,Friend_SG_Obsolete,Worker_FIN_Number) Values ('" + friendName + "','" + friendPhone + "','" + workerRelationship + "','" + "null" + "','" + obsoleteDate  + "','" + FIN +"')";
             
             executeUpdate(sqlQuery);
               
@@ -3376,7 +3472,143 @@ public static void InsertWorkerPassDetails(String FIN_Num,String workpass,String
         return jobsectorLists;
     }
          
-         public static ArrayList<String> getProblemLists(){
+              /* display dropdown menu of the lists of cheifProblem types*/
+	 public static ArrayList<String> getChiefProblemlists(){
+             
+             ArrayList<String> chiefProblemLists = new ArrayList<String>();
+        try{
+            String sqlQuery = " SELECT * FROM `tbl_chiefproblem_type`";
+            rs = executeQuery(sqlQuery);
+            
+            while(rs.next()) {
+                String chiefProblemType= rs.getString(2);
+                chiefProblemLists.add(chiefProblemType);
+            }
+        }catch(Exception err){
+            System.out.println("Error" + err);
+        }
+        
+        return chiefProblemLists;
+    }
+         
+         
+         /* display dropdown menu of the lists of jobSectorType*/
+	 public static ArrayList<String> getLanguagelists(){
+             
+             ArrayList<String> languageLists = new ArrayList<String>();
+        try{
+            String sqlQuery = "SELECT * FROM tbl_worker_languagetype";
+            rs = executeQuery(sqlQuery);
+            
+            while(rs.next()) {
+                String language= rs.getString(2);
+                languageLists.add(language);
+            }
+        }catch(Exception err){
+            System.out.println("Error" + err);
+        }
+        
+        return languageLists;
+    }
+             
+         /* display dropdown menu of the lists of type of how worker got work history type*/
+    public static ArrayList<String> getWorkHistoryHowType(){
+             
+             ArrayList<String> workhistroyLists = new ArrayList<String>();
+        try{
+            String sqlQuery = " SELECT * FROM tbl_workhistoryhow_type";
+            rs = executeQuery(sqlQuery);
+            
+            while(rs.next()) {
+                String workhistroyList= rs.getString(2);
+                workhistroyLists.add(workhistroyList);
+            }
+        }catch(Exception err){
+            System.out.println("Error" + err);
+        }
+        
+        return workhistroyLists;
+    }
+    
+                /* display dropdown menu of the lists of agent location types*/
+    public static ArrayList<String> getAgentLocationTypes(){
+             
+             ArrayList<String> agentLocationLists = new ArrayList<String>();
+        try{
+            String sqlQuery = " SELECT * FROM tbl_agentlocation_type";
+            rs = executeQuery(sqlQuery);
+            
+            while(rs.next()) {
+                String agentLocationType= rs.getString(2);
+                agentLocationLists.add(agentLocationType);
+            }
+        }catch(Exception err){
+            System.out.println("Error" + err);
+        }
+        
+        return agentLocationLists;
+    }
+    
+                    /* display dropdown menu of the lists of agent location types*/
+    public static ArrayList<String> getSalaryPaymentTypes(){
+             
+             ArrayList<String> salaryTypeList = new ArrayList<String>();
+        try{
+            String sqlQuery = " SELECT * FROM tbl_salarypayment_type";
+            rs = executeQuery(sqlQuery);
+            
+            while(rs.next()) {
+                String salaryType= rs.getString(2);
+                salaryTypeList.add(salaryType);
+            }
+        }catch(Exception err){
+            System.out.println("Error" + err);
+        }
+        
+        return salaryTypeList;
+    }
+    
+    
+             /* display dropdown menu of the lists of accomodation types*/
+    public static ArrayList<String> getAccomodationTypes(){
+             
+             ArrayList<String> accomodationTypeLists = new ArrayList<String>();
+        try{
+            String sqlQuery = " SELECT * FROM tbl_accommodation_type";
+            rs = executeQuery(sqlQuery);
+            
+            while(rs.next()) {
+                String accomodationList= rs.getString(2);
+                accomodationTypeLists.add(accomodationList);
+            }
+        }catch(Exception err){
+            System.out.println("Error" + err);
+        }
+        
+        return accomodationTypeLists;
+    }
+        
+       
+             /* display dropdown menu of the lists of accomodation providedtypes*/
+    public static ArrayList<String> getAccomodationProvidedTypes(){
+             
+             ArrayList<String> accomodationProvidedTypeLists = new ArrayList<String>();
+        try{
+            String sqlQuery = " SELECT * FROM tbl_accomprovided_type";
+            rs = executeQuery(sqlQuery);
+            
+            while(rs.next()) {
+                String accomodationProvidedType= rs.getString(2);
+                accomodationProvidedTypeLists.add(accomodationProvidedType);
+            }
+        }catch(Exception err){
+            System.out.println("Error" + err);
+        }
+        
+        return accomodationProvidedTypeLists;
+    }
+         
+    public static ArrayList<String> getProblemLists(){
              
              ArrayList<String> problemLists = new ArrayList<String>();
         try{
@@ -3537,7 +3769,7 @@ public static void InsertWorkerPassDetails(String FIN_Num,String workpass,String
         
         ArrayList<WorkerSGContactDetails> workerInfo = new ArrayList<WorkerSGContactDetails>();
         try{
-            String sqlQuery = "Select * from tbl_sg_phoneNumber where Worker_FIN_Number = '"  + FIN  + "';";
+            String sqlQuery = "Select * from tbl_sg_phonenumber where Worker_FIN_Number = '"  + FIN  + "';";
             rs = executeQuery(sqlQuery);
             while(rs.next()){
                 
@@ -3578,7 +3810,7 @@ public static void InsertWorkerPassDetails(String FIN_Num,String workpass,String
         ArrayList<KinDetails> kinDetails = new ArrayList<KinDetails>();
         
         try{
-            String sqlQuery = "Select * from tbl_kin where FIN_Number = '"  + FIN  + "';";
+            String sqlQuery = "Select * from tbl_kin where Worker_FIN_Number = '"  + FIN  + "';";
             rs = executeQuery(sqlQuery);
             while(rs.next()){
                 
@@ -3793,6 +4025,23 @@ public static void InsertWorkerPassDetails(String FIN_Num,String workpass,String
          return userFINS;
      }
      
+      public static ArrayList getHospitals(){
+        ArrayList<String> hospitals = new ArrayList<String>();
+        try{
+            String sqlQuery = " SELECT * FROM `tbl_hospitaltype`";
+            rs = executeQuery(sqlQuery);
+            
+            while(rs.next()) {
+                String hospital= rs.getString(2);
+                hospitals.add(hospital);
+            }
+        }catch(Exception err){
+            System.out.println("Error" + err);
+        }
+        
+        return hospitals;
+    }
+
 }
 
 

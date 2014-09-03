@@ -40,8 +40,8 @@
             
             String workerName = DBConnect.getWorkername((String)session.getAttribute("FIN"));
             String phoneNumber = null;
-            
-            ArrayList<CaseWorker> caseWorkerDetails = DBConnect.getCaseWorkerDetails((String) session.getAttribute("FIN"));
+            String jobKey = (String) session.getAttribute("jobKey");
+            ArrayList<CaseWorker> caseWorkerDetails = DBConnect.getCaseWorkerDetails((String) session.getAttribute("FIN"),jobKey);
             ArrayList<InjuryDetail> injuryDetails = DBConnect.getInjuryDetails((String) session.getAttribute("FIN"));
             
             CaseWorker caseWorker = null;
@@ -94,7 +94,7 @@
                             %>
                         <div class="col-md-5">
                             <div style="height:5px;"></div>
-                            <div class="thumbnail" style="width: 150px; height: 200px;"><img src ="WorkerFacePicture/<%=pictureName%>"></div>
+                            <div class="thumbnail" style="width: 120px; height: 160px;"><img src ="WorkerFacePicture/<%=pictureName%>"></div>
                         </div>
                     </td>
                     <td rowspan="6" class="container10">
@@ -111,6 +111,7 @@
                             if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                 String user = (String) request.getSession().getAttribute("username");
                         %>
+                        <div style="height:30px;"> </div>
                         <div class="username-background" style="height:36%">
                             <strong class="word" style="margin-left:8px;"> Hello <%= user%></strong>
                             </br>
@@ -132,61 +133,61 @@
                             <label>
                                 <span class="asterick">*</span>Name of employer
                             </label>
-                                <p class="form-control" style="left:25px;" ><%=DBConnect.getEmployer((String)session.getAttribute("FIN"))%></p>
+                                <p class="form-control" style="left:25px;width:80%;" ><%=DBConnect.getEmployer((String)session.getAttribute("FIN"))%></p>
                         </div>
                         <div class="workpass col-md-10">
                             <label>
                                 <span class="asterick">*</span>Workpass type that comes with this job
                             </label>
-                                <p class="form-control" style="left:25px;"> <%=DBConnect.getWorkpassType((String)session.getAttribute("FIN"))%> </p>
+                                <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getWorkpassType((String)session.getAttribute("FIN"))%> </p>
                         </div>
                         <div class="nameotherworkpasstype  col-md-10">
                             <label for="nameotherworkpasstype " style="font-family: arial;font-size:14px;">
                                 Explain if above is 'Other'
                             </label>
-                                <p class="form-control" style="left:25px;"> <% %> </p>
+                                <p class="form-control" style="left:25px;width:80%;"> <% %> </p>
                         </div>
                         <div class="jobsector col-md-10">
                             <label for="jobsector" style="font-family: arial;font-size:14px;">
                                 Job sector
                             </label>
-                            <p class="form-control" style="left:25px;"> <%=DBConnect.getJobSector((String)session.getAttribute("FIN")) %> </p>
+                            <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getJobSector((String)session.getAttribute("FIN")) %> </p>
                         </div>
                         <div class="nameotherjobsector col-md-10">
                             <label for="nameotherjobsector " style="font-family: arial;font-size:14px;">
                                 Explain if above is 'Other'
                             </label>
-                                <p class="form-control" style="left:25px;"> <% %> </p>
+                                <p class="form-control" style="left:25px;width:80%;"> <% %> </p>
                         </div>
                         <div class="occupation col-md-10">
                             <label for="occupation" style="font-family: arial;font-size:14px;">
                                Occupation
                             </label>
-                                <p class="form-control" style="left:25px;"> <%=DBConnect.getOccupation((String)session.getAttribute("FIN")) %> </p>
+                                <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getOccupation((String)session.getAttribute("FIN")) %> </p>
                         </div>
                         <div class="jobcommencement col-md-10">
                             <label for="jobcommencement" style="font-family: arial;font-size:14px;">
                                 When commenced this job
                             </label>
-                                <p class="form-control" style="left:25px;"> <%=DBConnect.getCommencedDate((String)session.getAttribute("FIN"))%> </p>
+                                <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getCommencedDate((String)session.getAttribute("FIN"))%> </p>
                         </div>
                         <div class="jobended col-md-10">
                             <label for="jobended " style="font-family: arial;font-size:14px;">
                                 When ended this job
                             </label>
-                                <p class="form-control" style="left:25px;"> <%=DBConnect.getEndDate((String)session.getAttribute("FIN"))%> </p>
+                                <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getEndDate((String)session.getAttribute("FIN"))%> </p>
                         </div>
                         <div class="tjs col-md-10">
                             <label for="tjs" style="font-family: arial;font-size:14px;">
                                 Is this a TJS job?
                             </label>
-                            <p class="form-control" style="left:25px;"> <%=DBConnect.getStatus((String)session.getAttribute("FIN"))%> </p>
+                            <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getStatus((String)session.getAttribute("FIN"))%> </p>
                         </div>
                         <div class="jobremark col-md-10">
                             <label for="jobremark " style="font-family: arial;font-size:14px;">
                                Remarks about job
                             </label>
-                            <p class="form-control" style="left:25px;"> <%=DBConnect.getRemarks((String)session.getAttribute("FIN"))%> </p>
+                            <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getRemarks((String)session.getAttribute("FIN"))%> </p>
                         </div>
                      
                         
@@ -297,7 +298,7 @@
                 
                     <td colspan="3" class="container9">
                     
-                        <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/CaseMenu.jsp"><span style="font-size:13px;">CASE MENU</span></a>
+                        <a type="button" class="btn btn-primary btn-large" style="margin-left:10px;" href="/TWC2-CaseManagementSystem/CaseMenu.jsp"><span style="font-size:13px;">CASE MENU</span></a>
                         <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/EditJobProfile.jsp"><span style="font-size:13px;">EDIT</span></a>
                         <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/ListExistingJobProfile.jsp"><span style="font-size:13px;">LIST this worker's jobs</span></a>
                         <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/SpecialistHomePage.jsp"><span style="font-size:13px;">EXIT this worker</span></a>

@@ -41,8 +41,8 @@
             
             String workerName = DBConnect.getWorkername((String)session.getAttribute("FIN"));
             String phoneNumber = null;
-            
-            ArrayList<CaseWorker> caseWorkerDetails = DBConnect.getCaseWorkerDetails((String) session.getAttribute("FIN"));
+            String jobKey = (String) session.getAttribute("jobKey");
+            ArrayList<CaseWorker> caseWorkerDetails = DBConnect.getCaseWorkerDetails((String) session.getAttribute("FIN"),jobKey);
             ArrayList<InjuryDetail> injuryDetails = DBConnect.getInjuryDetails((String) session.getAttribute("FIN"));
             
             CaseWorker caseWorker = null;
@@ -94,7 +94,7 @@
                             %>
                         <div class="col-md-5">
                             <div style="height:5px;"></div>
-                            <div class="thumbnail" style="width: 150px; height: 200px;"><img src ="WorkerFacePicture/<%=pictureName%>"></div>
+                            <div class="thumbnail" style="width: 120px; height: 160px;"><img src ="WorkerFacePicture/<%=pictureName%>"></div>
                         </div>
                     </td>
                     <td rowspan="6" class="container10">
@@ -111,6 +111,7 @@
                             if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                 String user = (String) request.getSession().getAttribute("username");
                         %>
+                        <div style="height:30px;"> </div>
                         <div class="username-background" style="height:36%">
                             <strong class="word" style="margin-left:8px;"> Hello <%= user%></strong>
                             </br>
@@ -137,59 +138,55 @@
                             <label>
                                 Worker registration date
                             </label>
-                            <div class="form-group">
-                                <p class="form-control" style="left:25px;"> <%=DBConnect.getRegistrationDate((String)session.getAttribute("FIN")) %> </p>
-                            </div>
+                            <p class="form-control" style="left:25px; width:80%;"> <%=DBConnect.getRegistrationDate((String)session.getAttribute("FIN")) %> </p>
                         </div>
                         <div class="col-md-10">
                             <label>
                                 Created by
                             </label>
-                            <p class="form-control" style="left:25px;"> <%= DBConnect.getCreatedBy((String)session.getAttribute("FIN"))%> </p>
+                            <p class="form-control" style="left:25px; width:80%;"> <%= DBConnect.getCreatedBy((String)session.getAttribute("FIN"))%> </p>
                         </div>
                         <div class="col-md-10">
                             <label>
                                 Created for
                             </label>
-                            <p class="form-control" style="left:25px;"> <%=DBConnect.getCreatedFor((String)session.getAttribute("FIN")) %> </p>
+                            <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getCreatedFor((String)session.getAttribute("FIN")) %> </p>
                         </div>
                         <div class="col-md-10">
                             <label>
                                 Name of worker
                             </label>
-                            <p class="form-control" style="left:25px;"> <%=DBConnect.getWorkername((String)session.getAttribute("FIN"))%> </p>
+                            <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getWorkername((String)session.getAttribute("FIN"))%> </p>
                         </div>
                         <div class="col-md-10">
                             <label>
                                 FIN number
                             </label>
-                            <p class="form-control" style="left:25px;"> <%=session.getAttribute("FIN")%> </p>
+                            <p class="form-control" style="left:25px;width:80%;"> <%=session.getAttribute("FIN")%> </p>
                         </div>
                         <div class="col-md-10">
                             <label>
                                 Gender
                             </label>
-                            <p class="form-control" style="left:25px;"> <%=DBConnect.getGender((String)session.getAttribute("FIN"))%> </p>
+                            <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getGender((String)session.getAttribute("FIN"))%> </p>
                         </div>
                         <div class="col-md-10">
                             <label>
                                 Nationality
                             </label>
-                            <p class="form-control" style="left:25px;"> <%=DBConnect.getNationality((String)session.getAttribute("FIN"))%> </p>
+                            <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getNationality((String)session.getAttribute("FIN"))%> </p>
                         </div>
                         <div class="col-md-10">
                             <label>
                                 Explain if above is 'Other' 
                             </label>
-                            <p class="form-control" style="left:25px;"> <% %> </p>
+                            <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getNationalityOther((String)session.getAttribute("FIN")) %> </p>
                         </div>
                         <div class="col-md-10">
                             <label>
                                 Date of birth
                             </label>
-                            <div class="form-group">
-                                <p class="form-control" style="left:25px;"> <%=DBConnect.getDateOfBirth((String)session.getAttribute("FIN"))%> </p>
-                            </div>
+                                <p class="form-control" style="left:25px;width:80%;"> <%=DBConnect.getDateOfBirth((String)session.getAttribute("FIN"))%> </p>
                         </div>
 
                     </td>
@@ -215,19 +212,19 @@
                         <div style="height:10px;"></div>
                         <div style="margin-left:20px;"> 
                             <label style="margin:0">Name of employer</label>
-                            <p class="form-control" style="left:25px; height:30px;width:80%;margin:0"><%=DBConnect.getEmployer((String)session.getAttribute("FIN"))%></p>
+                            <p class="form-control" style="left:25px; height:25px;width:80%;margin:0"><%=DBConnect.getEmployer((String)session.getAttribute("FIN"))%></p>
                         </div>
                         <div style="margin-left:20px;"> 
                             <label style="margin:0">Workpass type that comes with this job</label>
-                            <p class="form-control" style="left:25px;height:30px;width:80%;margin:0"> <%=DBConnect.getWorkpassType((String)session.getAttribute("FIN"))%> </p>
+                            <p class="form-control" style="left:25px;height:25px;width:80%;margin:0"> <%=DBConnect.getWorkpassType((String)session.getAttribute("FIN"))%> </p>
                         </div>
                         <div style="margin-left:20px;"> 
                             <label style="margin:0">Occupation</label>
-                            <p class="form-control" style="left:25px;height:30px;width:80%;margin:0"> <%=DBConnect.getOccupation((String)session.getAttribute("FIN"))%> </p>
+                            <p class="form-control" style="left:25px;height:25px;width:80%;margin:0"> <%=DBConnect.getOccupation((String)session.getAttribute("FIN"))%> </p>
                         </div>
                         <div style="margin-left:20px;"> 
                             <label style="margin:0">When commenced this job</label>
-                            <p class="form-control" style="left:25px;height:30px;width:80%;margin:0"> <%=DBConnect.getCommencedDate((String)session.getAttribute("FIN"))%> </p>
+                            <p class="form-control" style="left:25px;height:25px;width:80%;margin:0"> <%=DBConnect.getCommencedDate((String)session.getAttribute("FIN"))%> </p>
                         </div>
                         <div style="margin-left:5px;"> 
                             <div class="col-md-8">
@@ -298,7 +295,7 @@
 
                     <td colspan="3" class="container9">
 
-                        <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/CaseMenu.jsp"><span style="font-size:13px;">CASE MENU</span></a>
+                        <a type="button" class="btn btn-primary btn-large" style="margin-left:10px;" href="/TWC2-CaseManagementSystem/CaseMenu.jsp"><span style="font-size:13px;">CASE MENU</span></a>
                         <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/EditWorkerProfile.jsp"><span style="font-size:13px;">EDIT</span></a>
                         <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/ListExistingJobProfile.jsp"><span style="font-size:13px;">LIST this worker's job</span><br/></a>
                         <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/SpecialistHomePage.jsp"><span style="font-size:13px;">EXIT this worker</span><br/></a>

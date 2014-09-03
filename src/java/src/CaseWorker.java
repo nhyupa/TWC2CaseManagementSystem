@@ -13,12 +13,16 @@ public class CaseWorker {
     private String caseWorkerStartDate;
     private String caseWorkerEndDate;
     private String FIN_Number;
+    private String JobKey;
+    private String ProbKey;
     
-    public CaseWorker(String leadCaseWorker, String caseWorkerStartDate, String caseWorkerEndDate, String FIN_Number){
+    public CaseWorker(String leadCaseWorker, String caseWorkerStartDate, String caseWorkerEndDate, String FIN_Number, String JobKey, String ProbKey){
         this.leadCaseWorker = leadCaseWorker;
         this.caseWorkerStartDate = caseWorkerStartDate;
         this.caseWorkerEndDate = caseWorkerEndDate;
         this.FIN_Number = FIN_Number;
+        this.JobKey = JobKey;
+        this.ProbKey = ProbKey;
     }
 
     /**
@@ -75,5 +79,34 @@ public class CaseWorker {
      */
     public void setFIN_Number(String FIN_Number) {
         this.FIN_Number = FIN_Number;
+    }
+    
+        /**
+     * @return the JobKey
+     */
+    public String getJobKey() {
+        return JobKey;
+    }
+
+    /**
+     * @param JobKey the JobKey to set
+     */
+    public void setJobKey(String JobKey) {
+        this.JobKey = JobKey;
+    }
+    
+        
+        /**
+     * @return the ProbKey
+     */
+    public String getProbKey() {
+        return ProbKey;
+    }
+
+    /**
+     * @param ProbKey the ProbKey to set
+     */
+    public void setProbKey(String ProbKey) {
+        this.ProbKey = ProbKey;
     }
 }

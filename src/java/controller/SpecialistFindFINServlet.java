@@ -32,12 +32,34 @@ public class SpecialistFindFINServlet extends HttpServlet {
         try{
             
             
-            
+            /** Catching Values From JSP Page **/
             String workerName = request.getParameter("Name");
             String FIN = request.getParameter("FIN");
             String gender = request.getParameter("Gender");
-            String sgPhoneNumber = request.getParameter("SingaporePhoneNumber");
             String nationality = request.getParameter("Nationality");
+            String sgPhoneNumber = request.getParameter("SingaporePhoneNumber");
+            String homeCountryPhoneNumber = request.getParameter("HomeCountryPhoneNumber");
+            String employerName = request.getParameter("EmployerName");
+            String occupation = request.getParameter("Occupation");
+            String workpass = request.getParameter("Workpass");
+            String chiefProblem = request.getParameter("ChiefProblem");
+            String aggravatingIssue = request.getParameter("AggravatingIssue");
+            String leadCaseWorker = request.getParameter("LeadCaseworker");
+            String auxillaryCaseWorker = request.getParameter("AuxiliaryCaseworker");
+            String hospitalName = request.getParameter("Hospital");
+            String problemRegisteredDateFrom = request.getParameter("ProblemRegisteredDateFrom");
+            String problemRegisteredDateTo = request.getParameter("ProblemRegisteredDateTo");
+            String betweenDateFrom = request.getParameter("BetweenDateFrom");
+            String betweenDateTo = request.getParameter("BetweenDateTo");
+            /** Catching Values From JSP Page **/
+            
+            response.getWriter().println("Worker Name : " + workerName);
+            response.getWriter().println("Worker Name Length : " + workerName.length());
+            response.getWriter().println("FIN Number : " + FIN);
+            response.getWriter().println("FIN Number Length : " + FIN.length());
+            
+            
+            
             String formattedGender = null;
             if(gender.length() != 0 ){
                 formattedGender = gender.substring(0,1);

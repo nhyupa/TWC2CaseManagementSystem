@@ -43,6 +43,8 @@
             
             
             String FIN = (String)session.getAttribute("FIN");
+            String jobKey = (String)session.getAttribute("jobKey");
+            String probKey = (String)session.getAttribute("probKey");
            
             /**
             if(session.getAttribute("FIN") != null){
@@ -133,13 +135,13 @@
             ArrayList<Accomodation> accomodationDetails = DBConnect.getAccomodationDetails(FIN);
             
             /** Problem Compliment**/
-            ArrayList<AggravatingIssue> aggraIssueDetails = DBConnect.getAggravatingIssueDetails(FIN);
+            ArrayList<AggravatingIssue> aggraIssueDetails = DBConnect.getAggravatingIssueDetails(FIN,jobKey);
             
             /**Case Worker**/
-            ArrayList<CaseWorker> caseWorkerDetails = DBConnect.getCaseWorkerDetails(FIN);
+            ArrayList<CaseWorker> caseWorkerDetails = DBConnect.getCaseWorkerDetails(FIN, jobKey);
             
             /**Auxillary Case Worker**/
-            ArrayList<AuxillaryCaseWorker> auxCaseworkerDetails = DBConnect.getAuxCaseWorkerDetails(FIN);
+            ArrayList<AuxillaryCaseWorker> auxCaseworkerDetails = DBConnect.getAuxCaseWorkerDetails(FIN, jobKey);
             
             /**Salary Related History**/
             ArrayList<SalaryRelatedHistory> salRelatedHistoryDetails = DBConnect.getSalaryRelatedHistoryDetails(FIN);
@@ -202,16 +204,16 @@
                         <div style="height:5px;"></div>
                         <div class="workername" style="margin-left:20px;"> 
                             <label style="margin:0">Name of worker</label>
-                            <p class="form-control" style="left:25px; height:30px; width:80%;margin:0"> <%=workerName%> </p>
+                            <p class="form-control" style="left:25px; height:25px; width:80%;margin:0"> <%=workerName%> </p>
                         </div>
                         <div class="col-md-6" style="padding:0 0 10px 0;">
                             <div class="finnumber" style="margin-left:20px;"> 
                                 <label style="margin:0"> FIN number</label>
-                                <p class="form-control" style="left:25px;height:30px;margin:0"><%=FIN%></p>
+                                <p class="form-control" style="left:25px;height:25px;margin:0"><%=FIN%></p>
                             </div>
                             <div class="phone" style="margin-left:20px;"> 
                                 <label style="margin:0">Phone</label>
-                                <p class="form-control" style="left:25px; height:30px;margin:0"> <%=DBConnect.getPhoneNumber((String)session.getAttribute("FIN"))%> </p>
+                                <p class="form-control" style="left:25px; height:25px;margin:0"> <%=DBConnect.getPhoneNumber((String)session.getAttribute("FIN"))%> </p>
                             </div>
                             <div style="height:60px;"></div>
                             <a href="/TWC2-CaseManagementSystem/ViewWorkerProfile.jsp" style="margin-left:20px">View full profile</a>
@@ -224,7 +226,7 @@
                         %>
                         <div class="col-md-5">
                             <div style="height:10px;"></div>
-                            <div class="thumbnail" style="width: 150px; height: 200px;"><img src ="WorkerFacePicture/<%=pictureName%>"></div>
+                            <div class="thumbnail" style="width: 120px; height: 160px;"><img src ="WorkerFacePicture/<%=pictureName%>"></div>
                         </div>
                     </td>
                     <td rowspan="6" class="container10">
@@ -240,7 +242,7 @@
                             if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                 String user = (String) request.getSession().getAttribute("username");
                         %>
-                        
+                        <div style="height:30px"> </div>
                         <div class="username-background" style="height:38%">
                             <strong style="margin-left:8px;"> Hello <%= user%></strong>
                             </br>
@@ -301,7 +303,7 @@
                             
                             <% if (session.getAttribute("nickNameMsg") != null) {
                                         String nickNameSuccessMsg = (String) session.getAttribute("nickNameMsg");%>
-                            <label style="color:green"><br/><%=nickNameSuccessMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=nickNameSuccessMsg%></label> <%}%>
                                 <%session.removeAttribute("nickNameMsg");%>
                             
                             <!-- passport Details --> 
@@ -310,7 +312,7 @@
                             %>
                             <div style="font-weight:bold;font-size:16px; margin-left:10px;">Passport details</div>
                             <div style="height:10px;"></div>
-                            <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
+                            <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;" >
                                 <div class="col-md-1"></div>
                                 <div class="col-md-2" style="font-weight:bold;">Passport country</div>
                                 <div class="col-md-2" style="font-weight:bold;">Passport number</div>
@@ -332,7 +334,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="passportDetail" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=currentPassport.getCountry()%></div>
                                 <div class="col-md-2"><%=currentPassport.getPassportNumber()%></div>
                                 <div class="col-md-2"><%=formattedPassportIssueDate%></div>
@@ -344,7 +346,7 @@
                             
                             <% if (session.getAttribute("passportMsg") != null) {
                                         String passportMsg = (String) session.getAttribute("passportMsg");%>
-                            <label style="color:green"><br/><%=passportMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=passportMsg%></label> <%}%>
                                 <%session.removeAttribute("passportMsg");%>
                             <!-- Face Photo --> 
                             <%
@@ -356,7 +358,7 @@
                             <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-2" style="font-weight:bold;">Date stamp</div>
-                                <div class="col-md-3" style="font-weight:bold;">Face pic 150 x 200 pixels</div>
+                                <div class="col-md-3" style="font-weight:bold;">Face pic 120 x 160 pixels</div>
                                 
                             </div>
                             <!-- 
@@ -372,10 +374,10 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption" value="<%=i%>"></div>
+                                <div class="col-md-1"><input type="radio" name="facePhoto" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=photo.getDateStamp() %></div>
                                 
-                                <div class="thumbnail col-md-3" style="width: 150px; height: 200px;"><img src ="WorkerFacePicture/<%=photoName%>"></div>
+                                <div class="thumbnail col-md-3" style="width: 120px; height: 160px;"><img src ="WorkerFacePicture/<%=photoName%>"></div>
                                 
                             </div> 
                             
@@ -409,7 +411,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="sgPhoneNumber" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=currentContactDetail.getPhoneNumber()%></div>
                                 <div class="col-md-3"><%=currentContactDetail.getPhoneObsoleteDate()%></div>
                             </div> 
@@ -419,7 +421,7 @@
                             
                             <% if (session.getAttribute("sgPhoneMsg") != null) {
                                         String sgPhoneMsg = (String) session.getAttribute("sgPhoneMsg");%>
-                            <label style="color:green"><br/><%=sgPhoneMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=sgPhoneMsg%></label> <%}%>
                                 <%session.removeAttribute("sgPhoneMsg");%>
                             <!-- Home ctry phone number --> 
                             <%
@@ -438,6 +440,7 @@
                             for loop get list of workers. 
                             
                             -->
+                            
                             <%  for (int i = 0; i < homeContactDetails.size(); i++) {
                                 HomeCountryContactDetails homeContactDetail= homeContactDetails.get(i);
                                 String homePhoneObsolete = homeContactDetail.getHomePhoneObsoleteDate();
@@ -446,7 +449,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="homeCountryPhoneNumber" value="<%=i%>"></div>
                                 <div class="col-md-3"><%=homeCountryPhoneNumber%></div>
                                 <div class="col-md-3"><%=homePhoneNumOwner%></div>
                                 <div class="col-md-3"><%=homePhoneObsolete%></div>
@@ -457,7 +460,7 @@
                             
                             <% if (session.getAttribute("homeCountryPhoneMsg") != null) {
                                         String homeCountryPhoneMsg = (String) session.getAttribute("homeCountryPhoneMsg");%>
-                            <label style="color:green"><br/><%=homeCountryPhoneMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=homeCountryPhoneMsg%></label> <%}%>
                                 <%session.removeAttribute("homeCountryPhoneMsg");%>
                             <!-- Worker's Sg address --> 
                             <%
@@ -483,7 +486,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="sgAddress" value="<%=i%>"></div>
                                 <div class="col-md-3"><%=workerSGAddress%></div>
                                 <div class="col-md-3"><%=workerSgAddressObsoleteDate%></div>
                             </div> 
@@ -493,7 +496,7 @@
                             
                             <% if (session.getAttribute("SGAddressMsg") != null) {
                                         String sgAddressMsg = (String) session.getAttribute("SGAddressMsg");%>
-                            <label style="color:green"><br/><%=sgAddressMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=sgAddressMsg%></label> <%}%>
                                 <%session.removeAttribute("SGAddressMsg");%>
                             
                             
@@ -520,7 +523,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="homeCountryAddress" value="<%=i%>"></div>
                                 <div class="col-md-3"><%=workerHomeCountryAddress%></div>
                                 <div class="col-md-3"><%=workerHomeCountryAddressObsolete%></div>
                             </div> 
@@ -530,7 +533,7 @@
                             
                             <% if (session.getAttribute("homeCountryAddressMsg") != null) {
                                         String homeCountryAddressMsg = (String) session.getAttribute("homeCountryAddressMsg");%>
-                            <label style="color:green"><br/><%=homeCountryAddressMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=homeCountryAddressMsg%></label> <%}%>
                                 <%session.removeAttribute("homeCountryAddressMsg");%>
                             <!-- Worker's digital contacts --> 
                             <%
@@ -559,7 +562,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="workersDigitalContacts" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=digitalContactType%></div>
                                 <div class="col-md-3"><%=email%></div>
                                 <div class="col-md-3"><%=owner%></div>
@@ -572,7 +575,7 @@
                             
                             <% if (session.getAttribute("digitalContactTypeMsg") != null) {
                                         String digitalContactMsg = (String) session.getAttribute("digitalContactTypeMsg");%>
-                            <label style="color:green"><br/><%=digitalContactMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=digitalContactMsg%></label> <%}%>
                                 <%session.removeAttribute("digitalContactTypeMsg");%>
                             
                             
@@ -602,7 +605,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="nextOfKin" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=kinDetail.getKinName()%></div>
                                 <div class="col-md-3"><%=kinDetail.getKinRelationship()%></div>
                                 <div class="col-md-3"><%=kinDetail.getKinPhone()%></div>
@@ -614,7 +617,7 @@
                             
                             <% if (session.getAttribute("kinMsg") != null) {
                                         String kinMsg = (String) session.getAttribute("kinMsg");%>
-                            <label style="color:green"><br/><%=kinMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=kinMsg%></label> <%}%>
                                 <%session.removeAttribute("kinMsg");%>
                             
                             
@@ -644,7 +647,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="familyMember" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=familyDetail.getFamilyMemberName()%></div>
                                 <div class="col-md-3"><%=familyDetail.getFamilyMemberRelationship()%></div>
                                 <div class="col-md-3"><%=familyDetail.getFamilyMemberPhoneNumber()%></div>
@@ -657,7 +660,7 @@
                             
                             <% if (session.getAttribute("familyMemberMsg") != null) {
                                         String familyMemberMsg = (String) session.getAttribute("familyMemberMsg");%>
-                            <label style="color:green"><br/><%=familyMemberMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=familyMemberMsg%></label> <%}%>
                                 <%session.removeAttribute("familyMemberMsg");%>
                             
                             
@@ -689,7 +692,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="friendInSingapore" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=friendName%></div>
                                 <div class="col-md-3"><%=friendRelationship%></div>
                                 <div class="col-md-3"><%=friendPhoneNumber%></div>
@@ -702,7 +705,7 @@
                             
                             <% if (session.getAttribute("friendMsg") != null) {
                                         String friendMsg = (String) session.getAttribute("friendMsg");%>
-                            <label style="color:green"><br/><%=friendMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=friendMsg%></label> <%}%>
                                 <%session.removeAttribute("friendMsg");%>
                             
                             
@@ -728,9 +731,9 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="workersLanguage" value="<%=i%>"></div>
                                 <div class="col-md-3"><%=languageDetail.getWorkerMainLanguage()%></div>
-                                <div class="col-md-3"></div>
+                                <div class="col-md-3"><%=languageDetail.getLanguageRemarks()%></div>
                                 <div class="col-md-3"><%=languageDetail.getSpokenEnglishStandard()%></div>
                             </div> 
                             <%} 
@@ -739,7 +742,7 @@
                             
                             <% if (session.getAttribute("languageMsg") != null) {
                                         String languageMsg = (String) session.getAttribute("languageMsg");%>
-                            <label style="color:green"><br/><%=languageMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=languageMsg%></label> <%}%>
                                 <%session.removeAttribute("languageMsg");%>
                             
                             <!-- Bank account details --> 
@@ -769,7 +772,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="bankAccountDetails" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=accountName%></div>
                                 <div class="col-md-3"><%=accountNumber%></div>
                                 <div class="col-md-3"><%=bankName%></div>
@@ -782,7 +785,7 @@
                             
                             <% if (session.getAttribute("bankAccMsg") != null) {
                                         String bankAccountMsg = (String) session.getAttribute("bankAccMsg");%>
-                            <label style="color:green"><br/><%=bankAccountMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=bankAccountMsg%></label> <%}%>
                                 <%session.removeAttribute("bankAccMsg");%>
                             
                             
@@ -821,7 +824,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="passDetails" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=passType%></div>
                                 <div class="col-md-3"><%=passNumber%></div>
                                 <div class="col-md-3"><%=passIssueDate%></div>
@@ -835,7 +838,7 @@
                             
                             <% if (session.getAttribute("passMsg") != null) {
                                         String passMessage = (String) session.getAttribute("passMsg");%>
-                            <label style="color:green"><br/><%=passMessage%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=passMessage%></label> <%}%>
                                 <%session.removeAttribute("passMsg");%>
                             <!-- IPA details --> 
                             <%
@@ -845,8 +848,8 @@
                             <div style="height:10px;"></div>
                             <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
                                 <div class="col-md-1"></div>
-                                <div class="col-md-2" style="font-weight:bold;">Workpass specified in IPA </div>
-                                <div class="col-md-3" style="font-weight:bold;">IPA employer name</div>
+                                <div class="col-md-3" style="font-weight:bold;">Workpass specified in IPA </div>
+                                <div class="col-md-2" style="font-weight:bold;">IPA employer name</div>
                                 <div class="col-md-3" style="font-weight:bold;">IPA basic monthly salary S$</div>
                                 <div class="col-md-3" style="font-weight:bold;">IPA total deductions S$</div>
                                 
@@ -865,9 +868,9 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
-                                <div class="col-md-2"><%=ipaWorkpass%></div>
-                                <div class="col-md-3"><%=ipaEmployerName%></div>
+                                <div class="col-md-1"><input type="radio" name="IPADetails" value="<%=i%>"></div>
+                                <div class="col-md-3"><%=ipaWorkpass%></div>
+                                <div class="col-md-2"><%=ipaEmployerName%></div>
                                 <div class="col-md-3"><%=ipaBasicMonthlySalary%></div>
                                 <div class="col-md-3"><%=ipaDeduction%></div>
                                 
@@ -878,7 +881,7 @@
                             
                             <% if (session.getAttribute("ipaMsg") != null) {
                                         String ipaMsg = (String) session.getAttribute("ipaMsg");%>
-                            <label style="color:green"><br/><%=ipaMsg%></label> <%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=ipaMsg%></label> <%}%>
                                 <%session.removeAttribute("ipaMsg");%>
                             
                             
@@ -890,9 +893,9 @@
                             <div style="height:10px;"></div>
                             <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
                                 <div class="col-md-1"></div>
-                                <div class="col-md-2" name="giverName" style="font-weight:bold;">Name of giver of verbal assurances </div>
+                                <div class="col-md-3" name="giverName" style="font-weight:bold;">Name of giver of verbal assurances </div>
                                 <div class="col-md-3" name="giverRelationship" style="font-weight:bold;">Relationship of giver to worker or agent or employer</div>
-                                <div class="col-md-3" name="givenDate" style="font-weight:bold;">When verbal assurances given</div>
+                                <div class="col-md-2" name="givenDate" style="font-weight:bold;">When verbal assurances given</div>
                                 <div class="col-md-3" name="givenPlace" style="font-weight:bold;">Where verbal assurances given</div>
                                 
                             </div>
@@ -910,10 +913,10 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
-                                <div class="col-md-2"><%=giverName%></div>
+                                <div class="col-md-1"><input type="radio" name="verbalAssurances" value="<%=i%>"></div>
+                                <div class="col-md-3"><%=giverName%></div>
                                 <div class="col-md-3"><%=giverRelationship%></div>
-                                <div class="col-md-3"><%=givenDate %></div>
+                                <div class="col-md-2"><%=givenDate %></div>
                                 <div class="col-md-3"><%=givenPlace%></div>
                                 
                             </div> 
@@ -923,7 +926,7 @@
                             
                             <% if (session.getAttribute("verbalMsg") != null) {
                                         String verbalMsg = (String) session.getAttribute("verbalMsg");%>
-                            <label style="color:green"><br/><%=verbalMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=verbalMsg%></label><%}%>
                                 <%session.removeAttribute("verbalMsg");%>
                             <!-- Employment contract --> 
                             <%
@@ -934,9 +937,9 @@
                             <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-2" style="font-weight:bold;">Contract date </div>
-                                <div class="col-md-3" style="font-weight:bold;">Where contract signed</div>
-                                <div class="col-md-3" style="font-weight:bold; width:20%">Relationship of opposite contracting party to job</div>
-                                <div class="col-md-3" style="font-weight:bold;">Basic salary</div>
+                                <div class="col-md-2" style="font-weight:bold; width:25%;">Where contract signed</div>
+                                <div class="col-md-3" style="font-weight:bold; width:30%">Relationship of opposite contracting party to job</div>
+                                <div class="col-md-3" style="font-weight:bold; width:15%;">Basic salary</div>
                                 
                             </div>
                             <!-- 
@@ -952,11 +955,11 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="employmentContract" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=contractDate%></div>
-                                <div class="col-md-3"><%=contractSignedPlace%></div>
-                                <div class="col-md-3"><%=contractRelationship%></div>
-                                <div class="col-md-3"><%=contractSalary%></div>
+                                <div class="col-md-2" style="width:25%"><%=contractSignedPlace%></div>
+                                <div class="col-md-4" style="width:30%"><%=contractRelationship%></div>
+                                <div class="col-md-3" style="width:15%"><%=contractSalary%></div>
                                 
                             </div> 
                             <%} 
@@ -965,7 +968,7 @@
                             
                             <% if (session.getAttribute("employmentContractMsg") != null) {
                                         String employmentContractMsg = (String) session.getAttribute("employmentContractMsg");%>
-                            <label style="color:green"><br/><%=employmentContractMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=employmentContractMsg%></label><%}%>
                                 <%session.removeAttribute("employmentContractMsg");%>
                             
                             <!-- Intermediary agent --> 
@@ -977,10 +980,10 @@
                             <div style="height:10px;"></div>
                             <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
                                 <div class="col-md-1"></div>
-                                <div class="col-md-2" style="font-weight:bold;">Agent company name </div>
-                                <div class="col-md-3" style="font-weight:bold;">Location of agent</div>
+                                <div class="col-md-2" style="font-weight:bold;width:20%;">Agent company name </div>
+                                <div class="col-md-2" style="font-weight:bold;">Location of agent</div>
                                 <div class="col-md-3" style="font-weight:bold;">Amount paid to this agent S$</div>
-                                <div class="col-md-3" style="font-weight:bold;">Amount owed to this agent at start of work S$</div>
+                                <div class="col-md-3" style="font-weight:bold;width:30%;">Amount owed to this agent at start of work S$</div>
                                 
                             </div>
                             <!-- 
@@ -996,11 +999,11 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
-                                <div class="col-md-2"><%=agentName%></div>
-                                <div class="col-md-3"><%=agentLocation%></div>
+                                <div class="col-md-1"><input type="radio" name="intermediaryAgent" value="<%=i%>"></div>
+                                <div class="col-md-2" style="width:20%;"><%=agentName%></div>
+                                <div class="col-md-2"><%=agentLocation%></div>
                                 <div class="col-md-3"><%=agentAmountPaid%></div>
-                                <div class="col-md-3"><%=agentAmountOwed%></div>
+                                <div class="col-md-3" style="width:30%;"><%=agentAmountOwed%></div>
                                 
                             </div>  
                             <%} 
@@ -1009,7 +1012,7 @@
                             
                             <% if (session.getAttribute("agentMsg") != null) {
                                         String agentMsg = (String) session.getAttribute("agentMsg");%>
-                            <label style="color:green"><br/><%=agentMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=agentMsg%></label><%}%>
                                 <%session.removeAttribute("agentMsg");%>
                             
                             <!-- Employer details --> 
@@ -1039,7 +1042,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="employerDetails" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=employerName%></div>
                                 <div class="col-md-3"><%=employerAddress%></div>
                                 <div class="col-md-3"><%=employerContact%></div>
@@ -1052,7 +1055,7 @@
                             
                             <% if (session.getAttribute("employerMsg") != null) {
                                         String employerMsg = (String) session.getAttribute("employerMsg");%>
-                            <label style="color:green"><br/><%=employerMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=employerMsg%></label><%}%>
                                 <%session.removeAttribute("employerMsg");%>
                             <!-- Workplace details  --> 
                             <%
@@ -1063,10 +1066,10 @@
                             <div style="height:10px;"></div>
                             <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
                                 <div class="col-md-1"></div>
-                                <div class="col-md-2" style="font-weight:bold;">Type of workplace </div>
-                                <div class="col-md-3" style="font-weight:bold;">Is workplace controlled by employer stated on workpass? If not, who?</div>
-                                <div class="col-md-3" style="font-weight:bold;">Who directed worker to this workplace?</div>
-                                <div class="col-md-3" style="font-weight:bold;">When start at workplace?</div>
+                                <div class="col-md-2" style="font-weight:bold;width:15%;">Type of workplace </div>
+                                <div class="col-md-3" style="font-weight:bold;width:35%;">Is workplace controlled by employer stated on workpass? If not, who?</div>
+                                <div class="col-md-3" style="font-weight:bold;width:20%;">Who directed worker to this workplace?</div>
+                                <div class="col-md-2" style="font-weight:bold;width:17%;;">When start at workplace?</div>
                                 
                             </div>
                             <!-- 
@@ -1083,11 +1086,11 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
-                                <div class="col-md-2"><%=workplaceType%></div>
-                                <div class="col-md-3"><%=workplaceWhose%></div>
-                                <div class="col-md-3"><%=workplaceDirect%></div>
-                                <div class="col-md-3"><%=workplaceStart%></div>
+                                <div class="col-md-1"><input type="radio" name="workplaceDetails" value="<%=i%>"></div>
+                                <div class="col-md-2" style="width:15%;"><%=workplaceType%></div>
+                                <div class="col-md-3" style="width:35%;"><%=workplaceWhose%></div>
+                                <div class="col-md-3" style="width:20%;"><%=workplaceDirect%></div>
+                                <div class="col-md-3" style="width:17%;"><%=workplaceStart%></div>
                                 
                             </div> 
                             <%} 
@@ -1096,7 +1099,7 @@
                             
                             <% if (session.getAttribute("workplaceMsg") != null) {
                                         String workplaceMsg = (String) session.getAttribute("workplaceMsg");%>
-                            <label style="color:green"><br/><%=workplaceMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=workplaceMsg%></label><%}%>
                                 <%session.removeAttribute("workplaceMsg");%>
                             
                             
@@ -1110,10 +1113,10 @@
                             <div style="height:10px;"></div>
                             <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
                                 <div class="col-md-1"></div>
-                                <div class="col-md-2" style="font-weight:bold;">How did worker get into the job defined in Job Profile? </div>
-                                <div class="col-md-3" style="font-weight:bold;">Date arrived Singapore for this job</div>
-                                <div class="col-md-3" style="font-weight:bold;">Is this first job in Singapore?</div>
-                                <div class="col-md-3" style="font-weight:bold;">If not, year in which worker arrived in Singapore for first job</div>
+                                <div class="col-md-3" style="font-weight:bold;width:25%;">How did worker get into the job defined in Job Profile? </div>
+                                <div class="col-md-3" style="font-weight:bold;width:18%">Date arrived Singapore for this job</div>
+                                <div class="col-md-2" style="font-weight:bold;width:15%;">Is this first job in Singapore?</div>
+                                <div class="col-md-3" style="font-weight:bold;width:30%;">If not, year in which worker arrived in Singapore for first job</div>
                                 
                             </div>
                             <!-- 
@@ -1125,16 +1128,16 @@
                                   String getWorkHow = workHistory.getGetWorkHow();
                                   String sgArrivalDate = workHistory.getSingaporeArrivalDate();
                                   String firstJobWhether = workHistory.getFirstJobWhether();
-                                  String firstJobArrival = workHistory.getSingaporeArrivalDate();
+                                  String firstJobArrival = workHistory.getFirstJobArrival();
 
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
-                                <div class="col-md-2"><%=getWorkHow%></div>
-                                <div class="col-md-3"><%=sgArrivalDate%></div>
-                                <div class="col-md-3"><%=firstJobWhether%></div>
-                                <div class="col-md-3"><%=firstJobArrival%></div>
+                                <div class="col-md-1"><input type="radio" name="workHistory" value="<%=i%>"></div>
+                                <div class="col-md-3" style="width:25%;"><%=getWorkHow%></div>
+                                <div class="col-md-3" style="width:18%;"><%=sgArrivalDate%></div>
+                                <div class="col-md-2" style="width:15%;"><%=firstJobWhether%></div>
+                                <div class="col-md-3" style="width:30%;"><%=firstJobArrival%></div>
                                 
                             </div>  
                             <%} 
@@ -1143,7 +1146,7 @@
                             
                             <% if (session.getAttribute("workHistoryMsg") != null) {
                                         String workHistoryMsg = (String) session.getAttribute("workHistoryMsg");%>
-                            <label style="color:green"><br/><%=workHistoryMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=workHistoryMsg%></label><%}%>
                                 <%session.removeAttribute("workHistoryMsg");%>
                             
                             
@@ -1156,10 +1159,10 @@
                             <div style="height:10px;"></div>
                             <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
                                 <div class="col-md-1"></div>
-                                <div class="col-md-3" style="font-weight:bold;">Accommodation provided by employer?</div>
-                                <div class="col-md-3" style="font-weight:bold;">Type of accommodation</div>
-                                <div class="col-md-3" style="font-weight:bold;">Cost charged by employer per month S$</div>
-                                <div class="col-md-2" style="font-weight:bold;">Cost paid by self per month S$</div>
+                                <div class="col-md-3" style="font-weight:bold;width:27%">Accommodation provided by employer?</div>
+                                <div class="col-md-3" style="font-weight:bold;width:17%;">Type of accommodation</div>
+                                <div class="col-md-3" style="font-weight:bold;width:27%;">Cost charged by employer per month S$</div>
+                                <div class="col-md-2" style="font-weight:bold;width:20%;">Cost paid by self per month S$</div>
                                 
                             </div>
                             <!-- 
@@ -1174,11 +1177,11 @@
                               String costPaid = accomodation.getSelfPaidCost();
                             %>      
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
-                                <div class="col-md-3"><%=accomodationProvided%></div>
-                                <div class="col-md-3"><%=accomodationType%></div>
-                                <div class="col-md-3"><%=chargedCost%></div>
-                                <div class="col-md-2"><%=costPaid%></div>
+                                <div class="col-md-1"><input type="radio" name="accommodationDuringWork" value="<%=i%>"></div>
+                                <div class="col-md-3" style="width:27%;"><%=accomodationProvided%></div>
+                                <div class="col-md-3" style="width:17%;"><%=accomodationType%></div>
+                                <div class="col-md-3" style="width:27%;"><%=chargedCost%></div>
+                                <div class="col-md-2" style="width:20%;"><%=costPaid%></div>
                                 
                             </div> 
                             <%} 
@@ -1187,7 +1190,7 @@
                             
                             <% if (session.getAttribute("accomodationMsg") != null) {
                                         String accomodationMsg = (String) session.getAttribute("accomodationMsg");%>
-                            <label style="color:green"><br/><%=accomodationMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=accomodationMsg%></label><%}%>
                                 <%session.removeAttribute("accomodationMsg");%>
                             
                             <!-- End of Job Compliement -->
@@ -1205,8 +1208,8 @@
                             <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-2" style="font-weight:bold;">Aggravating issue</div>
-                                <div class="col-md-3" style="font-weight:bold;">Explain if at left is 'Other'</div>
-                                <div class="col-md-3" style="font-weight:bold;">Monetary loss/value of this aggravating issue S$</div>
+                                <div class="col-md-3" style="font-weight:bold;width:20%;">Explain if at left is 'Other'</div>
+                                <div class="col-md-3" style="font-weight:bold;width:30%;">Monetary loss/value of this aggravating issue S$</div>
                                 <div class="col-md-3" style="font-weight:bold;">Remarks about aggravating issue</div>
                             </div>                            
                             <!-- 
@@ -1221,10 +1224,10 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="aggravatingIssue" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=aggraIssue%></div>
-                                <div class="col-md-3"><%=aggraIssueOther%></div>
-                                <div class="col-md-3"><%=monetaryLoss%></div>
+                                <div class="col-md-3" style="width:20%;"><%=aggraIssueOther%></div>
+                                <div class="col-md-3" style="width:30%;"><%=monetaryLoss%></div>
                                 <div class="col-md-3"><%=aggraRemarks%></div>
                             </div>
                             <%} 
@@ -1234,7 +1237,7 @@
                             
                             <% if (session.getAttribute("aggravatingIssueMsg") != null) {
                                         String aggravatingIssueMsg = (String) session.getAttribute("aggravatingIssueMsg");%>
-                            <label style="color:green"><br/><%=aggravatingIssueMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=aggravatingIssueMsg%></label><%}%>
                                 <%session.removeAttribute("aggravatingIssueMsg");%>
                             
                             <!-- Lead caseworker --> 
@@ -1247,7 +1250,7 @@
                             <div style="height:10px;"></div>
                             <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
                                 <div class="col-md-1"></div>
-                                <div class="col-md-2" style="font-weight:bold;">Lead caseworker</div>
+                                <div class="col-md-3" style="font-weight:bold;">Lead caseworker</div>
                                 <div class="col-md-3" style="font-weight:bold;">Start Date</div>
                                 <div class="col-md-3" style="font-weight:bold;">End Date</div>
                             </div>                            
@@ -1262,8 +1265,8 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
-                                <div class="col-md-2"><%=leadCaseWorker%></div>
+                                <div class="col-md-1"><input type="radio" name="leadCaseworker" value="<%=i%>"></div>
+                                <div class="col-md-3"><%=leadCaseWorker%></div>
                                 <div class="col-md-3"><%=caseWorkerStartDate%></div>
                                 <div class="col-md-3"><%=caseWorkerEndDate%></div>
                             </div>
@@ -1274,7 +1277,7 @@
                             
                             <% if (session.getAttribute("leadCaseWorkerMsg") != null) {
                                         String leadCaseworkerMsg = (String) session.getAttribute("leadCaseWorkerMsg");%>
-                            <label style="color:green"><br/><%=leadCaseworkerMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=leadCaseworkerMsg%></label><%}%>
                                 <%session.removeAttribute("leadCaseWorkerMsg");%>
                             
                             <!-- Auxiliary caseworker --> 
@@ -1287,7 +1290,7 @@
                             <div style="height:10px;"></div>
                             <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
                                 <div class="col-md-1"></div>
-                                <div class="col-md-2" style="font-weight:bold;">Auxiliary caseworker</div>
+                                <div class="col-md-3" style="font-weight:bold;">Auxiliary caseworker</div>
                                 <div class="col-md-3" style="font-weight:bold;">Start Date</div>
                                 <div class="col-md-3" style="font-weight:bold;">End Date</div>
                             </div>                            
@@ -1302,8 +1305,8 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
-                                <div class="col-md-2"><%=auxCaseWorkerName%></div>
+                                <div class="col-md-1"><input type="radio" name="auxiliaryCaseworker" value="<%=i%>"></div>
+                                <div class="col-md-3"><%=auxCaseWorkerName%></div>
                                 <div class="col-md-3"><%=auxStartDate%></div>
                                 <div class="col-md-3"><%=auxEndDate%></div>
                             </div>
@@ -1314,7 +1317,7 @@
                             
                               <% if (session.getAttribute("auxCaseWorkerName") != null) {
                                         String auxCaseWorkerName = (String) session.getAttribute("auxCaseWorkerName");%>
-                            <label style="color:green"><br/><%=auxCaseWorkerName%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=auxCaseWorkerName%></label><%}%>
                                 <%session.removeAttribute("auxCaseWorkerName");%>
                             
                             <!-- Salary & related history --> 
@@ -1328,9 +1331,9 @@
                             <div class="row1 col-md-12" style="border-top:1px solid; border-bottom: 1px solid;">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-3" style="font-weight:bold;">Describe complaint about basic salary incorrect or not paid</div>
-                                <div class="col-md-2" style="font-weight:bold;">Mode of salary payment</div>
-                                <div class="col-md-3" style="font-weight:bold;">Estimated total value of claim S$</div>
-                                <div class="col-md-3" style="font-weight:bold;">Estimated 12 months' value of claim S$</div>
+                                <div class="col-md-2" style="font-weight:bold;width:22%;">Mode of salary payment</div>
+                                <div class="col-md-3" style="font-weight:bold;width:22%">Estimated total value of claim S$</div>
+                                <div class="col-md-3" style="font-weight:bold;width:21%;">Estimated 12 months' value of claim S$</div>
                             </div>                            
                             <!-- 
                             for loop get list of problems. 
@@ -1345,11 +1348,11 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="salaryRelatedHistory" value="<%=i%>"></div>
                                 <div class="col-md-3"><%=salaryComplaint%></div>
-                                <div class="col-md-2"><%=salMode%></div>
-                                <div class="col-md-3"><%=estimatedTotalValue%></div>
-                                <div class="col-md-3"><%=estimated12YearClaim%></div>
+                                <div class="col-md-2" style="width:22%;"><%=salMode%></div>
+                                <div class="col-md-3" style="width:22%;"><%=estimatedTotalValue%></div>
+                                <div class="col-md-3" style="width:21%;"><%=estimated12YearClaim%></div>
                             </div>
                             <%} 
                                     // }                        
@@ -1358,7 +1361,7 @@
                             
                               <% if (session.getAttribute("basicSalaryComplaintMsg") != null) {
                                         String basicSalaryComplaintMsg = (String) session.getAttribute("basicSalaryComplaintMsg");%>
-                            <label style="color:green"><br/><%=basicSalaryComplaintMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=basicSalaryComplaintMsg%></label><%}%>
                                 <%session.removeAttribute("basicSalaryComplaintMsg");%>
                             
                             <!-- Injury History --> 
@@ -1388,7 +1391,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="injuryHistory" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=injuryDate%></div>
                                 <div class="col-md-3"><%=injuryLocation%></div>
                                 <div class="col-md-2"><%=bodyPartsInjured%></div>
@@ -1401,7 +1404,7 @@
                             
                                 <% if (session.getAttribute("injuryMsg") != null) {
                                         String injuryMsg = (String) session.getAttribute("injuryMsg");%>
-                            <label style="color:green"><br/><%=injuryMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=injuryMsg%></label><%}%>
                                 <%session.removeAttribute("injuryMsg");%>
                             
                             
@@ -1432,7 +1435,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="illnessHistory" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=illnessDate%></div>
                                 <div class="col-md-3"><%=illnessDiagnosed%></div>
                                 <div class="col-md-2"><%=illnessNature%></div>
@@ -1445,7 +1448,7 @@
                             
                              <% if (session.getAttribute("illnessMsg") != null) {
                                         String illnessMsg = (String) session.getAttribute("illnessMsg");%>
-                            <label style="color:green"><br/><%=illnessMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=illnessMsg%></label><%}%>
                                 <%session.removeAttribute("illnessMsg");%>
                             
                             <!-- Details/history other problems --> 
@@ -1472,7 +1475,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="detailsHistoryOtherProblems" value="<%=i%>"></div>
                                 <div class="col-md-4"><%=problemDescription%></div>
                                 <div class="col-md-4"><%=estimatedLoss%></div>
                                 
@@ -1483,7 +1486,7 @@
                             %> 
                               <% if (session.getAttribute("otherProblemsMsg") != null) {
                                         String otherProblemsMsg = (String) session.getAttribute("otherProblemsMsg");%>
-                            <label style="color:green"><br/><%=otherProblemsMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=otherProblemsMsg%></label><%}%>
                                 <%session.removeAttribute("otherProblemsMsg");%>
                             
                             <!-- Trafficking indicators --> 
@@ -1513,7 +1516,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="traffickingIndicators" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=assessmentDate%></div>
                                 <div class="col-md-3"><%=assessmentPerson %></div>
                                 <div class="col-md-3"><%=otherIndicatorComplaint%></div>
@@ -1526,7 +1529,7 @@
                             
                              <% if (session.getAttribute("assessmentMsg") != null) {
                                         String assessmentMsg = (String) session.getAttribute("assessmentMsg");%>
-                            <label style="color:green"><br/><%=assessmentMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=assessmentMsg%></label><%}%>
                                 <%session.removeAttribute("assessmentMsg");%>
                             
                             <!-- Salary claim lodged --> 
@@ -1554,7 +1557,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="salaryClaimLodged" value="<%=i%>"></div>
                                 <div class="col-md-3"><%=salClaimDate%></div>
                                 <div class="col-md-2"><%=valueClaim%></div>
                                 <div class="col-md-3"><%=salBasisClaimDesc%></div>
@@ -1566,7 +1569,7 @@
                             
                               <% if (session.getAttribute("salaryClaimLodgeMsg") != null) {
                                         String salaryClaimLodgeMsg = (String) session.getAttribute("salaryClaimLodgeMsg");%>
-                            <label style="color:green"><br/><%=salaryClaimLodgeMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=salaryClaimLodgeMsg%></label><%}%>
                                 <%session.removeAttribute("salaryClaimLodgeMsg");%>
                             
                             <!-- Wica claim lodged --> 
@@ -1592,7 +1595,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="wicaClaimLodged" value="<%//=i%>"></div>
                                 <div class="col-md-2"><% %></div>
                                 <div class="col-md-3"><% %></div>
                                 <div class="col-md-3"><% %></div>
@@ -1628,7 +1631,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="nonWicaMedClaim" value="<%//=i%>"></div>
                                 <div class="col-md-2"><% %></div>
                                 <div class="col-md-3"><% %></div>
                                 <div class="col-md-3"><% %></div>
@@ -1667,7 +1670,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="policeReport" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=policeReportDate%></div>
                                 <div class="col-md-3"><%=policeReportStation%></div>
                                 <div class="col-md-3"><%=accompaniedPersons%></div>
@@ -1681,7 +1684,7 @@
                             
                               <% if (session.getAttribute("policeReportMsg") != null) {
                                         String policeReportMsg = (String) session.getAttribute("policeReportMsg");%>
-                            <label style="color:green"><br/><%=policeReportMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=policeReportMsg%></label><%}%>
                                 <%session.removeAttribute("policeReportMsg");%>
                             <!-- Oth complaint lodged --> 
                             <%
@@ -1706,7 +1709,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="othComplaintLodged" value="<%//=i%>"></div>
                                 <div class="col-md-2"><% %></div>
                                 <div class="col-md-3"><% %></div>
                                 <div class="col-md-2"><% %></div>
@@ -1741,7 +1744,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="caseDiscussion" value="<%//=i%>"></div>
                                 <div class="col-md-3"><% %></div>
                                 <div class="col-md-3"><% %></div>
                                 <div class="col-md-3"><% %></div>
@@ -1780,7 +1783,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="hospital" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=updateDate%></div>
                                 <div class="col-md-2"><%=hospitalName%></div>
                                 <div class="col-md-3"><%=hospitalMore%></div>
@@ -1793,7 +1796,7 @@
                             
                                 <% if (session.getAttribute("hospitalMsg") != null) {
                                         String hospitalMsg = (String) session.getAttribute("hospitalMsg");%>
-                            <label style="color:green"><br/><%=hospitalMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=hospitalMsg%></label><%}%>
                                 <%session.removeAttribute("hospitalMsg");%>
                             
                             <!-- MC/Light Duty status --> 
@@ -1826,7 +1829,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="mcLightDutyStatus" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=mcUpdate%></div>
                                 <div class="col-md-3"><%=currentMCStatus%></div>
                                 <div class="col-md-3"><%=latestMCExpiryDate%></div>
@@ -1839,7 +1842,7 @@
                             
                              <% if (session.getAttribute("MCmsg") != null) {
                                         String MCmsg = (String) session.getAttribute("MCmsg");%>
-                            <label style="color:green"><br/><%=MCmsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=MCmsg%></label><%}%>
                                 <%session.removeAttribute("MCmsg");%>
                             
                             <!-- R2R appts --> 
@@ -1865,7 +1868,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="r2rAppts" value="<%//=i%>"></div>
                                 <div class="col-md-2"><% %></div>
                                 <div class="col-md-3"><% %></div>
                                 <div class="col-md-3"><% %></div>
@@ -1900,7 +1903,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="wicaStatus" value="<%//=i%>"></div>
                                 <div class="col-md-2"><% %></div>
                                 <div class="col-md-2"><% %></div>
                                 <div class="col-md-2"><% %></div>
@@ -1940,7 +1943,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="lawyerStatus" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=lawyerUpdate%></div>
                                 <div class="col-md-4"><%=lawyerHave%></div>
                                 <div class="col-md-2"><%=lawFirm%></div>
@@ -1953,7 +1956,7 @@
                             
                               <% if (session.getAttribute("lawyerMsg") != null) {
                                         String lawyerMsg = (String) session.getAttribute("lawyerMsg");%>
-                            <label style="color:green"><br/><%=lawyerMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=lawyerMsg%></label><%}%>
                                 <%session.removeAttribute("lawyerMsg");%>
                             
                             
@@ -1991,7 +1994,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="caseMilestoneNonCriminal" value="<%=i%>"></div>
                                 <div class="col-md-3"><%=dateMilestoneReached%></div>
                                 <div class="col-md-2"><%=milestoneReached%></div>
                                 <div class="col-md-3"><%=milstoneOther%></div>
@@ -2026,7 +2029,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="caseMilestoneCriminal" value="<%//=i%>"></div>
                                 <div class="col-md-3"><% %></div>
                                 <div class="col-md-2"><% %></div>
                                 <div class="col-md-3"><% %></div>
@@ -2067,7 +2070,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="benefaction" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=benefitDate%></div>
                                 <div class="col-md-2"><%=benefitType%></div>
                                 <div class="col-md-4"><%=benefitPurpose%></div>
@@ -2080,7 +2083,7 @@
                             
                                 <% if (session.getAttribute("benefitMsg") != null) {
                                         String benefitMsg = (String) session.getAttribute("benefitMsg");%>
-                            <label style="color:green"><br/><%=benefitMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=benefitMsg%></label><%}%>
                                 <%session.removeAttribute("benefitMsg");%>
                             
                             
@@ -2112,7 +2115,7 @@
                             %>      
                             
                             <div class="row2 col-md-12">
-                                <div class="col-md-1"><input type="radio" name="selectoption"></div>
+                                <div class="col-md-1"><input type="radio" name="transferTJSRepatriation" value="<%=i%>"></div>
                                 <div class="col-md-2"><%=ttrUpdate%></div>
                                 <div class="col-md-3"><%=ttrStatus%></div>
                                 <div class="col-md-3"><%=departureDate%></div>
@@ -2125,7 +2128,7 @@
                             
                              <% if (session.getAttribute("ttrMsg") != null) {
                                         String ttrMsg = (String) session.getAttribute("ttrMsg");%>
-                            <label style="color:green"><br/><%=ttrMsg%></label><%}%>
+                            <label style="color:green;margin-left:27px;"><br/><%=ttrMsg%></label><%}%>
                                 <%session.removeAttribute("ttrMsg");%>
                             
                     </td>
@@ -2145,19 +2148,19 @@
                         <div style="height:10px;"></div>
                         <div style="margin-left:20px;"> 
                             <label style="margin:0">Name of employer</label>
-                            <p class="form-control" style="left:25px; height:30px;width:80%;margin:0"> <%=DBConnect.getEmployer((String)session.getAttribute("FIN"))%></p>
+                            <p class="form-control" style="left:25px; height:25px;width:80%;margin:0"> <%=DBConnect.getEmployer((String)session.getAttribute("FIN"))%></p>
                         </div>
                         <div style="margin-left:20px;"> 
                             <label style="margin:0">Workpass type that comes with this job</label>
-                            <p class="form-control" style="left:25px;height:30px;width:80%;margin:0"><%=DBConnect.getWorkpassType((String)session.getAttribute("FIN"))%></p>
+                            <p class="form-control" style="left:25px;height:25px;width:80%;margin:0"><%=DBConnect.getWorkpassType((String)session.getAttribute("FIN"))%></p>
                         </div>
                         <div style="margin-left:20px;"> 
                             <label style="margin:0">Occupation</label>
-                            <p class="form-control" style="left:25px;height:30px;width:80%;margin:0"><%=DBConnect.getOccupation((String)session.getAttribute("FIN"))%> </p>
+                            <p class="form-control" style="left:25px;height:25px;width:80%;margin:0"><%=DBConnect.getOccupation((String)session.getAttribute("FIN"))%> </p>
                         </div>
                         <div style="margin-left:20px;"> 
                             <label style="margin:0">When commenced this job</label>
-                            <p class="form-control" style="left:25px;height:30px;width:80%;margin:0"><%=DBConnect.getCommencedDate((String)session.getAttribute("FIN"))%></p>
+                            <p class="form-control" style="left:25px;height:25px;width:80%;margin:0"><%=DBConnect.getCommencedDate((String)session.getAttribute("FIN"))%></p>
                         </div>
                         <div style="margin-left:5px;"> 
                             <div class="col-md-8">
@@ -2227,9 +2230,9 @@
                 <tr>
                     
                     <td colspan="2" class="container9">
-                        <button type="submit" class="btn btn-primary btn-large" onClick="onSubmit()"><span style="font-size:13px;">VIEW</span><br/> <span>selected record</span></button>
+                        <button type="submit" class="btn btn-primary btn-large" style="margin-left:10px" onClick="onSubmit()"><span style="font-size:13px;">VIEW</span><br/> <span>selected record</span></button>
                         <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/AddRecord.jsp"><span style="font-size:13px;">ADD</span><br/> <span> new record</span></a>
-                        <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/CaseMenu.jsp" style="height:55px;text-align: center; vertical-align: middle;"><span style="font-size:13px;">CASE MENU</span></a>
+                        <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/CaseMenu.jsp" style="height:55px;text-align: center; line-height:40px;"><span style="font-size:13px;">CASE MENU</span></a>
                         <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/SpecialistHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
                     </td>
                 </tr>

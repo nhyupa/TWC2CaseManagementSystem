@@ -13,12 +13,16 @@ public class AuxillaryCaseWorker {
     private String auxStartDate;
     private String auxEndDate;
     private String FIN_Number;
+    private String JobKey;
+    private String ProbKey; 
     
-    public AuxillaryCaseWorker(String auxCaseWorkerName, String auxStartDate, String auxEndDate,String FIN_Number){
+    public AuxillaryCaseWorker(String auxCaseWorkerName, String auxStartDate, String auxEndDate,String FIN_Number, String JobKey, String ProbKey){
         this.auxCaseWorkerName = auxCaseWorkerName;
         this.auxStartDate = auxStartDate;
         this.auxEndDate = auxEndDate;
         this.FIN_Number = FIN_Number;
+        this.JobKey = JobKey;
+        this.ProbKey = ProbKey;
     }
 
     /**
@@ -61,5 +65,36 @@ public class AuxillaryCaseWorker {
      */
     public void setAuxEndDate(String auxEndDate) {
         this.auxEndDate = auxEndDate;
+    }
+    
+    
+      
+        /**
+     * @return the JobKey
+     */
+    public String getJobKey() {
+        return JobKey;
+    }
+
+    /**
+     * @param JobKey the JobKey to set
+     */
+    public void setJobKey(String JobKey) {
+        this.JobKey = JobKey;
+    }
+    
+        
+        /**
+     * @return the ProbKey
+     */
+    public String getProbKey() {
+        return ProbKey;
+    }
+
+    /**
+     * @param ProbKey the ProbKey to set
+     */
+    public void setProbKey(String ProbKey) {
+        this.ProbKey = ProbKey;
     }
 }

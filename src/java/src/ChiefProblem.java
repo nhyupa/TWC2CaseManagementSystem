@@ -15,7 +15,15 @@ public class ChiefProblem {
     private String otherProblem;
     private String problemRemarks;
     private String FIN_Number;
+    private String probKey;
     
+    public ChiefProblem(String problemRegDate, String chiefProblem, String otherProblem, String problemRemarks, String FIN_Number){
+        this.problemRegDate = problemRegDate;
+        this.chiefProblem = chiefProblem;
+        this.otherProblem = otherProblem;
+        this.problemRemarks = problemRemarks;
+        this.FIN_Number = FIN_Number;
+    }
     public ChiefProblem(String jobKey,String problemRegDate, String chiefProblem, String otherProblem, String problemRemarks, String FIN_Number){
         this.jobKey = jobKey;
         this.problemRegDate = problemRegDate;
@@ -30,12 +38,14 @@ public class ChiefProblem {
         this.FIN_Number =  FIN_Number;
     }
     
-    public ChiefProblem(String problemRegDate, String chiefProblem, String otherProblem, String problemRemarks,String FIN_Number){
+    public ChiefProblem(String problemRegDate, String chiefProblem, String otherProblem, String problemRemarks,String FIN_Number,String jobKey, String probKey){
         this.problemRegDate = problemRegDate;
         this.chiefProblem = chiefProblem;
         this.otherProblem = otherProblem;
         this.problemRemarks = problemRemarks;
         this.FIN_Number = FIN_Number;
+        this.jobKey = jobKey; 
+        this.probKey = probKey;
     }
 
     /**
@@ -71,6 +81,20 @@ public class ChiefProblem {
      */
     public String getOtherProblem() {
         return otherProblem;
+    }
+
+        /**
+     * @return the jobKey
+     */
+    public String getJobKey() {
+        return jobKey;
+    }
+
+        /**
+     * @return the Problem Key
+     */
+    public String getProbKey() {
+        return probKey;
     }
 
     /**
@@ -109,16 +133,16 @@ public class ChiefProblem {
     }
 
     /**
-     * @return the jobKey
-     */
-    public String getJobKey() {
-        return jobKey;
-    }
-
-    /**
      * @param jobKey the jobKey to set
      */
     public void setJobKey(String jobKey) {
         this.jobKey = jobKey;
+    }
+    
+        /**
+     * @param probKey the probKey to set
+     */
+    public void setprobKey(String probKey) {
+        this.probKey = probKey;
     }
 }

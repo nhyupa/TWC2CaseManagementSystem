@@ -14,13 +14,17 @@ public class SalaryRelatedHistory {
     private String estimatedTotalValueOfClaim;
     private String estimated12MonthsValueOfClaim;
     private String FIN_Number;
+    private String JobKey;
+    private String ProbKey;
     
-    public SalaryRelatedHistory(String salaryComplaint, String salaryPaymentMode, String estimatedTotalValueOfClaim,String estimated12MonthsValueOfClaim, String FIN_Number){
+    public SalaryRelatedHistory(String salaryComplaint, String salaryPaymentMode, String estimatedTotalValueOfClaim,String estimated12MonthsValueOfClaim, String FIN_Number, String JobKey, String ProbKey){
         this.salaryComplaint = salaryComplaint;
         this.salaryPaymentMode = salaryPaymentMode;
         this.estimatedTotalValueOfClaim = estimatedTotalValueOfClaim;
         this.estimated12MonthsValueOfClaim = estimated12MonthsValueOfClaim;
         this.FIN_Number = FIN_Number;
+        this.JobKey = JobKey;
+        this.ProbKey = ProbKey;
     }
 
     /**
@@ -91,5 +95,35 @@ public class SalaryRelatedHistory {
      */
     public void setFIN_Number(String FIN_Number) {
         this.FIN_Number = FIN_Number;
+    }
+    
+    		  
+        /**
+     * @return the JobKey
+     */
+    public String getJobKey() {
+        return JobKey;
+    }
+
+    /**
+     * @param JobKey the JobKey to set
+     */
+    public void setJobKey(String JobKey) {
+        this.JobKey = JobKey;
+    }
+    
+        
+        /**
+     * @return the ProbKey
+     */
+    public String getProbKey() {
+        return ProbKey;
+    }
+
+    /**
+     * @param ProbKey the ProbKey to set
+     */
+    public void setProbKey(String ProbKey) {
+        this.ProbKey = ProbKey;
     }
 }

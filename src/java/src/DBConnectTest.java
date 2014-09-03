@@ -31,6 +31,7 @@ public class DBConnectTest {
         String passportIssueDate = "2014-03-05";
         String passportExpiryDate = "2018-03-05";
         DBConnect.connectDB();
+        DBConnect.insertBankAccDetails("DBS", "1234", "DBS", "2014-08-24", "G0909493N");
         //JobProfile job = new JobProfile(NRIC_No,employerName, workPassType, workPassMore, jobSector,  jobSectorMore, occupation,  startDate, endDate, jobWhetherTJS, jobRemarks);
         //DBConnect.createJob(job);
         //DBConnect.insertPassportDetails(passportCountry, passportNum, NRIC_No, passportIssueDate, passportExpiryDate);

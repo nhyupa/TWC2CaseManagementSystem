@@ -211,7 +211,8 @@
         }
         ArrayList<String> nationalities = DBConnect.getNationalitieslists();
         ArrayList<String> workpass = DBConnect.getWorkPassList();
-        
+        ArrayList<String> problemLists = DBConnect.getProblemLists();
+        ArrayList<String> hospitalNames = DBConnect.getHospitals();
     %>
     <body>
         <%-- left side menus--%>
@@ -368,7 +369,7 @@
                                                 <!-- use for loop, retrieve list of workpass types from database -->
                                                 <option value="">Select an option</option>
                                                 <%for(int i = 0 ; i < workpass.size() ; i++){%>
-                                                <option value="<%=workpass.get(i)%>" ><%=workpass.get(i)%> </option>
+                                                <option value="<%=workpass.get(i)%>"><%=workpass.get(i)%> </option>
                                                 <%}%>
                                             </select> 
                                         </div>
@@ -378,9 +379,9 @@
                                                 Chief problem
                                             </label>
                                             <select name="ChiefProblem" class="form-control col-md-2" style="margin-left:10px;width:100%">
-                                                <!-- use for loop, retrieve list of Chief Problem types from database --> 
-                                                <option value="p1" >p1</option>
-                                                <option value="p2" >p2</option>
+                                                <%for(int i =0 ; i < problemLists.size(); i++){%>
+                                                <option value="<%=problemLists.get(i)%>" ><%=problemLists.get(i)%></option>
+                                                <%}%>
                                             </select> 
                                         </div>
 
@@ -415,10 +416,11 @@
                                             </label>
 
                                             <select name="Hospital" class="form-control col-md-2" style="margin-left:10px;width:100%">
-                                                <!-- use for loop, retrieve list of hospital types from database --> 
-                                                <option value="hospital1" >hospital1</option>
-                                                <option value="hospital2" >hospital2</option>
+                                                <%for(int i =0 ; i < hospitalNames.size(); i++){%>
+                                                <option value="<%=hospitalNames.get(i)%>" ><%=hospitalNames.get(i)%></option>
+                                                <%}%>
                                             </select> 
+                                            
                                         </div>
 
                                         <div class="form-group" id="ProblemRegisteredDate" style="margin-left:10px;">

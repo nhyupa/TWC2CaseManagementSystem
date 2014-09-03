@@ -27,7 +27,7 @@
     <body style="font-family:arial;font-size:14px">
         <%-- left side menus--%>
         <%
-            
+                    
             String userToView = request.getParameter("userToView");
             session.setAttribute("userView", userToView);
             ArrayList<Worker> workerFromNameSearchResults = (ArrayList<Worker>)session.getAttribute("workerObjs"); 
@@ -37,15 +37,14 @@
            
             if(workerFromNameSearchResults != null && workerFromNameSearchResults.size() != 0 ){
                 Worker worker = null;
-                if(userToView != null){
+                if(userToView == null){
+                    FIN = (String)session.getAttribute("FIN");
+                }
+                else {
                     worker = workerFromNameSearchResults.get(Integer.parseInt(userToView));
                     
                     FIN = worker.getFIN_Num();
                     session.setAttribute("FIN",FIN);
-                    session.removeAttribute("workerObjs");
-                }
-                else {
-                    FIN = (String)session.getAttribute("FIN");
                 } 
             }
             
@@ -54,12 +53,12 @@
           
             if(workerFromFINSearchResult != null && workerFromFINSearchResult.size() != 0 ){
                 Worker worker = null;
+ 
                 if(userToView != null){
                     worker = workerFromFINSearchResult.get(Integer.parseInt(userToView));
                     
                     FIN = worker.getFIN_Num();
                     session.setAttribute("FIN",FIN);
-                    session.removeAttribute("workerFINObjs");
                 }
                 else {
                     FIN = (String)session.getAttribute("FIN");
@@ -71,14 +70,25 @@
             
             
             String tempFIN = "";
+                        
+            String jobKey = DBConnect.getJobKey(FIN);
+            if (jobKey !=null){
+               session.setAttribute("jobKey", jobKey);
+            }
             
+                            
+           ChiefProblem chiefProblem = DBConnect.getProblem(FIN);
+           String probKey = DBConnect.getProbKey(FIN, jobKey);
+            if (probKey !=null){
+               session.setAttribute("probKey", probKey);
+            }
           
            
            
             String workerName = DBConnect.getWorkername(FIN);
             String phoneNumber = null;
             
-            ArrayList<CaseWorker> caseWorkerDetails = DBConnect.getCaseWorkerDetails(FIN);
+            ArrayList<CaseWorker> caseWorkerDetails = DBConnect.getCaseWorkerDetails(FIN,jobKey);
             ArrayList<InjuryDetail> injuryDetails = DBConnect.getInjuryDetails(FIN);
             
             CaseWorker caseWorker = null;
@@ -89,6 +99,8 @@
             if(injuryDetails.size() !=0){
                 injuryDetail = injuryDetails.get(injuryDetails.size() - 1);
             }
+
+            
         %>
         <div class="leftDivision">
             <table border ="2" align="center" style="width:100%">
@@ -140,13 +152,14 @@
                     <td class="container5">
                         <div style="font-size:18px; font-weight:bold;margin-left:20px;" >CASE MENU</div>
                     </td>
-
+                    
                     <td rowspan="2" class="container1">
                         <img src="image/logo_camans_180w.gif" style="width:100%"/>
                         <%
                         
                         DBConnect database = new DBConnect();
                         DBConnect.connectDB();
+                     
                         ArrayList<User> userList = new ArrayList<User>();
                         userList = DBConnect.retrieveUsers();
                         
@@ -163,9 +176,9 @@
                             if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                 String user = (String) request.getSession().getAttribute("username");
                         %>
-                        <div style="height:15px;"></div>
+                        <div style="height:20px;"></div>
 
-                        <div class="username-background" style="height:45%">
+                        <div class="username-background" style="height:38%">
                             <strong class="word" style="margin-left:8px;"> Hello <%= user%></strong>
                             </br>
                             <button style="margin-left:2px;" type="submit" class="btn-logout" name="logout" onclick="onLogout();"><strong class="word">LOGOUT</strong></button>
@@ -229,8 +242,7 @@
                     </td>
                 </tr>
                 <%--5th row--%>
-                
-                <%ChiefProblem chiefProblem = DBConnect.getProblem(FIN);%>
+
                 <tr>
                     <td rowspan="2" class="container4" valign="top">
                         <div style="font-size:16px; font-weight:bold;color:black; margin-left:20px;">Problem Stub</div>
@@ -298,13 +310,13 @@
                     <td colspan="2" class="container9">
                         
                         <% if(jobPosition.equalsIgnoreCase("Administrator")) {%>
-                            <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/AdminHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
+                            <a type="button" style="margin-left:10px;" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/AdminHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
                         <%}%>
                         <% if(jobPosition.equalsIgnoreCase("Management")) {%>
-                            <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/ManagerHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
+                            <a type="button" style="margin-left:10px;" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/ManagerHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
                         <%}%>
                         <% if(jobPosition.equalsIgnoreCase("General Specialist") ||jobPosition.equalsIgnoreCase("Restricted Specialist")) {%>
-                            <a type="button" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/SpecialistHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
+                            <a type="button" style="margin-left:10px;" class="btn btn-primary btn-large" href="/TWC2-CaseManagementSystem/SpecialistHomePage.jsp"><span style="font-size:13px;">EXIT</span><br/> <span>this worker</span></a>
                         <%}%>
                         
                         

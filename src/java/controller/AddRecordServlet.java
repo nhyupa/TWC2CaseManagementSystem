@@ -33,7 +33,8 @@ public class AddRecordServlet extends HttpServlet {
     }
     
     public void doPost(HttpServletRequest request, HttpServletResponse response){
-        
+        String jobKey = (String)request.getSession().getAttribute("jobKey");
+        String probKey = (String)request.getSession().getAttribute("probKey");
         String FIN = (String)request.getSession().getAttribute("FIN");
         /** NickName **/
         String nickName = null;
@@ -798,26 +799,26 @@ public class AddRecordServlet extends HttpServlet {
             }
             if(basicSalaryComplaint != null){
                 response.getWriter().println("Inside Aux Case Worker Loop");
-                DBConnect.insertBasicSalaryComplaintDetails(basicSalaryComplaint, salaryPaymentMode, estimatedClaim,estimated12monthsClaim, FIN);
+                DBConnect.insertBasicSalaryComplaintDetails(basicSalaryComplaint, salaryPaymentMode, estimatedClaim,estimated12monthsClaim, FIN, jobKey, probKey);
                 request.getSession().setAttribute("basicSalaryComplaintMsg","New record has been added.");
                 response.sendRedirect(url);
             }
             
             if(auxCaseWorkerName != null){
                 response.getWriter().println("Inside Aux Case Worker Loop");
-                DBConnect.insertAuxillaryCaseWorkerDetails(auxCaseWorkerName, auxStartDate, auxEndDate, FIN);
+                DBConnect.insertAuxillaryCaseWorkerDetails(auxCaseWorkerName, auxStartDate, auxEndDate, FIN, jobKey, probKey);
                 request.getSession().setAttribute("auxCaseWorkerName","New record has been added.");
                 response.sendRedirect(url);
             }
             if(leadCaseWorker != null){
                 response.getWriter().println("Inside Lead Case Worker Loop");
-                DBConnect.insertLeadCaseWorkerDetails(leadCaseWorker, startDate, endDate, FIN);
+                DBConnect.insertLeadCaseWorkerDetails(leadCaseWorker, startDate, endDate, FIN, jobKey, probKey);
                 request.getSession().setAttribute("leadCaseWorkerMsg","New record has been added.");
                 response.sendRedirect(url);
             }
             if(aggravatingIssue != null){
                 response.getWriter().println("Inside Aggravating Issue Loop");
-                DBConnect.insertAggravatingIssueDetails(aggravatingIssue, aggravatingIssueOther, monetaryloss, aggravatingIssueRemarks, FIN);
+                DBConnect.insertAggravatingIssueDetails(aggravatingIssue, aggravatingIssueOther, monetaryloss, aggravatingIssueRemarks, FIN, jobKey, probKey);
                 request.getSession().setAttribute("aggravatingIssueMsg","New record has been added.");
                 response.sendRedirect(url);
             }
@@ -834,7 +835,7 @@ public class AddRecordServlet extends HttpServlet {
             }
             if(accomodationProvided != null){
                 response.getWriter().println("Inside WorkHistory Loop");
-                DBConnect.insertAccomodationDetails(accomodationProvided, accomodationType, employerMonthlyCost, selfPaidCost, FIN);
+                DBConnect.insertAccomodationDetails(accomodationProvided, accomodationType, employerMonthlyCost, selfPaidCost, FIN, jobKey);
                 request.getSession().setAttribute("accomodationMsg","New record has been added.");
                 response.sendRedirect(url);
             }
@@ -842,7 +843,7 @@ public class AddRecordServlet extends HttpServlet {
             if(getWorkHow !=null){
                 response.getWriter().println("Inside WorkHistory Loop");
                 
-                DBConnect.insertWorkHistoryDetails(getWorkHow, singaporeArrivalDate, firstJobWhether,firstJobArrival, FIN);
+                DBConnect.insertWorkHistoryDetails(getWorkHow, singaporeArrivalDate, firstJobWhether,firstJobArrival, FIN, jobKey);
                 request.getSession().setAttribute("workHistoryMsg","New record has been added.");
                 response.sendRedirect(url);
             }
@@ -852,14 +853,14 @@ public class AddRecordServlet extends HttpServlet {
                 FIN = FIN.replaceAll("\\s", "");
                 response.getWriter().println(FIN);
                 response.getWriter().println("Inside Workplace Loop");
-                DBConnect.insertWorkplaceDetails(workplaceType, workplaceWhose, workplaceDirect,workplaceStart, FIN);
+                DBConnect.insertWorkplaceDetails(workplaceType, workplaceWhose, workplaceDirect,workplaceStart, FIN, jobKey);
                 request.getSession().setAttribute("workplaceMsg","New record has been added.");
                 response.sendRedirect(url);
             }
             if(employerName != null){
                 response.getWriter().println("Inside Employer Loop");
                 
-                DBConnect.insertEmployerDetails(employerName, employerAddress, employerContacts,employerKey, FIN);
+                DBConnect.insertEmployerDetails(employerName, employerAddress, employerContacts,employerKey, FIN, jobKey);
                 request.getSession().setAttribute("employerMsg","New record has been added.");
                 response.sendRedirect(url);
             }
@@ -868,7 +869,7 @@ public class AddRecordServlet extends HttpServlet {
                 response.getWriter().println("Inside Agent Company Loop");
                 double formattedAgentAmtPaid = Double.parseDouble(agentAmountPaid);
                 double formattedAgentAmtOwed = Double.parseDouble(agentMoneyOwed);
-                DBConnect.insertAgentDetails(agentCompanyName, agentLocation, formattedAgentAmtPaid,formattedAgentAmtOwed, FIN);
+                DBConnect.insertAgentDetails(agentCompanyName, agentLocation, formattedAgentAmtPaid,formattedAgentAmtOwed, FIN, jobKey);
                 request.getSession().setAttribute("agentMsg","New record has been added.");
                 response.sendRedirect(url);
             }
@@ -876,14 +877,14 @@ public class AddRecordServlet extends HttpServlet {
             if(contractBasicSalary !=null){
                 response.getWriter().println("Inside employment contract Loop");
                
-                DBConnect.insertEmploymentContractDetails(contractDate, contractSigned, contractRelationship,contractBasicSalary, FIN);
+                DBConnect.insertEmploymentContractDetails(contractDate, contractSigned, contractRelationship,contractBasicSalary, FIN, jobKey);
                 request.getSession().setAttribute("employmentContractMsg","New record has been added.");
                 response.sendRedirect(url);
             }
             if(giverName !=null){
                 response.getWriter().println("Inside Giver Loop");
                 response.getWriter().println(giverName);
-                DBConnect.insertVerbalAssuranceDetails(giverName, giverRelationship, givenDate,givenPlace, FIN);
+                DBConnect.insertVerbalAssuranceDetails(giverName, giverRelationship, givenDate,givenPlace, FIN, jobKey);
                 request.getSession().setAttribute("verbalMsg","New record has been added.");
                 response.sendRedirect(url);
             }
@@ -891,14 +892,15 @@ public class AddRecordServlet extends HttpServlet {
             if(workpassSpecified!=null){
                 response.getWriter().println("Inside IPA Loop");
                 double formattedIPADeductions = Double.parseDouble(ipaTotalDeductions);
-                DBConnect.insertIPADetails(workpassSpecified,ipaEmployerName, ipaBasicMonthlySalary, formattedIPADeductions, FIN);
+                DBConnect.insertIPADetails(workpassSpecified,ipaEmployerName, ipaBasicMonthlySalary, formattedIPADeductions, FIN,jobKey);
                 request.getSession().setAttribute("ipaMsg","New record has been added.");
                 response.sendRedirect(url);
             }
            
             if(passType != null){
                 response.getWriter().println("Inside Pass Loop");
-                DBConnect.insertPassDetails(passType, passNumber, passIssueDate,passObsoleteDate, FIN);
+                
+                DBConnect.insertPassDetails(passType, passNumber, passIssueDate,passObsoleteDate, FIN, jobKey);
                 request.getSession().setAttribute("passMsg","New record has been added.");
                 response.sendRedirect(url);
             }
@@ -915,7 +917,7 @@ public class AddRecordServlet extends HttpServlet {
             }
             if(workerMainLanguage != null){
                 response.getWriter().println("Inside Language Loop");
-                DBConnect.insertLanguageDetails(workerMainLanguage,spokenEnglishStandard,FIN);
+                DBConnect.insertLanguageDetails(workerMainLanguage,spokenEnglishStandard,otherLanguage, FIN);
                 request.getSession().setAttribute("languageMsg","New record has been added.");
                 response.sendRedirect(url);
             }

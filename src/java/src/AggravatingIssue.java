@@ -14,13 +14,17 @@ public class AggravatingIssue {
     private String monetaryLoss;
     private String aggravatingIssueRemarks;
     private String FIN_Number;
+    private String JobKey;
+    private String ProbKey;
     
-    public AggravatingIssue(String aggravatingIssue, String aggravatingIssueMore, String monetaryLoss, String aggravatingIssueRemarks, String FIN_Number){
+    public AggravatingIssue(String aggravatingIssue, String aggravatingIssueMore, String monetaryLoss, String aggravatingIssueRemarks, String FIN_Number, String JobKey, String ProbKey){
         this.aggravatingIssue = aggravatingIssue;
         this.aggravatingIssueMore = aggravatingIssueMore;
         this.monetaryLoss = monetaryLoss;
         this.aggravatingIssueRemarks = aggravatingIssueRemarks;
         this.FIN_Number = FIN_Number;
+        this.JobKey = JobKey;
+        this.ProbKey = ProbKey;
     }
 
     /**
@@ -91,5 +95,34 @@ public class AggravatingIssue {
      */
     public void setFIN_Number(String FIN_Number) {
         this.FIN_Number = FIN_Number;
+    }
+    
+    
+    /**
+     * @return the JobKey
+     */
+    public String getJobKey() {
+        return JobKey;
+    }
+
+    /**
+     * @param JobKey the JobKey to set
+     */
+    public void setJobKey(String JobKey) {
+        this.JobKey = JobKey;
+    }
+    
+        /**
+     * @return the ProbKey
+     */
+    public String getProbKey() {
+        return ProbKey;
+    }
+
+    /**
+     * @param ProbKey the ProbKey to set
+     */
+    public void setProbKey(String ProbKey) {
+        this.ProbKey = ProbKey;
     }
 }
