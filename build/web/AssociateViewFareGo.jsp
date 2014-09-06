@@ -120,6 +120,10 @@
                                         System.out.println(serialNumber);
                                         Benefaction currentBenefaction = null; 
                                         
+                                        if(remarks.equals("null")){
+                                            remarks="";
+                                        }
+                                        
                                 %>
                         
                         

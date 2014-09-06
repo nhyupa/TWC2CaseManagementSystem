@@ -3,6 +3,7 @@
     Created on : Jun 21, 2014, 6:34:52 PM
     Author     : keemin.chew.2010
 --%>
+<%@page import="src.DBConnect"%>
 <%@page import="src.InjuryDetail"%>
 <%@page import ="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -55,6 +56,10 @@
                         </div>  
                         <div class="username-background-associate col-xs-6" style="margin-top:20px;" align="center">
                             <%
+                                String FIN = (String)request.getSession().getAttribute("FIN");
+                                String JobKey = (String)request.getSession().getAttribute("JobKey");
+                                String ProbKey = (String)request.getSession().getAttribute("ProbKey");
+                                
                                 if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                     String user = (String) request.getSession().getAttribute("username");
                             %>
@@ -104,7 +109,7 @@
                         
                     </div> 
                     <div class="form-group-associate">
-                       Prob: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=(String)session.getAttribute("problemNameShow")%><br>
+                        Prob: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= DBConnect.getChiefProblem(FIN, JobKey) %><br>
                        <%InjuryDetail currentInjury=(InjuryDetail)session.getAttribute("injury");
                           String currentInjuryDate="";
                           
@@ -115,6 +120,9 @@
                               currentInjuryDate="";
                            }
                          }
+                          
+                          System.out.println(JobKey);
+                          System.out.println(ProbKey);
                        %>
                        Inj dt: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=currentInjuryDate%><br>
                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="AssociateListProblems.jsp">NOT THIS PROBLEM</a>

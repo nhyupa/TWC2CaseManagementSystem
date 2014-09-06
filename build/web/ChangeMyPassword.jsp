@@ -74,7 +74,7 @@
                     }
                     else{
                         console.log("Invalid");
-                        $('#errorTxt').text('Error: Please enter at least one number.');
+                        $('#errorTxt').text('Error: Please enter at least one number and one alphabet.');
                     }  
                 });
             }); // end document.ready

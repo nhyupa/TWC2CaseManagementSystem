@@ -142,11 +142,11 @@
 
 
                             <div class="form-group-associate">
-                                <label class="control-label" for="fullName">Name</label>
+                                <label class="control-label" for="fullName">Full Name</label>
                                 <p style="margin-left:10px;" class="form-control-associate"><%=loginUser.getfullName()%></p>
                             </div> 
                              <div class="form-group-associate">
-                                <label class="control-label" for="fullName">Alias</label>
+                                <label class="control-label" for="fullName">Short Name</label>
                                 <p style="margin-left:10px;" class="form-control-associate"><%=loginUser.getAlias()%></p>
                             </div>
                             <div class="form-group-associate">

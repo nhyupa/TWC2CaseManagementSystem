@@ -70,6 +70,7 @@
               benefitList = new ArrayList<Benefaction>(); 
               String FIN = (String)session.getAttribute("FIN");
               benefitList=DBConnect.getBenefactionRecordsKarunya(FIN);
+              ArrayList<String> karunyas = DBConnect.getKarunya();
    
         %>
 
@@ -85,7 +86,7 @@
                         <div class="col-xs-5" align="right" >
                             <img src="image/logo_camans_180w.gif" width="100" />
                         </div>  
-                        <div class="username-background-associate col-xs-6"style="margin-top:20px;" align="center" >
+                        <div class="username-background-associate col-xs-6" style="margin-top:20px;" align="center" >
                             <%
                                 if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                     String user = (String) request.getSession().getAttribute("username");
@@ -145,8 +146,7 @@
                                if (benefitList != null) {
                                    // System.out.println("size" + benefitList.size());
                                 for (Benefaction benefaction1 : benefitList) {
-                                if (benefaction1.getBeneType().equalsIgnoreCase("Karunya")
-                                    || benefaction1.getBeneType().equalsIgnoreCase("Cash medical")) {
+                                
 
                            %>
                                <tr>
@@ -154,7 +154,7 @@
                                    <td><%=benefaction1.getBeneType()%></td>
                                    <td><%=benefaction1.getBeneSerial()%></td>
                                </tr>
-                                   <%}} }%>
+                                   <%} }%>
                            </tbody>
                            <tfoot>
                            <tr>
@@ -177,8 +177,12 @@
                         <div class="form-group-associate">
                               <span style="color:red">*</span>Type of benefit issued
                               <select class="form-control-associate" style="background-color:yellow;" name="benefitoption" >
-                                   <option value="Karunya" >Karunya</option>
-                                   <option value="Cash medical" >Cash medical</option>
+                              <option value="benefitoption">select from list</option>
+                                  <% for(int i=0;i<karunyas.size();i++){
+                                   String karunya=karunyas.get(i);
+                                %>
+                                <option><%=karunya%></option>
+                                <%}%>   
                                 </select>
                           </div>
                         <div class="form-group-associate">

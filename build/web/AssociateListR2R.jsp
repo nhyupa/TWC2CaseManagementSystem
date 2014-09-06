@@ -125,8 +125,7 @@
                                    
                                         for(int i =0; i<results.size();i++) { 
                                 %>
-                                //r2r does not have an id
-                                <input type="radio" name="testing"value="<%=results.get(i)%>">
+                                <input type="radio" name="testing"value="<%=results.get(i).getID()%>">
                                      <%=results.get(i).getR2RDate()%><br/>
                                     <div class="form-table-associate">
                                    <%=DBConnect.getWorkername(results.get(i).getFIN())%><br/>

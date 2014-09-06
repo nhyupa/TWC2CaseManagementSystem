@@ -80,7 +80,7 @@
                         <div class="col-xs-5" align="right" >
                             <img src="image/logo_camans_180w.gif" width="100" />
                         </div>  
-                        <div class="username-background-associate col-xs-6"style="margin-top:20px;" align="center">
+                        <div class="username-background-associate col-xs-6" style="margin-top:20px;" align="center">
                             <%
                                 if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                     String user = (String) request.getSession().getAttribute("username");

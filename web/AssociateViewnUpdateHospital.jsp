@@ -83,6 +83,11 @@
                       //retrieve hospital type dropdownmenu
                       ArrayList<String> hospitallists = new ArrayList<String>();
                       hospitallists = dbConnect.getHospitals();
+                      
+                      String Hospital = null;
+                      if(currentHospitalDetails!=null){
+                            Hospital = currentHospitalDetails.getHospitalName()+currentHospitalDetails.getHospitalMore();
+                      }
                   %>
         <title> View & Update Hospital</title>
     </head>
@@ -136,25 +141,41 @@
 
             <tr>
                 <td class="containerE" valign="top"  style="height:10%">
-                    <% if(currentHospitalDetails!=null){%>
+                    <% if(Hospital !=null){%>
                     <div class="maincontent-associate">
                         <strong>Most recent record:</strong>
                         <div class="form-group-associate">                            
                             Date of update(dd/mm/yyyy)
+                            <%if(currentHospitalDetails!=null){%>
                            <div class="form-control-associate"><%=currentHospitalDetails.getHopitalUpdateDate()%></div>
+                           <%} else {%>
+                            <div class="form-control-associate"></div>
+                           <%}%>
                         </div>
                         <div class="form-group-associate">
                             Current hospital
+                            <%if(currentHospitalDetails!=null){%>
                             <div class="form-control-associate"><%=currentHospitalDetails.getHospitalName()%></div>
-                         </div>
+                            <%} else {%>
+                            <div class="form-control-associate"></div>
+                            <%}%>
+                        </div>
                         <div class="form-group-associate">
                             Explain if above is "Other"
+                            <%if(currentHospitalDetails!=null){%>
                             <div class="form-control-associate" style="height:50px;"><%=currentHospitalDetails.getHospitalMore() %></div>
+                            <%} else {%>
+                            <div class="form-control-associate" style="height:50px;"></div>
+                            <%}%>
                         </div>
                         
                          <div class="form-group-associate">
                              Dept/doctor within hospital
+                            <%if(currentHospitalDetails!=null){%>
                             <div class="form-control-associate" style="height:80px;"><%=currentHospitalDetails.getHospitalDoctor()%></div>
+                            <%} else{%>
+                            <div class="form-control-associate" style="height:80px;"></div>
+                            <%}%>
                          </div>
                          <%}%>
                         <br><br>

@@ -70,7 +70,7 @@
               benefitList = new ArrayList<Benefaction>(); 
               String FIN = (String)session.getAttribute("FIN");
               benefitList=DBConnect.getBenefactionRecordsFareGo(FIN);
-   
+              ArrayList<String> faregos = DBConnect.getFaregos();
         %>
 
         <title>Issue Fare Go</title>
@@ -85,10 +85,12 @@
                         <div class="col-xs-5" align="right" >
                             <img src="image/logo_camans_180w.gif" width="100" />
                         </div>  
-                        <div class="username-background-associate col-xs-6"style="margin-top:20px;" align="center" >
+                        <div class="username-background-associate col-xs-6" style="margin-top:20px;" align="center" >
                             <%
                                 if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                     String user = (String) request.getSession().getAttribute("username");
+                                    
+                                    
                             %>
                             <strong><%=user%></strong>
                             <%
@@ -136,15 +138,13 @@
                             <label>Type of benefit</label><br/>
                             <label>Serial number</label><br/>
                             <label>Usable value</label>
-                            <hr class="blackline-associate"style="margin-top:0.05%">
+                            <hr class="blackline-associate" style="margin-top:0.05%">
                         </div>
                      <% 
                         if(benefitList!=null){
                         // System.out.println("size" + benefitList.size());
                            for(Benefaction benefaction1 : benefitList){
-                            if (benefaction1.getBeneType().equalsIgnoreCase("EZ re-u") || 
-                                benefaction1.getBeneType().equalsIgnoreCase("EZ new")|| 
-                                benefaction1.getBeneType().equalsIgnoreCase("Cash transport")){
+                          
                      %>
                     <div class="form-group-associate">                      
                         <%=benefaction1.getBeneDate()%><br>
@@ -154,10 +154,10 @@
                     </div>
                     
                        <br>
-                          <%}} }%>
+                          <%} }%>
                                  
                               
-                         <hr class="blackline-associate"style="margin-top:0.05%">
+                         <hr class="blackline-associate" style="margin-top:0.05%">
                          
                     <form id="appendfaregoform" name="form1" method="post">
                     <div class="form-group-associate">
@@ -168,10 +168,12 @@
                     <div class="form-group-associate">
                       <span style="color:red">*</span>Type of benefit issued
                       <select class="form-control-associate" style="background-color:yellow;" name="benefitoption">
-                        <option value="EZ re-u" >EZ re-u</option>
-                        <option value="EZ new" >EZ new</option>
-                        <option value="Cash transport">Cash transport</option>
-                        
+                       <option value="benefitoption">select from list</option>
+                              <% for(int i=0;i<faregos.size();i++){
+                                   String farego=faregos.get(i);
+                                %>
+                                <option><%=farego%></option>
+                                <%}%>   
                      </select>
                     </div>
                     

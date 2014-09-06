@@ -149,7 +149,7 @@
                     <h4><strong>Job profile :</strong></h4>
                     <div class="form-group-associate" >
                         <label>Name of employer</label>
-                        <div class="form-control-associate" style="height:50px;"><label><%=session.getAttribute("employerName")%></label></div>
+                        <div class="form-control-associate" style="height:50px;"><%=session.getAttribute("employerName")%></div>
                     </div> 
                     
                     <div class="form-group-associate">
@@ -206,20 +206,25 @@
                     <%
                       ChiefProblem currentProblem=null;
                       currentProblem=DBConnect.getAssociateProblemDetails(FIN); 
+                      
+             String JobKey = (String)request.getSession().getAttribute("JobKey");
+            String ProbKey = (String)request.getSession().getAttribute("ProbKey");
                       //System.out.println(FIN);
                     %>
                     <div class="form-group-associate">
                          <label>Problem registration date(dd/mm/yyyy)</label>
-                         <%if(currentProblem != null){%>
+                         <%if(currentProblem != null){
+                            if(currentProblem.getProblemRegDate()!=null){
+                         %>
                          <div class="form-control-associate"><%=currentProblem.getProblemRegDate()%></div>
                          <%} else {%>
                          <div class="form-control-associate"></div>
-                         <%}%>
+                         <%}}%>
                     </div>
                     <div class="form-group-associate">
                         <label>Chief problem presented</label>
                         <%if(currentProblem != null){%>
-                        <div class="form-control-associate"><%=DBConnect.getChiefProblem(FIN)%></div>
+                        <div class="form-control-associate"><%=DBConnect.getChiefProblem(FIN,JobKey)%></div>
                         <%} else {%>
                         <div class="form-control-associate"></div>
                         <%}%>

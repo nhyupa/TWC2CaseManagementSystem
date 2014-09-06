@@ -40,10 +40,10 @@
                              required:true
                              
                          },
-                      /*  registerdate:{
+                        registerdate:{
                              date:true
                         }
-                        */
+
                     },
                     
                      highlight: function (element) {
@@ -58,7 +58,7 @@
         <!--javascript-->
         <script>
             function onSubmit(){
-                document.form1.action="AssociateUpdatePhoneDetailsServlet";
+                document.form.action="AssociateUpdatePhoneDetailsServlet";
             }
             function onCancel(){
                document.location.href="AssociateMenu.jsp";
@@ -68,7 +68,29 @@
             }
         </script>
         
-       
+        <%
+                        //DBConnect database= new DBConnect();
+                        DBConnect.connectDB();
+
+
+                        String currentWorkerFIN=(String)session.getAttribute("FIN");
+                        String workerPhoneNumbers=DBConnect.getPhoneNumber(currentWorkerFIN);
+
+                        String currentPhoneNumber=workerPhoneNumbers;
+
+
+
+                         String currentPhoneNumberObsoleteDate ="";
+                        Date PhoneNumberObsoleteDate= DBConnect.getSGPhoneNumberObsoleteDate(currentWorkerFIN);
+                        System.out.println(PhoneNumberObsoleteDate);
+                        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+                        if (PhoneNumberObsoleteDate!=null){
+                             currentPhoneNumberObsoleteDate=dateFormatter.format(PhoneNumberObsoleteDate);
+                        }else{
+                            currentPhoneNumberObsoleteDate="";
+
+                        }
+                     %>
 
         <title>View updated phone number</title>
     </head>
@@ -81,7 +103,7 @@
                         <div class="col-xs-5" align="right" >
                             <img src="image/logo_camans_180w.gif" width="100" />
                         </div>  
-                        <div class="username-background-associate col-xs-6"style="margin-top:20px;" align="center" >
+                        <div class="username-background-associate col-xs-6" style="margin-top:20px;" align="center" >
                             <%
                                 if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                     String user = (String) request.getSession().getAttribute("username");
@@ -102,14 +124,16 @@
                         Name:&nbsp;&nbsp;&nbsp;&nbsp;<%=session.getAttribute("workerName")%><br/>
                         FIN:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=session.getAttribute("FIN")%><br/>
                         Emp'yr:&nbsp;&nbsp;<%=session.getAttribute("employerName")%><br/>
-                        Prob:&nbsp;&nbsp;&nbsp;&nbsp;<%=session.getAttribute("problemNameShow")%><br>
-                        Inj dt:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=session.getAttribute("currentInjuryDate")%><br>
+                        Prob:<br>
+                        Inj dt:
+
+
                             <hr class="redline-associate">
                     </div>
                 </td> 
             </tr>
             <tr>
-                <td class="containerC"style="height:10%">
+                <td class="containerC" style="height:10%">
 
                 </td> 
             </tr>
@@ -121,29 +145,10 @@
 
             <tr>
                 <td class="containerE" valign="top" style="height:10%">
-                    <%
-                        //DBConnect database= new DBConnect();
-                        DBConnect.connectDB();
-                        String currentWorkerFIN=(String)session.getAttribute("FIN");
-                        String workerPhoneNumbers=DBConnect.getPhoneNumber(currentWorkerFIN);
-
-                        String currentPhoneNumber=workerPhoneNumbers;
-
-
-                         String currentPhoneNumberObsoleteDate ="";
-                        Date PhoneNumberObsoleteDate= DBConnect.getSGPhoneNumberObsoleteDate(currentWorkerFIN);
-                        System.out.println(PhoneNumberObsoleteDate);
-                        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-                        if (PhoneNumberObsoleteDate!=null){
-                             currentPhoneNumberObsoleteDate=dateFormatter.format(PhoneNumberObsoleteDate);
-                        }else{
-                            currentPhoneNumberObsoleteDate="";
-
-                        }
-                     %>
+                   
                    
                     <div class="maincontent-associate">
-                        <%if(currentPhoneNumber!=null){%>
+                             <% if (currentPhoneNumber!=null){%>
                              <strong>Most recent record:</strong>
                     
                     <div class="form-group-associate">Sg phone number
@@ -153,27 +158,30 @@
 
                         </div>
                     </div>
-                     <%}%>       
-                     <!--       
+
+
                     <div class="form-group-associate">
                         Date discovered to be obsolete(dd/mm/yyyy)
                         <div class="form-control-associate"><%=currentPhoneNumberObsoleteDate%></div>
 
                      </div>
-                     -->
                         
+                       <%}%>
+                        <br> <br>
+
+
                     <strong>Enter update:</strong>
                     <br>
-                    <form id="appendphonenumberform" name="form1" method="post">
+                    <form id="appendphonenumberform" name="form" method="post">
                          <div class="form-group-associate"> <span class="asterick">*</span>Sg phone number(12)
                            <input type="text" class="form-control-associate col-xs-2" name="contactnumber" maxlength=12 style="background-color: yellow;">
                          </div>
-                        <!--
+
                         <div class="form-group-associate">
                            Date discovered to be obsolete(dd/mm/yyyy)
-                           <input type="date"name="registerdate" class="form-control-associate" style="background-color: yellow;">
+                           <input type="date" name="registerdate" class="form-control-associate" style="background-color: yellow;">
                            </div>
-                        -->
+
                     </div><!--end of main content-->
 
                 </td> 

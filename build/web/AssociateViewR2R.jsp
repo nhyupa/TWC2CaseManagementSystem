@@ -102,8 +102,8 @@
                                         request.getSession().setAttribute("id",id1);
                                         System.out.println(id1);
                                         
-                                       R2R r2r =DBConnect.getR2RRecords(id1);
-                                        
+                                       R2R r2r =DBConnect.getR2RRecords2(id1);
+                                        String FIN = r2r.getFIN();
                                         
                                 %>
                     <div class="maincontent-associate">
@@ -112,63 +112,63 @@
                      
                         <div class="form-group-associate">
                             Name of worker
-                            <div class="form-control-associate" style="height:50px;"></div>
+                            <div class="form-control-associate" style="height:50px;"><%=DBConnect.getWorkername(FIN) %></div>
                         </div>
                         <div class="form-group-associate">
                             FIN
-                            <div class="form-control-associate"></div>
+                            <div class="form-control-associate"><%=FIN%></div>
                         </div>
                         <div class="form-group-associate">
                             Phone
-                            <div class="form-control-associate"></div>
+                            <div class="form-control-associate"><%=DBConnect.getPhoneNumber(FIN) %></div>
                         </div>
                         <div class="form-group-associate">
                             Date of appointment
-                            <div class="form-control-associate"></div>
+                            <div class="form-control-associate"><%=r2r.getR2RDate() %></div>
                         </div>
                          <div class="form-group-associate">
                             Time of appointment
-                            <div class="form-control-associate"></div>
+                            <div class="form-control-associate"><%=r2r.getR2RTime() %></div>
                          </div>
                          <div class="form-group-associate">
                             Hospital for appointment
-                            <div class="form-control-associate"></div>
+                            <div class="form-control-associate"><%= r2r.getR2RHosp() %></div>
                         </div>
                          <div class="form-group-associate">
                             Dept/doctor for appointment
-                            <div class="form-control-associate" style="height:50px;"></div>
+                            <div class="form-control-associate" style="height:50px;"><%=r2r.getR2RDept()  %></div>
                         </div>
                          <div class="form-group-associate">
                             R2R first volunteer
-                            <div class="form-control-associate"></div>
+                            <div class="form-control-associate"><%=r2r.getR2R1() %></div>
                          </div>
                         <div class="form-group-associate">
                             R2R second volunteer
-                            <div class="form-control-associate"></div>
+                            <div class="form-control-associate"><%=r2r.getR2R2() %></div>
                          </div>
                         <div class="form-group-associate">
                             Purpose of appointment
-                            <div class="form-control-associate" style="height:50px;"></div>
+                            <div class="form-control-associate" style="height:50px;"><%=r2r.getR2RPurpose() %></div>
                         </div>
                         <div class="form-group-associate">
                             Pre-appt notes
-                            <div class="form-control-associate" style="height: 80px;"></div>
+                            <div class="form-control-associate" style="height: 80px;"><%= r2r.getR2RPreApptNotes() %></div>
                         </div>
                           <div class="form-group-associate">
                             Post-appt notes
-                            <div class="form-control-associate" style="height: 80px;"></div>
+                            <div class="form-control-associate" style="height: 80px;"><%= r2r.getR2RPostApptNotes() %></div>
                         </div>
                           <div class="form-group-associate">
                             Feedback
-                            <div class="form-control-associate" style="height: 80px;"></div>
+                            <div class="form-control-associate" style="height: 80px;"><%= r2r.getR2RFeedback() %></div>
                         </div>
                           <div class="form-group-associate">
                             Medical cost of this appt
-                            <div class="form-control-associate"></div>
+                            <div class="form-control-associate"><%= r2r.getR2RMedCost() %></div>
                          </div>
                           <div class="form-group-associate">
                             How much paid by volunteer
-                            <div class="form-control-associate"></div>
+                            <div class="form-control-associate"><%= r2r.getR2ROutlay() %></div>
                          </div>
                      </div><!--end of main content-->
                        

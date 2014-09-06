@@ -52,8 +52,7 @@
                           required: true,
                           date:true
                       },  
-                       creator:{
-                       
+                       workerCreator:{
                           required: true
                       },
                     
@@ -64,13 +63,18 @@
                        nationality:{
                          required:true  
                        },
+                       dateOfBirth:{
+                           required:true
+                       },
                        currentPassType: {
                           required:true                            
                        },
                        passnumber: {
                            required:true
                        },
-                        
+                        passIssueDate:{
+                            required:true
+                        },
                        employerName: {
                            required:true                         
                        },
@@ -78,7 +82,9 @@
                        passTypeWithJob: {
                           required:true                           
                        },
- 
+                       jobsector:{
+                           required:true
+                       },
                        chiefProb: {
                          required:true
                        }
@@ -243,17 +249,17 @@
                             <input type="date" class="form-control-associate col-xs-2" name="registerDate">
                         </div>       
                         <br><br>
-                            <div class="form-group-associate">
-                                <label><span style="color:red;"></span>Created by</label>   
+                         <div class="form-group-associate">
+                                <label>Created by</label>   
                                 <div class="form-control-associate"><%=loginUser.getfullName()%></div>
                                 <%session.setAttribute("creator",loginUser.getfullName());%>
                         </div> 
                         
                         <div class="form-group-associate">
-                            <label>Name of worker(50)</label>   
-                            <textarea rows="2" name="workerCreator" class="form-control-associate" maxlength="50"></textarea>
+                            <label><span style="color:red;">*</span>Name of worker(50)</label>   
+                            <textarea rows="2" name="workerCreator" class="form-control-associate col-xs-2" maxlength="50"></textarea>
                         </div> 
-                        
+                        <br><br><br>
                         <div class="form-group-associate">
                             <label for="passNumber"><span style="color:red;">*</span>FIN Number(20)</label><span style="color:red;font-size: 9"  id="errorTxt"></span></label>
                         <input type="text" id="passnumber" name="FIN" class="form-control-associate col-xs-2" maxlength="20">
@@ -272,7 +278,7 @@
                         </div>
                         
                         <div class="form-group-associate">
-                            <label >Nationality</label>
+                            <label><span style="color:red;">*</span>Nationality</label>
                             <select class="form-control-associate col-xs-2" name="nationality">
                                 <option value="">Select from list  </option> 
                                 <% for(int i=0;i<nationalitieslists.size();i++){
@@ -289,8 +295,8 @@
                         </div>
                         
                         <div class="form-group-associate">
-                            <label>Date of birth(dd/mm/yyyy)</label>
-                            <input type="date" class="form-control-associate" name="dateOfBirth">
+                            <label><span style="color:red;">*</span>Date of birth(dd/mm/yyyy)</label>
+                            <input type="date" class="form-control-associate col-xs-2" name="dateOfBirth">
                         </div>
                         <br><br>
                         
@@ -322,8 +328,8 @@
                         </div>
                         <br><br>
                         <div class="form-group-associate">
-                            <label >Pass issue date(dd/mm/yyyy)</label>  
-                            <input type="date" name="passIssueDate" class="form-control-associate">
+                            <label><span style="color:red;">*</span>Pass issue date(dd/mm/yyyy)</label>  
+                            <input type="date" name="passIssueDate" class="form-control-associate col-xs-2">
                         </div>
                         <br><br>
                          <h4><b>Job profile</b></h4>
@@ -352,8 +358,8 @@
                     </div> 
                     
                     <div class="form-group-associate">
-                        <label for="jobSector">Job sector</label>
-                           <select name="jobsector" class="form-control-associate" >
+                        <label for="jobSector"><span style="color:red;">*</span>Job sector</label>
+                           <select name="jobsector" class="form-control-associate col-xs-2" >
                             <option value="">Select from list</option> 
                              <% for(int i=0;i<jobSectorLists.size();i++){
                                    String jobtype = jobSectorLists.get(i);
@@ -362,7 +368,7 @@
                                 <%}%>
                            </select>
                     </div> 
-                    
+                    <br><br>
                      <div class="form-group-associate">
                         <label for="other explanation2">Explain if above is 'Other'(50)</label>
                         <textarea rows="2" id="otherExplanation for job sector" maxlength="50" class="form-control-associate" name="jobothersector"></textarea>

@@ -153,7 +153,7 @@
                         
                        <div class="form-group-associate">
                             Remarks re milestone
-                            <div class="form-control-associate" style="height:80px;"><%=currentMilestone.getMileCrCharges()%></div>
+                            <div class="form-control-associate" style="height:80px;"><%=currentMilestone.getMilestoneRemarks()%></div>
                        </div>
                         <% } %>
                         <br><br>

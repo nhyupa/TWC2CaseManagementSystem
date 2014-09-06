@@ -60,13 +60,40 @@
     
    <%
                     ArrayList<Worker> workerFromNameSearchResult = (ArrayList<Worker>)session.getAttribute("workerObjs");
+                    if(workerFromNameSearchResult != null){
+                        session.removeAttribute("workerObjs");
+                    }
                     ArrayList<Worker> workerFromFINSearchResult = (ArrayList<Worker>)session.getAttribute("workerFINObjs");
-                    ArrayList<Worker> nationalitySearchResults = (ArrayList<Worker>)session.getAttribute("nationalitySearchResults");
-                    ArrayList<Worker> genderSearchResults = (ArrayList<Worker>)session.getAttribute("workerGenderObjs");
-                    ArrayList<Worker> workersFromSgPhoneNumSearchResults = (ArrayList<Worker>)session.getAttribute("contactDetailsSearchResults");
+                    if(workerFromFINSearchResult != null){
+                        session.removeAttribute("workerFINObjs");
+                    }
                     
+                    ArrayList<Worker> genderSearchResults = (ArrayList<Worker>)session.getAttribute("workerGenderObjs");
+                    if(genderSearchResults != null){
+                        session.removeAttribute("workerGenderObjs");
+                    }
+                    
+                    ArrayList<Worker> nationalitySearchResults = (ArrayList<Worker>)session.getAttribute("nationalitySearchResults");
+                    if(nationalitySearchResults != null){
+                        session.removeAttribute("nationalitySearchResults");
+                    }
+                    
+                    ArrayList<Worker> workersFromSgPhoneNumSearchResults = (ArrayList<Worker>)session.getAttribute("contactDetailsSearchResults");
+                    ArrayList<Worker> workpassSearchResults = (ArrayList<Worker>)session.getAttribute("workpassSearchResults");
                    
-                 
+                    if(workerFromNameSearchResult!= null && workerFromNameSearchResult.size()!=0){
+                        out.println(workerFromNameSearchResult.size());
+                    }
+                    if(workerFromFINSearchResult!= null && workerFromFINSearchResult.size()!=0){
+                        out.println(workerFromFINSearchResult.size());
+                    }
+                    if(genderSearchResults!= null && genderSearchResults.size()!=0){
+                        out.println(genderSearchResults.size());
+                    }
+                    if(nationalitySearchResults!= null && nationalitySearchResults.size() !=0){
+                        out.println(nationalitySearchResults.size());
+                    }
+                    
    %>               
     
     
@@ -140,108 +167,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <%if(workersFromSgPhoneNumSearchResults!=null && workersFromSgPhoneNumSearchResults.size()!=0){%>
-                                    <%for(int i=0 ; i < workersFromSgPhoneNumSearchResults.size(); i++){
-                                    
-                                    
-                                    Worker worker = workersFromSgPhoneNumSearchResults.get(i);
-                                            String workerName = worker.getWorkerName();
-                                            String FIN_Number = worker.getFIN_Num();
-                                            String gender = worker.getGender();
-                                            String nationality = worker.getNationality();
-                                            String workerRegDate = worker.getWorkerRegistrationDate(); %>  
-                                            
-                                            <tr class="odd gradeX">
-                                            <td><a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><%=FIN_Number%></a></td>
-                                            <td><%=workerName%></td>
-                                            <td><%=gender%></td>
-                                            <td class="center"><%=nationality%></td>
-                                            <td><%=workerRegDate%></td>
-                                        </tr>
-                                        <%}%>
-                                        <%}%>
-                                        
-                                        
-                                        
-                                        
-                                    <%if(genderSearchResults!=null && genderSearchResults.size()!=0){%>
-                                    <%for(int i=0 ; i < genderSearchResults.size(); i++){
-                                    
-                                    
-                                    Worker worker = genderSearchResults.get(i);
-                                            String workerName = worker.getWorkerName();
-                                            String FIN_Number = worker.getFIN_Num();
-                                            String gender = worker.getGender();
-                                            String nationality = worker.getNationality();
-                                            String workerRegDate = worker.getWorkerRegistrationDate(); %>  
-                                            
-                                            <tr class="odd gradeX">
-                                            <td><a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><%=FIN_Number%></a></td>
-                                            <td><%=workerName%></td>
-                                            <td><%=gender%></td>
-                                            <td class="center"><%=nationality%></td>
-                                            <td><%=workerRegDate%></td>
-                                        </tr>
-                                        <%}%>
-                                        <%}%>
-                                    <%if(workerFromFINSearchResult!= null &&workerFromFINSearchResult.size()!=0){%>
-                                    <%for(int i = 0;  i< workerFromFINSearchResult.size(); i++){
-                                            Worker worker = workerFromFINSearchResult.get(i);
-                                            String workerName = worker.getWorkerName();
-                                            String FIN_Number = worker.getFIN_Num();
-                                            String gender = worker.getGender();
-                                            String nationality = worker.getNationality();
-                                            String workerRegDate = worker.getWorkerRegistrationDate(); %>  
-                                            
-                                            <tr class="odd gradeX">
-                                            <td><a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><%=FIN_Number%></a></td>
-                                            <td><%=workerName%></td>
-                                            <td><%=gender%></td>
-                                            <td class="center"><%=nationality%></td>
-                                            <td><%=workerRegDate%></td>
-                                        </tr>
-                                        <%}%>
-                                        <%}%>
-                                    
-                                    <%if(workerFromNameSearchResult != null && workerFromNameSearchResult.size()!=0){%>
-                                        <%for(int i =0 ; i < workerFromNameSearchResult.size(); i++){
-                                            Worker worker = workerFromNameSearchResult.get(i);
-                                            String workerName = worker.getWorkerName();
-                                            String FIN_Number = worker.getFIN_Num();
-                                            String gender = worker.getGender();
-                                            String nationality = worker.getNationality();
-                                            String workerRegDate = worker.getWorkerRegistrationDate();        
-                                        %>
-                                        <tr class="odd gradeX">
-                                            <td><a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><%=FIN_Number%></a></td>
-                                            <td><%=workerName%></td>
-                                            <td><%=gender%></td>
-                                            <td class="center"><%=nationality%></td>
-                                            <td><%=workerRegDate%></td>
-                                        </tr>
-                                        <%}%>
-                                        <%}%>
-                                    <%if(nationalitySearchResults != null && nationalitySearchResults.size()!=0){%>
-                                        <%for(int i = 0 ; i < nationalitySearchResults.size();i++){
-                                            Worker worker = nationalitySearchResults.get(i);
-                                            String workerName = worker.getWorkerName();
-                                            String FIN_Number = worker.getFIN_Num();
-                                            String gender = worker.getGender();
-                                            String nationality = worker.getNationality();
-                                            String workerRegDate = worker.getWorkerRegistrationDate(); 
-                                           
-                                        %>
-                                        
-                                        <tr class="odd gradeX">
-                                            <td><a href="/TWC2-CaseManagementSystem/CaseMenu.jsp?userToView=<%=i%>"><%=FIN_Number%></a></td>
-                                            <td><%=workerName%></td>
-                                            <td><%=gender%></td>
-                                            <td class="center"><%=nationality%></td>
-                                            <td><%=workerRegDate%></td>
-                                        </tr>
-                                        <%}%>
-                                        
-                                    <%}%>
                                        
                                     </tbody>
                                 </table>

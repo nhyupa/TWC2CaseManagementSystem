@@ -76,7 +76,7 @@
                     }
                 }
             }catch(Exception ex){   
-             
+                ex.printStackTrace();
             }
 
 
@@ -93,7 +93,7 @@
                         <div class="col-xs-5" align="right" >
                             <img src="image/logo_camans_180w.gif" width="100" />
                         </div>  
-                        <div class="username-background-associate col-xs-6"style="margin-top:20px;" align="center" >
+                        <div class="username-background-associate col-xs-6" style="margin-top:20px;" align="center" >
                             <%
                                 if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                     String user = (String) request.getSession().getAttribute("username");
@@ -131,14 +131,14 @@
                        
             
                   <div class="maincontent-associate">
-                      <form method="post" name="form1">
+                      <form method="post" name="form1" enctype="multipart/form-data">
                          <%
                          session.setAttribute("NRIC",loginUser.getNRICNum());
                         %>     
                         
                             <div class="fileinput fileinput-new" data-provides="fileinput" style="float:left;margin-left:20px;" align="center">
                             <div class="fileinput-new thumbnail" style="max-width: 150px; max-height: 200px;">
-                                <% if (loginUser.getPhoto() == null) {%>  
+                                <% if (loginUser.getPhoto() != null) {%>  
                                 <img style="width:150px;height:200px" src="image/<%=loginUser.getPhoto()%>" align="center"/>
                                 <% } else {%> 
                                 <img style="width:150px;height:200px" src="image/Tulips.jpg" align="center"/>                                     
@@ -158,11 +158,11 @@
                             </div> 
                             <div class="form-group-associate">
                                 <label class="control-label" for="fullName">Full Name</label>
-                                <input type="text" value="<%=loginUser.getfullName()%>"class="form-control-associate" style="background-color:yellow;width:70%;margin-left:20px;" name="realname" placeholder="<%=loginUser.getfullName()%>">
+                                <input type="text" value="<%=loginUser.getfullName()%>" class="form-control-associate" style="background-color:yellow;width:70%;margin-left:20px;" name="realname" placeholder="<%=loginUser.getfullName()%>">
                             </div> 
                             <div class="form-group-associate">
                                 <label class="control-label" for="alias">Short Name</label>
-                                <input type="text" value="<%=loginUser.getAlias()%>"class="form-control-associate" style="background-color:yellow;width:70%;margin-left:20px;" name="alias" placeholder="<%=loginUser.getAlias()%>">
+                                <input type="text" value="<%=loginUser.getAlias()%>" class="form-control-associate" style="background-color:yellow;width:70%;margin-left:20px;" name="alias" placeholder="<%=loginUser.getAlias()%>">
                             </div> 
                             <div class="form-group-associate">
                                 <label class="control-label" for="FIN">Identification Number(NRIC/FIN)</label>

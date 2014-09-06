@@ -53,10 +53,8 @@ public class SpecialistFindFINServlet extends HttpServlet {
             String betweenDateTo = request.getParameter("BetweenDateTo");
             /** Catching Values From JSP Page **/
             
-            response.getWriter().println("Worker Name : " + workerName);
-            response.getWriter().println("Worker Name Length : " + workerName.length());
-            response.getWriter().println("FIN Number : " + FIN);
-            response.getWriter().println("FIN Number Length : " + FIN.length());
+            
+          
             
             
             
@@ -79,12 +77,12 @@ public class SpecialistFindFINServlet extends HttpServlet {
                 String existedFINNum  = worker.getFIN_Num();
                 String existedGender = worker.getGender();
                 String existedNationality = worker.getNationality();
-                response.getWriter().println("After: " + sgPhoneNumber);
+                
                 
                 if(workerName.length()!= 0 && workerName != null){
                     ArrayList<Worker> workerNames = DBConnect.retrieveByWorkerNames(workerName);
                     
-                    if(workerNames != null && workerNames.size() !=0){
+                    if(workerNames != null && !workerNames.isEmpty()){
                         response.getWriter().println("inside workerName Loop");
                         request.getSession().setAttribute("FIN",existedFINNum);
                         request.getSession().setAttribute("workerName", existedWorkername);
@@ -95,7 +93,7 @@ public class SpecialistFindFINServlet extends HttpServlet {
                     }
                     else{
                         if(workers.size()-i ==1){
-                            response.getWriter().println("After: " + sgPhoneNumber);
+                            response.getWriter().println("After: 124 " + sgPhoneNumber);
                             request.getSession().setAttribute("notFoundMsg","No Records have been found.");
                             String homepage = "/TWC2-CaseManagementSystem/SpecialistHomePage.jsp";
                             response.sendRedirect(homepage);
@@ -103,7 +101,7 @@ public class SpecialistFindFINServlet extends HttpServlet {
                         continue;   
                     }
                 }
-                 response.getWriter().println("After: " + sgPhoneNumber);
+                 
                 if(FIN.length() !=0 && FIN != null) {
                     ArrayList<Worker> workerFins = DBConnect.retrieveByFIN(FIN);
                     if(workerFins!=null){
@@ -188,6 +186,27 @@ public class SpecialistFindFINServlet extends HttpServlet {
                         continue;   
                     }
                     
+                }
+                
+                if(workpass.length() != 0 && workpass != null){
+                    ArrayList<Worker> workpassSearchResults = DBConnect.retrieveWorkPassSearchResults(workpass);
+                    if(!workpassSearchResults.isEmpty()&& workpassSearchResults!=null){
+                        request.getSession().setAttribute("FIN",existedFINNum);
+                        request.getSession().setAttribute("workerName", existedWorkername);
+                        request.getSession().setAttribute("workpassSearchResults",workpassSearchResults);
+                        response.sendRedirect(url);
+                        break;
+                    }
+                    else{
+                       if(workers.size()-i ==1){
+                           response.getWriter().println("After: " + sgPhoneNumber);
+                            request.getSession().setAttribute("notFoundMsg","No Records have been found.");
+                            response.sendRedirect(url);
+                            
+                        }
+                       
+                        continue;   
+                    }        
                 }
                  
                 

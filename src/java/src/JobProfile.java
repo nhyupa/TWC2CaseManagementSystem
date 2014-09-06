@@ -25,6 +25,13 @@ public class JobProfile {
     private String jobWhetherTJS = null;
     private String jobRemarks = null;
     
+    
+    
+    public JobProfile(String jobKey, String employerName){
+        this.jobKey = jobKey;
+        this.employerName = employerName;
+    }
+    
     public JobProfile(String FIN_No, String jobKey, String employerName, String workPassType, String workPassMore, String jobSector, String jobSectorMore, String occupation, String startDate, String endDate, String jobWhetherTJS, String jobRemarks){
         
         this.FIN_No = FIN_No;

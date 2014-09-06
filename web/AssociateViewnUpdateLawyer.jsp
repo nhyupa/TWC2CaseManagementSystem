@@ -131,16 +131,17 @@
             <tr>
                 <td class="containerE" valign="top" style="height:10%">
                     <div class="maincontent-associate">
-                        <% if(currentLawyerDetails!=null){%>
+                        <%if(currentLawyerDetails!=null){%>
+                        <% if(!currentLawyerDetails.getLawyerUpdate().equals("")){%>
                         <strong>Most recent record</strong> 
                         <div class="form-group-associate">
                             Date of update(dd/mm/yyyy)                            
-                            <div class="form-control-associate"><%=currentLawyerDetails.getLawyerUpdate()%></div>                        
+                            <div class="form-control-associate"><%=currentLawyerDetails.getLawyerHave()%></div>                        
                         </div>
                         
                         <div class="form-group-associate">
                             With this update, does worker have lawyer for this problem?
-                            <div class="form-control-associate"><%=currentLawyerDetails.getLawyerHave()%></div>
+                            <div class="form-control-associate"><%=currentLawyerDetails.getLawyerUpdate()%></div>
                         </div>
                         
                         <div class="form-group-associate">
@@ -153,6 +154,31 @@
                             <div class="form-control-associate" style="height:80px;"><%=currentLawyerDetails.getLawyerRemarks()%></div>
                         </div>
                            <%}%>
+                           <%} else{%>
+                           
+                         <strong>Most recent record</strong> 
+                        <div class="form-group-associate">
+                            Date of update(dd/mm/yyyy)                            
+                            <div class="form-control-associate"></div>                        
+                        </div>
+                        
+                        <div class="form-group-associate">
+                            With this update, does worker have lawyer for this problem?
+                            <div class="form-control-associate"></div>
+                        </div>
+                        
+                        <div class="form-group-associate">
+                            Name of law firm
+                            <div class="form-control-associate" style="height:50px;"></div>
+                        </div>
+                        
+                        <div class="form-group-associate">
+                            Remarks re lawyer status
+                            <div class="form-control-associate" style="height:80px;"></div>
+                        </div>  
+                        <%}%>  
+                        
+                        
                         <br><br>
                         <strong>Enter update:</strong>
                         <form id="appendlawyerform" name="form1" method="post">

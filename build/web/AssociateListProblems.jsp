@@ -103,8 +103,10 @@
             <tr>
                 <td class="containerE" valign="top" style="height:10%">
                         <% String FIN=(String)session.getAttribute("FIN");
-                        ArrayList<String> problems = DBConnect.getProblems(FIN);
+                        String JobKey = (String)request.getSession().getAttribute("JobKey");
+                        ArrayList<String> problems = DBConnect.getChiefProblems(FIN, JobKey);
                         System.out.println(FIN);
+                        System.out.println(JobKey);
                         %>
                     <div class="maincontent-associate">
                         

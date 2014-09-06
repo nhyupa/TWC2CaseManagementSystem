@@ -32,43 +32,12 @@
             session.setAttribute("userView", userToView);
             ArrayList<Worker> workerFromNameSearchResults = (ArrayList<Worker>)session.getAttribute("workerObjs"); 
             ArrayList<Worker> workerFromFINSearchResult = (ArrayList<Worker>)session.getAttribute("workerFINObjs");
-           
+            ArrayList<Worker> workerFromGenderSearchResult = (ArrayList<Worker>)session.getAttribute("workerGenderObjs");
             String FIN = null;
+            out.println(session.getAttribute("userView"));
+
            
-            if(workerFromNameSearchResults != null && workerFromNameSearchResults.size() != 0 ){
-                Worker worker = null;
-                if(userToView == null){
-                    FIN = (String)session.getAttribute("FIN");
-                }
-                else {
-                    worker = workerFromNameSearchResults.get(Integer.parseInt(userToView));
-                    
-                    FIN = worker.getFIN_Num();
-                    session.setAttribute("FIN",FIN);
-                } 
-            }
-            
-            
-            /** Worker FIN **/
-          
-            if(workerFromFINSearchResult != null && workerFromFINSearchResult.size() != 0 ){
-                Worker worker = null;
- 
-                if(userToView != null){
-                    worker = workerFromFINSearchResult.get(Integer.parseInt(userToView));
-                    
-                    FIN = worker.getFIN_Num();
-                    session.setAttribute("FIN",FIN);
-                }
-                else {
-                    FIN = (String)session.getAttribute("FIN");
-                } 
-            }
-            
-          
-         
-            
-            
+   
             String tempFIN = "";
                         
             String jobKey = DBConnect.getJobKey(FIN);

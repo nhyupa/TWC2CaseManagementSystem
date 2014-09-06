@@ -92,7 +92,7 @@
                         <div class="col-xs-5" align="right" >
                             <img src="image/logo_camans_180w.gif" width="100" />
                         </div>  
-                        <div class="username-background-associate col-xs-6"style="margin-top:20px;" align="center" >
+                        <div class="username-background-associate col-xs-6" style="margin-top:20px;" align="center" >
                             <%
                                 if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                     String user = (String) request.getSession().getAttribute("username");
@@ -174,7 +174,7 @@
                         <form id="appendmaker2rform"  name="form1" method="post">
                         <div class="form-group-associate">
                            <span style="color:red">*</span>Date of appointment(dd/mm/yyyy)
-                           <input type="date" class="form-control-associate col-xs-2" style="background-color:yellow;"name="registerdate">  
+                           <input type="date" class="form-control-associate col-xs-2" style="background-color:yellow;" name="registerdate">  
                          </div>
                             <br><br>
                         <div class="form-group-associate">
@@ -184,12 +184,12 @@
 
                         <div class="form-group-associate">
                             <span style="color:red">*</span>Hospital for appt (20)
-                           <select name="hospital"  class="form-control-associate col-xs-2" style="background-color:yellow;">
+                           <select name="hospitalappt"  class="form-control-associate col-xs-2" style="background-color:yellow;">
                             <option value="">select from list</option>
                               <% for(int i=0;i<hospitalLists.size();i++){
                                    String hospitaltype=hospitalLists.get(i);
                                 %>
-                                <option><%=hospitaltype%></option>
+                                <option value="<%=hospitaltype%>"><%=hospitaltype%></option>
                                 <%}%>   
                         </select>
                          </div>

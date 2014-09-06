@@ -77,8 +77,8 @@
       <%
           DBConnect.connectDB();
           String id2 = (String)request.getSession().getAttribute("id");
-          R2R bene1=DBConnect.getR2R(id2);
-          String FIN=bene1.getFIN();
+          R2R r2r=DBConnect.getR2RRecords2(id2);
+          String FIN=r2r.getFIN();
           String workerName = DBConnect.getWorkername(FIN);
       %>
 
@@ -133,64 +133,64 @@
                         
                         <div class="form-group-associate">
                             Name of worker
-                            <div class="form-control-associate" style="height:50px;"></div>
+                            <div class="form-control-associate" style="height:50px;"><%=workerName%></div>
                         </div>
                         <div class="form-group-associate">
                             FIN
-                            <div class="form-control-associate"></div>
+                            <div class="form-control-associate"><%=FIN%></div>
                         </div>
                         <div class="form-group-associate">
                             Phone
-                            <div class="form-control-associate"></div>
+                            <div class="form-control-associate"><%=DBConnect.getPhoneNumber(FIN) %></div>
                         </div>
                         <div class="form-group-associate">
                              <span style="color:red">*</span>Date of appointment
-                             <input type="date" class="form-control-associate"style="background-color:yellow" name="apptdate" value="">
+                             <input type="date" class="form-control-associate"style="background-color:yellow" name="apptdate" value="<%=r2r.getR2RDate() %>">
                         </div>
                             
                          <div class="form-group-associate">
                             Time of appointment (20)
-                            <input type="text" class="form-control-associate"style="background-color:yellow" name=appttime" maxlength="20" value="">
+                            <input type="text" class="form-control-associate"style="background-color:yellow" name=appttime" maxlength="20" value="<%=r2r.getR2RTime() %>">
                          </div>
                          <div class="form-group-associate">
                              <span style="color:red">*</span>Hospital for appointment (20)
-                            <input type="text" class="form-control-associate"style="background-color:yellow" name="appthospital" maxlength="20" value="">
+                            <input type="text" class="form-control-associate"style="background-color:yellow" name="appthospital" maxlength="20" value="<%=r2r.getR2RHosp() %>">
                         </div>
                          <div class="form-group-associate">
                             Dept/doctor for appointment (50)
-                            <textarea rows="2" class="form-control-associate"style="background-color:yellow" name="apptdoctor" maxlength="50" value=""></textarea>
+                            <textarea rows="2" class="form-control-associate"style="background-color:yellow" name="apptdoctor" maxlength="50" value="<%=r2r.getR2RDept() %>"></textarea>
                         </div>
                          <div class="form-group-associate">
                             R2R first volunteer(20)
-                            <input type="text" class="form-control-associate"style="background-color:yellow" name="r2r1stvolunteer" maxlength="20" value="">
+                            <input type="text" class="form-control-associate"style="background-color:yellow" name="r2r1stvolunteer" maxlength="20" value="<%=r2r.getR2R1() %> ">
                          </div>
                         <div class="form-group-associate">
                             R2R second volunteer(20)
-                            <input type="text" class="form-control-associate"style="background-color:yellow" name="r2r2ndvolunteer" maxlength="20" value="">
+                            <input type="text" class="form-control-associate"style="background-color:yellow" name="r2r2ndvolunteer" maxlength="20" value="<%=r2r.getR2R2() %>">
                          </div>
                         <div class="form-group-associate">
                             Purpose of appointment(50)
-                            <textarea rows="2" class="form-control-associate"style="background-color:yellow" name="purpose" maxlength="50" value=""></textarea>
+                            <textarea rows="2" class="form-control-associate"style="background-color:yellow" name="purpose" maxlength="50" value="<%=r2r.getR2RPurpose()%> "></textarea>
                         </div>
                         <div class="form-group-associate">
                             Pre-appt notes (200)
-                            <textarea rows="4" class="form-control-associate"style="background-color:yellow" name="preapptnotes" maxlength="200" value=""></textarea>
+                            <textarea rows="4" class="form-control-associate"style="background-color:yellow" name="preapptnotes" maxlength="200" value="<%=r2r.getR2RPreApptNotes() %>"></textarea>
                         </div>
                           <div class="form-group-associate">
                             Post-appt notes (200)
-                              <textarea rows="4" class="form-control-associate"style="background-color:yellow" name="postapptnotes" maxlength="200" value=""></textarea>
+                              <textarea rows="4" class="form-control-associate"style="background-color:yellow" name="postapptnotes" maxlength="200" value="<%=r2r.getR2RPostApptNotes() %>"></textarea>
                         </div>
                           <div class="form-group-associate">
                             Feedback (200)
-                             <textarea rows="4" class="form-control-associate"style="background-color:yellow" name="feedback" maxlength="200" value=""></textarea>
+                             <textarea rows="4" class="form-control-associate"style="background-color:yellow" name="feedback" maxlength="200" value="<%=r2r.getR2RFeedback() %>"></textarea>
                         </div>
                           <div class="form-group-associate">
                             Medical cost of this appt (number,2)
-                            <input type="text" class="form-control-associate" style="background-color:yellow" name="medicalcost" value="" >
+                            <input type="text" class="form-control-associate" style="background-color:yellow" name="medicalcost" value="<%=r2r.getR2RMedCost()%>" >
                          </div>
                           <div class="form-group-associate">
                             How much paid by volunteer (number,2)
-                            <input type="text" class="form-control-associate" style="background-color:yellow" name="amtpaidbyvolunteer" value="">
+                            <input type="text" class="form-control-associate" style="background-color:yellow" name="amtpaidbyvolunteer" value="<%=r2r.getR2ROutlay() %>">
                          </div>
                      </div><!--end of main content-->
                        

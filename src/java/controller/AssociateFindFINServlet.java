@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import src.DBConnect;
 import src.InjuryDetail;
+import src.JobProfile;
 import src.Pass;
+import src.Problem;
 import src.Worker;
 
 /**
@@ -36,12 +38,35 @@ public class AssociateFindFINServlet extends HttpServlet {
             String specialPassNumber = request.getParameter("specialPass");
             
             
+         response.getWriter().println(FIN);
+//            response.getWriter().println(specialPassNumber);
             DBConnect database = new DBConnect();
             DBConnect.connectDB();
             
             ArrayList<Worker> workers = database.getWorkers();
+            String JobKey = null;
+            String ProbKey = null;
+            
+            ArrayList<JobProfile> jobs = DBConnect.retrieveJobKeys(FIN);
+            if(jobs.size()>=1){
+            JobKey = jobs.get(jobs.size()-1).getJobKey();
+            }
+            response.getWriter().println(JobKey);
+            System.out.println(JobKey);
+            
+            request.getSession().setAttribute("JobKey",JobKey);
+            if(JobKey!=null){
+                 response.getWriter().println(JobKey);
+            ArrayList<String> problems = DBConnect.retrieveProblems2(FIN, JobKey);
+            ProbKey = problems.get(0);
+            response.getWriter().println("gha" + JobKey);
+            }
+            System.out.println(ProbKey);
+            
+            request.getSession().setAttribute("ProbKey",ProbKey);
             
             if(FIN.length()>1){
+                if(JobKey!=null){
                 for(int i = 0 ; i < workers.size(); i++) {
                     Worker worker = workers.get(i);
                     if(worker.getFIN_Num().equalsIgnoreCase(FIN)){
@@ -54,8 +79,9 @@ public class AssociateFindFINServlet extends HttpServlet {
                         
                         String Problem = (String)request.getSession().getAttribute("problemName");
                         if(Problem==null){
-                            Problem = DBConnect.getChiefProblem(FIN);
+                            Problem = DBConnect.getChiefProblem(FIN,JobKey);
                         }
+                        System.out.println(Problem);
                         request.getSession().setAttribute("problemNameShow", Problem);
                         
                         InjuryDetail injury = DBConnect.getAssociateInjuryDetails(FIN);
@@ -66,6 +92,7 @@ public class AssociateFindFINServlet extends HttpServlet {
                         response.sendRedirect(url);
                         break;
                     }
+                }
                 }
                 request.getSession().setAttribute("errMsg", " Correct FIN? Try again");
                 String url = "/TWC2-CaseManagementSystem/AssociateWelcome.jsp";

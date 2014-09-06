@@ -16,6 +16,12 @@ public class AuxillaryCaseWorker {
     private String JobKey;
     private String ProbKey; 
     
+    public AuxillaryCaseWorker(String auxCaseWorkerName,String auxStartDate, String auxEndDate, String FIN_Number){
+        this.auxCaseWorkerName = auxCaseWorkerName;
+        this.auxStartDate = auxStartDate;
+        this.auxEndDate =auxEndDate;
+        this.FIN_Number = FIN_Number;
+    }
     public AuxillaryCaseWorker(String auxCaseWorkerName, String auxStartDate, String auxEndDate,String FIN_Number, String JobKey, String ProbKey){
         this.auxCaseWorkerName = auxCaseWorkerName;
         this.auxStartDate = auxStartDate;

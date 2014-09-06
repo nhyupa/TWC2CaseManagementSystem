@@ -4,6 +4,7 @@
     Author     : keemin.chew.2010
 --%>
 
+<%@page import="src.Problem"%>
 <%@page import="src.Lawyer"%>
 <%@page import="src.Hospital"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -38,7 +39,7 @@
                     margin-left:34%;
                 }
                 .btn-associate-landscape{
-                    margin-right:45%;
+                    margin-right:5%;
                 }
             }  
 
@@ -48,6 +49,9 @@
             function onSubmit(){
                 document.location.href="AssociateWelcome.jsp"
             }
+            function onSubmit2(){
+                document.location.href="AssociatePreMenu.jsp"
+            }
               function onLogout(){
                 document.location.href="/TWC2-CaseManagementSystem/LogoutServlet";
             }
@@ -55,13 +59,26 @@
       <!--database-->
       <%
           String FIN=(String)session.getAttribute("FIN");
+          String workerName=DBConnect.getWorkername(FIN);
+          String JobKey = (String)request.getSession().getAttribute("JobKey");
+          String ProbKey = (String)request.getSession().getAttribute("ProbKey");
+          JobProfile job = null;
+          ArrayList<JobProfile> jobs = DBConnect.retrieveJobs(FIN);
+          for(int i=0; i<jobs.size(); i++){
+              if(jobs.get(i).getJobKey().equals(JobKey)){
+                  job = jobs.get(i);
+              }
+          }
+   
           InjuryDetail currentInjury=DBConnect.getAssociateInjuryDetails(FIN);
           String currentInjuryDate="";
           
           if(currentInjury != null){
-               currentInjuryDate = currentInjury.getInjuryDate();
-          }else{
-              currentInjuryDate="";
+              if(currentInjury.getInjuryDate()!=null){
+                   currentInjuryDate = currentInjury.getInjuryDate();
+              }else{
+                    currentInjuryDate="";
+               }
           }
           
           String currentInjuryBodyPart = "";
@@ -103,7 +120,7 @@
                             <img src="image/logo_camans_180w.gif" width="100" />
                         </div>  
                         <div class="username-background-associate col-xs-6" style="margin-top:20px;" align="center" >
-                            <%
+                            <%  
                                 if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                     String user = (String) request.getSession().getAttribute("username");
                             %>
@@ -121,17 +138,19 @@
             <tr>
                 <td class="containerB" valign="top" style="height:10%">
                     <div class="worker-details-associate ">
-                        Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=(String)session.getAttribute("workerName")%><br>
+                        Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=workerName%><br>
                         FIN:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=(String)session.getAttribute("FIN")%><br>
-                        Emp'yr:&nbsp;&nbsp;&nbsp;&nbsp; <%=(String)session.getAttribute("employerName")%><br>
-                        Prob: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=(String)session.getAttribute("problemNameShow")%><br>
+                        Emp'yr:&nbsp;&nbsp;&nbsp;&nbsp; <%= job.getEmployerName() %><br>
+                        Prob: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= DBConnect.getChiefProblem(FIN, JobKey) %><br> 
                         Inj dt: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=currentInjuryDate%><br>
                         Inj bp:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=currentInjuryBodyPart%><br>
                         Hosp:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=currentHospitalName%><br>
                         Law:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=currentLawyer%><br>
                          <hr class="redline-associate">
                     </div>  
-                  <%session.setAttribute("currentInjuryDate",currentInjuryDate);
+                  <%
+                    session.setAttribute("workerName",workerName);
+                    session.setAttribute("currentInjuryDate",currentInjuryDate);
                     session.setAttribute("currentInjuryBodyPart",currentInjuryBodyPart);
                     session.setAttribute("currentHospitalName",currentHospitalName);
                     session.setAttribute("currentLawyer",currentLawyer);
@@ -195,7 +214,9 @@
 
             <tr>
                 <td class="containerF" style="height:10%">
-                    <div class="btn-associate-landscape" align="right">
+                    <div class="btn-associate-landscape">
+                        <button type="Submit" class="btn btn-primary btn-large" onClick="onSubmit2()">Select<br/>Different Job & Problem</button>
+                        
                         <button type="Submit" class="btn btn-primary btn-large" onClick="onSubmit()">EXIT<br/>this worker</button>
                     </div>
                     

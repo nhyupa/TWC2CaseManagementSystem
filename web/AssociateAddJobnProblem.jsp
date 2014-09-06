@@ -86,7 +86,7 @@
           //dropdown menu            
          // retrieve a list of worker pass type
              ArrayList<String> passlists = new ArrayList<String>();
-             passlists = dbConnect.getWorkerPasslists();
+             passlists = dbConnect.getWorkPassList();
          
                    //retrieve a list of job sectors
              ArrayList<String>jobSectorLists= new ArrayList<String>();
@@ -94,7 +94,7 @@
                               
              //retrieve a list of chief problems
              ArrayList<String>chiefProblemLists= new ArrayList<String>();
-             chiefProblemLists =dbConnect.getChiefProblems();
+             chiefProblemLists =dbConnect.getProblemLists();
              
              //retrieve a list of hospital
              ArrayList<String>hospitalLists= new ArrayList<String>();
@@ -182,7 +182,7 @@
                         </div>
                         <br><br>
                         <div class="form-group-associate">
-                            <label >Pass issue date(dd/mm/yyyy)</label>                            
+                            <label><span style="color:red;">*</span>Pass issue date(dd/mm/yyyy)</label>                            
                             <input type="date" class="form-control-associate" name="passIssueDate">                            
                         </div>
 
@@ -212,7 +212,7 @@
                     </div> 
                     
                     <div class="form-group-associate">
-                        <label for="jobsector">Job sector</label>
+                        <label for="jobsector"><span style="color:red;">*</span>Job sector</label>
                            <select name="jobsector" class="form-control-associate" >
                             <option value="">Select from list</option> 
                              <% for(int i=0;i<jobSectorLists.size();i++){

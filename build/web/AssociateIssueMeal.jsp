@@ -70,7 +70,8 @@
               benefitList = new ArrayList<Benefaction>(); 
               String FIN = (String)session.getAttribute("FIN");
               benefitList=DBConnect.getBenefactionRecordsMealcard(FIN);
-   
+              ArrayList<String> mealcards = DBConnect.getMealcards();
+              
         %>
 
         <title>Issue Meal</title>
@@ -84,7 +85,7 @@
                         <div class="col-xs-5" align="right" >
                             <img src="image/logo_camans_180w.gif" width="100" />
                         </div>  
-                        <div class="username-background-associate col-xs-6"style="margin-top:20px;" align="center" >
+                        <div class="username-background-associate col-xs-6" style="margin-top:20px;" align="center" >
                             <%
                                 if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                     String user = (String) request.getSession().getAttribute("username");
@@ -116,7 +117,7 @@
                 </td> 
             </tr>
             <tr>
-                <td class="containerC"style="height:10%">
+                <td class="containerC" style="height:10%">
 
                 </td> 
             </tr>
@@ -143,9 +144,7 @@
                                if (benefitList != null) {
                                    // System.out.println("size" + benefitList.size());
                                    for (Benefaction benefaction1 : benefitList) {
-                                       if (benefaction1.getBeneType().equalsIgnoreCase("Meal Card")
-                                           || benefaction1.getBeneType().equalsIgnoreCase("Meal Card R")
-                                           || benefaction1.getBeneType().equalsIgnoreCase("Cash meal")) {
+                                  
 
                            %>
                            <tr>
@@ -154,7 +153,7 @@
                            </tr>
                             
                            
-                          <%}} }%>
+                          <%} }%>
                                  
                        </tbody>
                        <tfoot>
@@ -177,9 +176,12 @@
                     <div class="form-group-associate">
                         <span style="color:red">*</span>Type of benefit issued
                         <select class="form-control-associate" style="background-color:yellow;" name="benefitoption" >
-                             <option value="Meal Card" >Meal Card</option>
-                             <option value="Meal Card R" >Meal Card R</option>
-                             <option value="Cash meal" >Cash meal</option>
+                            <option value="benefitoption">select from list</option>
+                            <% for(int i=0;i<mealcards.size();i++){
+                                   String meal=mealcards.get(i);
+                                %>
+                                <option><%=meal%></option>
+                                <%}%>   
                           </select>
                     </div>
                     <div class="form-group-associate">

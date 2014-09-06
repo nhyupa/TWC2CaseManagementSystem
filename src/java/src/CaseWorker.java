@@ -16,6 +16,12 @@ public class CaseWorker {
     private String JobKey;
     private String ProbKey;
     
+    public CaseWorker(String leadCaseWorker,String caseWorkerStartDate, String caseWorkerEndDate, String FIN_Number){
+        this.leadCaseWorker = leadCaseWorker;
+        this.caseWorkerStartDate = caseWorkerStartDate;
+        this.caseWorkerEndDate = caseWorkerEndDate;
+        this.FIN_Number = FIN_Number;
+    }
     public CaseWorker(String leadCaseWorker, String caseWorkerStartDate, String caseWorkerEndDate, String FIN_Number, String JobKey, String ProbKey){
         this.leadCaseWorker = leadCaseWorker;
         this.caseWorkerStartDate = caseWorkerStartDate;

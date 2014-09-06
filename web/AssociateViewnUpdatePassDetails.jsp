@@ -3,6 +3,8 @@
     Created on : Jun 13, 2014, 1:10:43 PM
     Author     : keemin.chew.2010
 --%>
+<%@page import="src.JobProfile"%>
+<%@page import="src.Worker"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="src.DBConnect"%>
 <%@page import="src.Pass"%>
@@ -73,14 +75,25 @@
            <!--database-->  
                     
                  <%            
+                     String JobKey = (String)request.getSession().getAttribute("JobKey");
+                     String ProbKey = (String)request.getSession().getAttribute("ProbKey");
+                     
                       String currentWorkerFIN=(String)session.getAttribute("FIN");
                       System.out.println(currentWorkerFIN);
+                      String employerName = (String)session.getAttribute("employerName");
                       //out.println(currentWorkerFIN);
                       DBConnect dbConnect = new DBConnect();
                       dbConnect.connectDB();
-                      
+                      System.out.println("999");
+                      System.out.println(employerName);
+                    
+                      System.out.println("9998881");
                       Pass currentWorkerPass=null;
-                      currentWorkerPass=dbConnect.getPassDetails2(currentWorkerFIN);
+                      System.out.println("9998882");
+                      System.out.println("9998883");
+                      System.out.println("999777");
+                       currentWorkerPass = dbConnect.getPassDetails4(JobKey);
+                      
                       
                       //retrieve worker pass type dropdownmenu
                       ArrayList<String> passlists = new ArrayList<String>();

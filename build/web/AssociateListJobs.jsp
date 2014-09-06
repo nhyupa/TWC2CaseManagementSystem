@@ -64,7 +64,7 @@
                         <div class="col-xs-5" align="right" >
                             <img src="image/logo_camans_180w.gif" width="100" />
                         </div>  
-                        <div class="username-background-associate col-xs-6"style="margin-top:20px;" align="center" >
+                        <div class="username-background-associate col-xs-6" style="margin-top:20px;" align="center" >
                             <%
                                 if (session.getAttribute("username") != null || session.getAttribute("username") != "") {
                                     String user = (String) request.getSession().getAttribute("username");
@@ -91,9 +91,10 @@
                 </td> 
             </tr>
             
-            <%ArrayList<String> employers = DBConnect.getEmployers((String)session.getAttribute("FIN"));%>
+            <%ArrayList<String> employers = DBConnect.getEmployers((String)session.getAttribute("FIN"));
+            %>
             <tr>
-                <td class="containerC"style="height:10%" >
+                <td class="containerC" style="height:10%" >
 
                 </td> 
             </tr>
@@ -132,7 +133,7 @@
 
 
             <tr>
-                <td class="containerF"style="height:10%" valign="center">
+                <td class="containerF" style="height:10%" valign="center">
                     <br><br>
                      <div class="btn-associate-landscape btn-associate">
                        <button type="Submit" class="btn btn-primary btn-large" onClick="onSubmitToSelectedJob()">SWITCH<br/>to selected job</button>

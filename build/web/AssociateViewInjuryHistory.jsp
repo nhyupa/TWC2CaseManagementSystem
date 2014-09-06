@@ -97,24 +97,27 @@
                 <td class="containerE" valign="top" style="height:10%">
                     <div class="maincontent-associate">    
                         <strong>Most recent record:</strong>
-                               
+                               <%if(currentInjury != null) {
+                               if(currentInjury.getInjuryDate()!=null){
+                            %>
                         <div class="form-group-associate">
                             Date of update(dd/mm/yyyy)       
-                            <%if(currentInjury != null) {%>
+                            
                             <div class="form-control-associate"><%=currentInjury.getInjuryDate()%></div> 
-                            <%} else {%>
-                            <div class="form-control-associate"></div> 
-                            <%}%>
+                           
+                            <%}}%>
                         </div>
                                 
                         <div class="form-group-associate">
+                            <%
+                            if(currentInjury!= null){
+                                if(currentInjury.getBodyPartsInjured().equals(" ")){
+                             %>
                             Body part(s) injured
-                            <%if(currentInjury != null) {%>
                             <div class="form-control-associate" style="height:200px;">
                                 <%=currentInjury.getBodyPartsInjured()%>
                             </div>
-                            <%} else {%>
-                            <div class="form-control-associate" style="height:200px;"></div>
+                            <%}%>
                             <%}%>
                         </div>
                     </div>

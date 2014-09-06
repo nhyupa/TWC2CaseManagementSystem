@@ -68,7 +68,7 @@
           //dropdown menu            
              //retrieve a list of chief problems
              ArrayList<String>chiefProblemLists= new ArrayList<String>();
-             chiefProblemLists =dbConnect.getChiefProblems();
+             chiefProblemLists =dbConnect.getProblemLists();
              
              //retrieve a list of hospital
              ArrayList<String>hospitalLists= new ArrayList<String>();
